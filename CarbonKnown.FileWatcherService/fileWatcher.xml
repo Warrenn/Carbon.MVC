@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<fileWatcherConfigSection xmlns="urn:CarbonKnown.FileWatcherService">
+  <handlerGroups>
+    <handlerGroup name="main">
+      <handler relativeFolder="AvisCourier" handlerName="AvisCourier" />
+      <handler relativeFolder="Courier" handlerName="Courier" />
+      <handler relativeFolder="Fleet" handlerName="Fleet" />
+      <handler relativeFolder="MondiPaper" handlerName="MondiPaper" />
+      <handler relativeFolder="Rennies" handlerName="Rennies" />
+      <handler relativeFolder="TWF" handlerName="TWF" />
+      <handler relativeFolder="Generic" handlerName="Generic" />
+    </handlerGroup>
+  </handlerGroups>
+  <groupInstances>
+    <groupInstance baseFolder="C:\DropFolder\Santam" host="manage.carbonknown.com/Ck3/Santam" groupName="main"/>
+  </groupInstances>
+</fileWatcherConfigSection>

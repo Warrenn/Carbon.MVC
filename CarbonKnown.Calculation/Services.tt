@@ -1,0 +1,407 @@
+﻿<#@ template debug="true" hostSpecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="$(SolutionDir)\CarbonKnown.Calculation\bin\Debug\CarbonKnown.DAL.Models.dll" #>
+<#@ assembly name="$(SolutionDir)\CarbonKnown.Calculation\bin\Debug\CarbonKnown.DAL.dll" #>
+<#@ assembly name="$(SolutionDir)\CarbonKnown.Calculation\bin\Debug\CarbonKnown.Calculation.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="System.Resources" #> 
+<#@ import namespace="System.Data" #>
+<#@ import namespace="EnvDTE" #>
+<#@ include file="$(SolutionDir)\VisualStudioHelper.ttinclude" #>
+<#@ include file="$(SolutionDir)\TemplateFileManagerV2.1.ttinclude" #>
+<#
+	IServiceProvider hostServiceProvider = (IServiceProvider)Host;
+	EnvDTE.DTE dte = (EnvDTE.DTE)hostServiceProvider.GetService(typeof(EnvDTE.DTE));
+	var WCFProject = VSHelper.GetProject(dte,"CarbonKnown.WCF");
+	var WCFItems = WCFProject.ProjectItems;
+	var manager = TemplateFileManager.Create(this);
+
+	foreach (var keyValue in CarbonKnown.Calculation.CalculationModelFactory.Calculations)
+	{
+		var calculation = keyValue.Value;
+		var key = keyValue.Key;
+		var name = key.Name;
+		name = name.Replace("Calculation",string.Empty);
+		var genericType = key.BaseType.GenericTypeArguments[0];
+		var dataName = genericType.Name;
+		var dataNameFullName = genericType.FullName;
+
+		manager.StartNewFile(name + ".svc","CarbonKnown.MVC", "Service");
+#>
+<%@ ServiceHost Language="C#" Debug="true" Service="CarbonKnown.MVC.Service.<#=name  #>" Factory="CarbonKnown.MVC.Code.WcfServiceFactory" %>
+<#
+		manager.StartNewFile(name + ".svc.cs","CarbonKnown.MVC", "Service");
+#>
+using System;
+using System.ServiceModel;
+using System.ServiceModel.Activation;
+using CarbonKnown.Calculation;
+using CarbonKnown.MVC.DAL;
+using CarbonKnown.WCF.<#=name  #>;
+
+namespace CarbonKnown.MVC.Service
+{
+	[AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
+	[ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
+    public partial class <#=name  #> :
+        DataEntryServiceBase<<#=dataNameFullName  #>, <#=dataName  #>Contract>,
+        I<#=name  #>Service
+    {
+		protected static readonly Guid CalculationId = new Guid("<#=calculation.Id #>");
+
+	    public <#=name  #>(ISourceDataContext context, ICalculationFactory calculationFactory) : base(context, calculationFactory)
+	    {
+	    }
+
+	    public override Guid GetCalculationId()
+	    {
+	        return CalculationId;
+	    }        
+		
+		public override void SetEntryValues(<#=dataNameFullName  #> instance, <#=dataName  #>Contract dataEntry)
+        {
+            base.SetEntryValues(instance, dataEntry);
+<#
+			foreach(PropertyInfo propInfo in genericType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance))
+            {
+				var propType = propInfo.PropertyType;
+				var nullableSymbol = "";
+				if (propType.IsGenericType && propType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+					nullableSymbol = "?";
+					propType = propType.GenericTypeArguments[0];
+                }
+
+#>
+            instance.<#=propInfo.Name  #> = <#=propType.IsEnum?"(" + propType.FullName + nullableSymbol + ")":string.Empty  #>dataEntry.<#=propInfo.Name  #>;
+<#
+            }
+#>
+        }
+    }
+}
+<#
+		manager.StartNewFile(dataName + "Contract.cs","CarbonKnown.WCF", name);
+		var enums = new List<Type>();
+#>
+using System;
+using System.Runtime.Serialization;
+using CarbonKnown.WCF.DataEntry;
+
+namespace CarbonKnown.WCF.<#=name  #>
+{
+    public partial class <#=dataName  #>Contract : DataEntryDataContract
+    {
+<#
+			foreach(PropertyInfo propInfo in genericType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance))
+            {
+				var propType = propInfo.PropertyType;
+				var nullableSymbol = "";
+				if (propType.IsGenericType && propType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+					nullableSymbol = "?";
+					propType = propType.GenericTypeArguments[0];
+                }
+				if(propType.IsEnum){
+					enums.Add(propType);
+                }
+#>
+        public <#=propType.Name  #><#=nullableSymbol #> <#=propInfo.Name  #> { get; set; }
+<#
+            }
+#>
+    }
+}
+<#
+		foreach(Type enumType in enums){
+			manager.StartNewFile(enumType.Name + ".cs","CarbonKnown.WCF", name);
+#>
+namespace CarbonKnown.WCF.<#=name  #>
+{
+	public enum <#=enumType.Name #>
+    {
+<#
+				foreach(var enumName in Enum.GetNames(enumType)){
+#>
+		<#=enumName #>,
+<#
+				}
+#>
+    }
+}
+<#
+		}
+		if(!Directory.Exists(Path.Combine(Path.GetDirectoryName(WCFProject.FileName),name)))
+		{
+			WCFItems.AddFolder(name);
+		}
+		manager.StartNewFile("I" + name + "Service.cs","CarbonKnown.WCF", name);
+#>
+using System;
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using CarbonKnown.WCF.DataEntry;
+
+namespace CarbonKnown.WCF.<#=name  #>
+{
+    [ServiceContract]
+    public partial interface I<#=name  #>Service
+    {
+        [OperationContract]
+        DataEntryUpsertResultDataContract UpsertDataEntry(<#=dataName  #>Contract dataEntry);
+    }
+}
+<#
+    }
+	manager.StartNewFile("BootstrapperExt.cs","CarbonKnown.MVC", "App_Start");
+#>
+using Microsoft.Practices.Unity;
+using CarbonKnown.MVC.Service;
+using Microsoft.Practices.Unity.InterceptionExtension;
+
+namespace CarbonKnown.MVC.App_Start
+{
+    public static partial class Bootstrapper
+    {
+		public static void RegisterDataEntryServices(IUnityContainer container)
+		{
+<#
+	foreach (var keyValue in CarbonKnown.Calculation.CalculationModelFactory.Calculations)
+	{
+		var key = keyValue.Key;
+		var name = key.Name;
+		name = name.Replace("Calculation",string.Empty);
+#>
+            container.RegisterType<CarbonKnown.WCF.<#=name  #>.I<#=name  #>Service, <#=name  #>>(
+                new InterceptionBehavior<PolicyInjectionBehavior>(),
+                new Interceptor<InterfaceInterceptor>());
+<#
+    }
+#>
+		}
+    }
+}
+<#
+	manager.StartNewFile("EditSourceControllerExt.cs","CarbonKnown.MVC", "Controllers");
+#>
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
+using CarbonKnown.DAL.Models;
+using CarbonKnown.MVC.Code;
+using CarbonKnown.MVC.Models;
+using CarbonKnown.FileReaders;
+
+namespace CarbonKnown.MVC.Controllers
+{
+    public partial class EditSourceController
+    {
+<#
+	foreach (var keyValue in CarbonKnown.Calculation.CalculationModelFactory.Calculations)
+	{
+		var calculation = keyValue.Value;
+		var key = keyValue.Key;
+		var name = key.Name;
+		name = name.Replace("Calculation",string.Empty);
+		var genericType = key.BaseType.GenericTypeArguments[0];
+		var dataName = genericType.Name;
+		var dataNameFullName = genericType.FullName;
+ 
+#>
+        [HttpGet]
+        public ActionResult <#=dataName #>(DataTableParamModel request, Guid sourceId)
+        {
+            var builder = new DataTableResultModelBuilder<<#=dataNameFullName#>>();
+            builder.AddQueryable(context.Set<<#=dataNameFullName#>>()
+			.Where(data => data.SourceId == sourceId));
+            var columnIndex = new List<string>
+                {
+                    "",
+                    "",
+                    "",
+                    "StartDate",
+                    "EndDate",
+                    "CostCode",
+                    "Money",
+                    "Units",
+<#
+			foreach (var descriptor in CarbonKnown.Calculation.CalculationModelFactory.GetCustomProperties(calculation.Id)){
+#>
+                    "<#=descriptor.Name #>",
+<#
+			}
+#>
+                };
+            builder.AddDataExpression(data => new object[]
+                {
+                    data.Id.ToString(),
+                    data.Errors.Select(error => new
+                        {
+                            error.Column, 
+                            error.Message, 
+                            error.ErrorType,
+                            index = columnIndex.IndexOf(error.Column)
+                        }).ToArray(),
+                    ConvertToString(data.RowNo),
+                    ConvertToString(data.StartDate),
+                    ConvertToString(data.EndDate),
+                    ConvertToString(data.CostCode),
+                    ConvertToString(data.Money),
+                    ConvertToString(data.Units),
+<#
+			foreach (var descriptor in CarbonKnown.Calculation.CalculationModelFactory.GetCustomProperties(calculation.Id)){
+#>
+                    ConvertToString(data.<#=descriptor.Name #>),
+<#
+			}
+#>
+                });
+            var searchSet = false;
+            int numeric;
+            DataErrorType errorType;
+            if (!(int.TryParse(request.sSearch, out numeric)) && Enum.TryParse(request.sSearch, true, out errorType))
+            {
+                searchSet = true;
+                builder.AddSearchFilter(data => (data.Errors.Any(error => error.ErrorType == errorType)));
+            }
+			if(string.Equals("AllErrors",request.sSearch,StringComparison.InvariantCultureIgnoreCase)){
+                searchSet = true;
+                builder.AddSearchFilter(data => data.Errors.Any());
+			}
+<#
+			foreach (var descriptor in CarbonKnown.Calculation.CalculationModelFactory.GetCustomProperties(calculation.Id)){
+				var underlyingType = descriptor.PropertyType.IsGenericType && (descriptor.PropertyType.GetGenericTypeDefinition() == typeof (Nullable<>))
+					? descriptor.PropertyType.GenericTypeArguments[0] 
+					: descriptor.PropertyType;
+				var descriptorName = descriptor.Name.ToLower();
+				if(typeof(System.DateTime) == underlyingType){
+#>
+			var <#=descriptorName #> = TryParser.DateTime(request.sSearch);
+            if((!searchSet) &&(<#=descriptorName #> !=null))
+			{
+                builder.AddSearchFilter(data => data.<#=descriptor.Name #> == <#=descriptorName #>);
+			}
+<#
+                }
+				if(underlyingType == typeof(string)){
+#>
+            if (!searchSet)
+            {
+                builder.AddSearchFilter(data =>data.<#=descriptor.Name #>.Contains(request.sSearch));
+			}
+<#
+				}
+				else{
+#>
+			var <#=descriptorName #> = TryParser.Nullable<<#=underlyingType.FullName#>>(request.sSearch);
+            if((!searchSet) && (<#=descriptorName #> !=null))
+			{
+                builder.AddSearchFilter(data => data.<#=descriptor.Name #> == <#=descriptorName #>);
+			}
+<#
+				}
+            }
+#>
+            DateTime searchDate;
+            if ((!searchSet) && (DateTime.TryParse(request.sSearch,CultureInfo.CurrentCulture,DateTimeStyles.None,  out searchDate)))
+            {
+                builder.AddSearchFilter(data =>
+                                                                  (data.StartDate == searchDate) ||
+                                                                  (data.EndDate == searchDate));
+            }
+            int searchRow;
+            if ((!searchSet) && (int.TryParse(request.sSearch,  out searchRow)))
+            {
+                builder.AddSearchFilter(data =>(data.RowNo == searchRow));
+            }
+            decimal amount;
+            if ((!searchSet) && (decimal.TryParse(request.sSearch,  out amount)))
+            {
+                builder.AddSearchFilter(data =>
+                                                                  (data.Money == amount) ||
+                                                                  (data.Units == amount));
+            }
+            if (!searchSet)
+            {
+                builder.AddSearchFilter(data => data.CostCode.Contains(request.sSearch));
+            }
+            builder.AddSortExpression(data => data.Id);
+            builder.AddSortExpression(data => data.Id);
+            builder.AddSortExpression(data => data.RowNo);
+            builder.AddSortExpression(data => data.StartDate);
+            builder.AddSortExpression(data => data.EndDate);
+            builder.AddSortExpression(data => data.CostCode);
+            builder.AddSortExpression(data => data.Money);
+            builder.AddSortExpression(data => data.Units);
+<#
+			foreach (var descriptor in CarbonKnown.Calculation.CalculationModelFactory.GetCustomProperties(calculation.Id)){
+#>
+            builder.AddSortExpression(data => data.<#=descriptor.Name #>);
+<#
+			}
+#>
+            var result = builder.BuildResult(request);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+<#
+    }
+#>
+    }
+}
+<#
+	manager.StartNewFile("DataSourceControllerExt.cs","CarbonKnown.MVC", "Controllers");
+#>
+using System;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Description;
+using CarbonKnown.MVC.App_Start;
+using CarbonKnown.MVC.Code;
+using CarbonKnown.WCF.DataEntry;
+using CarbonKnown.WCF.DataSource;
+using Microsoft.Practices.Unity;
+
+namespace CarbonKnown.MVC.Controllers
+{
+    public partial class DataSourceController 
+    {
+<#
+	foreach (var keyValue in CarbonKnown.Calculation.CalculationModelFactory.Calculations)
+	{
+		var calculation = keyValue.Value;
+		var key = keyValue.Key;
+		var name = key.Name;
+		name = name.Replace("Calculation",string.Empty);
+		var genericType = key.BaseType.GenericTypeArguments[0];
+		var dataName = genericType.Name;
+		var dataNameFullName = genericType.FullName;
+ 
+#>
+        [HttpPost]
+        [XSRFTokenValidation]
+        [Route("upsert/<#=name.ToLower() #>", Name = "Upsert<#=dataName#>")]
+        [ResponseType(typeof(DataEntryUpsertResultDataContract))]
+        public virtual async Task<IHttpActionResult> Upsert<#=dataName#>(CarbonKnown.WCF.<#=name #>.<#=dataName  #>Contract data)
+        {
+            data.UserName = User.Identity.Name;
+            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.<#=name #>.I<#=name #>Service>();
+            var result = await Task.Run(() => service.UpsertDataEntry(data));
+            return Ok(result);
+        }
+<#
+    }
+#>
+	}
+}
+<#
+	manager.Process();
+#>
