@@ -1,0 +1,103 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.MVC.Code
+@using CarbonKnown.MVC.Properties
+@model CarbonKnown.MVC.Models.ComparisonChartRequestModel
+@{
+    Layout = "../Shared/_ReportsLayout.cshtml";
+    ViewBag.Title = "Comparison Graph";
+    ViewBag.ReportMenu = "Comparison";
+    ViewBag.ngApp = "Comparison";
+    ViewBag.ngBodyCtrl = "Controller";
+}
+@section Styles
+{
+    @Styles.Render(
+    "~/Content/jqueryui",
+    "~/Content/comparison")
+}
+@section Scripts
+{
+    @Scripts.Render(
+    "~/Scripts/jquery",
+    "~/Scripts/jqueryui",
+    "~/Scripts/mousewheel",
+    "~/Scripts/charts",
+    "~/Scripts/angular",
+    "~/Scripts/angular-resource",
+    "~/Scripts/angularuijs",
+    "~/Scripts/uibootstrap",
+    "~/Scripts/comparison")
+    <script type="text/javascript">
+        (function(readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function(window, document, angular, $, undefined) {
+            'use strict';
+
+            angular
+                .module('Comparison')
+                .constant('Urls', {
+                    activityChildren: '@Url.HttpRouteUrl("ChildrenActivityGroup", new { })',
+                    costCentreChildren: '@Url.HttpRouteUrl("ChildrenCostCentre", new { })',
+                    activityTreeWalk: '@Url.HttpRouteUrl("TreeWalkActivity", new { })',
+                    costCentreTreeWalk: '@Url.HttpRouteUrl("TreeWalkCostCentre", new { })',
+                    addSeries: '@Url.RouteUrl("AddSeries")',
+                    removeSeries: '@Url.RouteUrl("RemoveSeries")',
+                    hasTarget: '@Url.Action("HasTarget")',
+                    comparisonChart: '@Url.RouteUrl("ComparisonChart")',
+                    comparisonData: '@Url.RouteUrl("ComparisonData")'
+                })
+                .constant('InitialData', {
+                    rootCostCode: '@Settings.Default.RootCostCentre',
+                    headings : {
+                        '@Html.GetName(TargetType.Money)':'Comparison of costs',
+                        '@Html.GetName(TargetType.Units)':'Comparison of units',
+                        '@Html.GetName(TargetType.CarbonEmissions)':'Comparison of carbon emissions'
+                    },
+                    startDate: new Date('@Model.startDate.ToString("yyyy-MM-dd")'),
+                    endDate: new Date('@Model.endDate.ToString("yyyy-MM-dd")'),
+                    targetType: '@Html.GetName(Model.targetType)'
+                });
+        }));
+    </script>
+}
+<script type="text/ng-template" id="ModalResult.html">
+<div class="modal-body">
+    <div class="modal-step header">Add a new series to the graph</div>
+    <div class="modal-step">
+        <ck-crumb-selector tree-walk-data="activityTreeWalkData" load-children="loadActivityChildren" node-selected="activityNodeSelected" />
+    </div>
+    <div class="modal-step">
+        <ck-crumb-selector tree-walk-data="costCentreTreeWalkData" load-children="loadCostCentreChildren" node-selected="costCentreNodeSelected" />
+    </div>
+    <div  class="modal-step">
+        <label class="series-label">Name</label>
+        <input class="series-name" ng-model="name"  type="text" />
+        <button type="button" ng-model="target" class="series-target" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-show="hasTarget.hasTarget">Include Target</button>
+    </div>
+</div>
+<div class="modal-footer">
+    <a ng-click="submit()" ng-show="showSubmit()" class="submit-button ng-hide" >Save</a>
+    <a ng-click="close()" class="submit-button">Close</a>
+</div>
+</script>
+<nav class="nav-panels">
+    <div id="report-period">
+        <label>Reporting Period</label>
+        <input type="text" id="report-period-fromdate" ui-date="startDateOptions" ng-model="startDate" class="date-box" />
+        <label>-</label>
+        <input type="text" class="date-box" ng-model="endDate" ui-date="endDateOptions" id="report-period-todate" />
+    </div>
+    <a class="comparison-graph-type" ng-class="{active: (targetType === '@Html.GetName(TargetType.CarbonEmissions)')}" hover-class="hover" ng-click="changeType('@Html.GetName(TargetType.CarbonEmissions)')"> CO<sub>2</sub></a>
+    <a class="comparison-graph-type" ng-class="{active: (targetType === '@Html.GetName(TargetType.Money)')}" hover-class="hover"  ng-click="changeType('@Html.GetName(TargetType.Money)')">Money</a>
+    <a class="comparison-graph-type" ng-class="{active: (targetType === '@Html.GetName(TargetType.Units)')}" hover-class="hover" ng-click="changeType('@Html.GetName(TargetType.Units)')">Units</a>
+    <div class="comparison-graph-type"  hover-class="hover" ng-click="addNewSeries()">+</div>
+    <div id="print-panel" hover-class="hover">
+        <div id="print-jpg" hover-class="hover" ng-click="print('@Url.Action("PrintJpg")')" >JPG</div>
+        <div id="print-pdf" hover-class="hover" ng-click="print('@Url.Action("PrintPdf")')" >PDF</div>
+    </div>
+</nav>
+<section id="comparison-report-section">
+    <div id="comparison-report-panel">
+        <highchart id="mainChart" chart="chart" config="chartConfig" />
+    </div>
+</section>

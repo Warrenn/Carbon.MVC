@@ -1,0 +1,21 @@
+﻿@using CarbonKnown.MVC.Code
+@{
+    Layout = "_Layout.cshtml";
+    ViewBag.MainMenu = "Input";
+}
+@section Styles
+{
+    @RenderSection("Styles", false)
+}
+@section Scripts
+{
+    @RenderSection("Scripts", false)
+}
+<nav class="nav-panels">
+    @Html.ActionLink("Input History", "Index", "Input",null, new { @class = "input-tab-button " + Html.ActiveClass("InputMenu", "Index") })
+    @Html.ActionLink("Enter Data", "EnterData", "Input",null, new { @class = "input-tab-button " + Html.ActiveClass("InputMenu", "EnterData") })
+    @Html.ActionLink("Upload File", "UploadFile", "Input",null, new { @class = "input-tab-button " + Html.ActiveClass("InputMenu", "UploadFile") })
+    @Html.ActionLink("Checklist", "Checklist", "Input",null, new { @class = "input-tab-button " + Html.ActiveClass("InputMenu", "Checklist") })
+    @Html.ActionLink("Trace Source", "TraceSource", "Input",null, new { @class = "input-tab-button " + Html.ActiveClass("InputMenu", "TraceSource") })
+</nav>
+@RenderBody()

@@ -1,0 +1,41 @@
+﻿@model CarbonKnown.MVC.Models.UrlSelectionModel
+@functions{
+    private static string SideClass(int stepNumber)
+    {
+        return ((stepNumber % 2) == 0) ? "left" : "right";
+    }
+}
+<script type="text/javascript">
+    (function(readyfunction) {
+        readyfunction(window, document, window.angular, window.jQuery);
+    }(function(window, document, angular, $, undefined) {
+        'use strict';
+
+        if (!window.$$Select2Options) window.$$Select2Options = {};
+        window.$$Select2Options['@Model.Name'] = {
+            @if (Model.MinInputLength != null)
+            {
+                @:minimumInputLength:@Model.MinInputLength,
+            }
+            id: '@(Model.IdKey ?? Model.Name ?? "id")',
+            text: '@(Model.NameKey ?? "text")',
+            url: '@Html.Raw(Model.Url)',
+            initialValue: '@Model.InitialValue',
+            @if (Model.SearchFunction != null)
+            {
+                @:search: @Html.Raw(Model.SearchFunction)
+            }
+        };
+    }));
+</script>
+<div class="step-panel-@SideClass(Model.StepNumber)">
+    <div class="step-label">Step @Model.StepNumber: </div>
+    <label class="step-field-label">@Model.Label</label>
+    <input @(Model.CanEdit?string.Empty:"disabled") ui-select2="createOptions('@Model.Name')" class="step-input" data-placeholder="Select a @Model.Label" ng-model="@(Model.Name)Model" name="@Model.Name" required  />
+    <div class="ng-hide select-error-panel" ng-show="form.@(Model.Name).$dirty && form.@(Model.Name).$invalid" >
+        <div class="ui-state-error ui-corner-all ">
+            <span class="ui-icon ui-icon-alert"></span>
+            <div>Please select a @Model.Label</div>
+        </div>
+    </div>
+</div>

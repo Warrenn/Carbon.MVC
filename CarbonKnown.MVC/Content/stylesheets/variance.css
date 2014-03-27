@@ -1,0 +1,472 @@
+/* line 1, ../../sass/partials/_navpanel.scss */
+nav.nav-panels {
+  border-style: none;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+/* line 1, ../../sass/partials/_inputbutton.scss */
+.input-tab-button {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(85, 55, 20, 0.1);
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: rgba(85, 55, 20, 0.5);
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-right: 18px;
+  padding-left: 18px;
+  margin-right: 10px;
+  float: left;
+  white-space: nowrap;
+  height: 24px;
+  line-height: 24px;
+}
+
+/* line 10, ../../sass/partials/_inputbutton.scss */
+.input-tab-button.active,
+.input-tab-button:hover {
+  /* fallback */
+  background-color: #b65b0c;
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e6730f), to(#b65b0c));
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(top, #e6730f, #b65b0c);
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, #e6730f, #b65b0c);
+  /* IE 10 */
+  background: -ms-linear-gradient(top, #e6730f, #b65b0c);
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, #e6730f, #b65b0c);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  border-style: none;
+  border-width: 0px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  height: 24px;
+  line-height: 24px;
+}
+
+/* line 1, ../../sass/partials/_input-form-fields.scss */
+.step-input {
+  float: right;
+  width: 250px;
+}
+
+/* line 5, ../../sass/partials/_input-form-fields.scss */
+input.step-input {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  height: 20px;
+  border: #bcbcba solid 1px;
+  text-align: right;
+  padding-right: 10px;
+  width: 240px;
+}
+
+/* line 13, ../../sass/partials/_input-form-fields.scss */
+textarea {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  border: #bcbcba solid 1px;
+  width: 454px;
+  height: 48px;
+  font-family: "Open Sans", sans-serif;
+  color: #553714;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+/* line 20, ../../sass/partials/_input-form-fields.scss */
+div.ng-invalid, input.ng-invalid {
+  border: 1px solid #CD0A0A;
+  background-color: #FEF1EC;
+  color: #CD0A0A;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+
+/* line 11, ../../sass/partials/_modals.scss */
+.modal-open {
+  overflow: hidden;
+}
+
+/* line 16, ../../sass/partials/_modals.scss */
+.modal {
+  display: none;
+  overflow: auto;
+  overflow-y: scroll;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+}
+/* line 28, ../../sass/partials/_modals.scss */
+.modal.fade .modal-dialog {
+  -webkit-transform: translate(0, -25%);
+  -moz-transform: translate(0, -25%);
+  -ms-transform: translate(0, -25%);
+  -o-transform: translate(0, -25%);
+  transform: translate(0, -25%);
+  -webkit-transition: -webkit-transform 0.3s ease-out;
+  -moz-transition: -moz-transform 0.3s ease-out;
+  -o-transition: -o-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+}
+/* line 32, ../../sass/partials/_modals.scss */
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  -moz-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+
+/* line 36, ../../sass/partials/_modals.scss */
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+  z-index: 1050;
+}
+
+/* line 44, ../../sass/partials/_modals.scss */
+.modal-content {
+  position: relative;
+  background-color: white;
+  border: 1px solid #999999;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  background-clip: padding-box;
+  outline: none;
+}
+
+/* line 57, ../../sass/partials/_modals.scss */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+  background-color: black;
+}
+/* line 66, ../../sass/partials/_modals.scss */
+.modal-backdrop.fade {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+/* line 67, ../../sass/partials/_modals.scss */
+.modal-backdrop.in {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+
+/* line 72, ../../sass/partials/_modals.scss */
+.modal-header {
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  min-height: 16.42857px;
+}
+
+/* line 78, ../../sass/partials/_modals.scss */
+.modal-header .close {
+  margin-top: -2px;
+}
+
+/* line 83, ../../sass/partials/_modals.scss */
+.modal-title {
+  margin: 0;
+  line-height: 1.42857;
+}
+
+/* line 90, ../../sass/partials/_modals.scss */
+.modal-body {
+  position: relative;
+  padding: 20px;
+}
+
+/* line 96, ../../sass/partials/_modals.scss */
+.modal-footer {
+  margin-top: 15px;
+  padding: 19px 20px 20px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+/* line 21, ../../sass/modules/_mixins.scss */
+.modal-footer:before, .modal-footer:after {
+  content: " ";
+  display: table;
+}
+/* line 25, ../../sass/modules/_mixins.scss */
+.modal-footer:after {
+  clear: both;
+}
+/* line 104, ../../sass/partials/_modals.scss */
+.modal-footer .btn + .btn {
+  margin-left: 5px;
+  margin-bottom: 0;
+}
+/* line 109, ../../sass/partials/_modals.scss */
+.modal-footer .btn-group .btn + .btn {
+  margin-left: -1px;
+}
+/* line 113, ../../sass/partials/_modals.scss */
+.modal-footer .btn-block + .btn-block {
+  margin-left: 0;
+}
+
+@media screen and (min-width: 768px) {
+  /* line 121, ../../sass/partials/_modals.scss */
+  .modal-dialog {
+    width: 600px;
+    margin: 30px auto;
+  }
+
+  /* line 125, ../../sass/partials/_modals.scss */
+  .modal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+}
+/* line 17, ../../sass/variance.scss */
+#manage-container {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
+
+/* line 21, ../../sass/variance.scss */
+#edit-table {
+  width: 100%;
+}
+
+/* line 24, ../../sass/variance.scss */
+#manage-list-panel {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 8px 25px;
+  width: 445px;
+  background-color: white;
+  float: left;
+  height: 382px;
+}
+
+/* line 29, ../../sass/variance.scss */
+#manage-item-panel {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 8px 25px;
+  width: 445px;
+  background-color: white;
+  float: right;
+  min-height: 382px;
+}
+
+/* line 34, ../../sass/variance.scss */
+#variance-list {
+  height: 337px;
+  padding-bottom: 10px;
+}
+
+/* line 38, ../../sass/variance.scss */
+.variance-item {
+  display: block;
+  margin: 5px 0;
+  padding: 8px 12px;
+  background-color: rgba(230, 115, 15, 0.15);
+  border: 1px solid #e6730f;
+  color: #553714;
+  text-decoration: none;
+  font-weight: bold;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  line-height: 1.5em;
+  height: 1.5em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* line 54, ../../sass/variance.scss */
+.item-action-container {
+  display: none;
+}
+
+/* line 57, ../../sass/variance.scss */
+.hover .item-action-container {
+  display: inherit;
+  float: right;
+}
+
+/* line 61, ../../sass/variance.scss */
+.item-action {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #e6730f;
+  padding-right: 4px;
+  padding-left: 4px;
+  float: right;
+  color: white;
+  margin-left: 10px;
+}
+
+/* line 70, ../../sass/variance.scss */
+.item-action:hover {
+  cursor: pointer;
+  color: white;
+}
+
+/* line 74, ../../sass/variance.scss */
+.modal-step {
+  width: 100%;
+  height: 35px;
+}
+
+/* line 78, ../../sass/variance.scss */
+.submit-button {
+  /* fallback */
+  background-color: #b65b0c;
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e6730f), to(#b65b0c));
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(top, #e6730f, #b65b0c);
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, #e6730f, #b65b0c);
+  /* IE 10 */
+  background: -ms-linear-gradient(top, #e6730f, #b65b0c);
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, #e6730f, #b65b0c);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  border-style: none;
+  border-width: 0px;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 25px;
+  padding: 5px 22px 5px 22px;
+  position: relative;
+  float: right;
+  margin-left: 10px;
+}
+/* line 3, ../../sass/modules/_arrows.scss */
+.submit-button:after {
+  border-left: 5px solid white;
+  border-top: 5px solid rgba(0, 0, 0, 0);
+  border-bottom: 5px solid rgba(0, 0, 0, 0);
+  position: absolute;
+  content: " ";
+  bottom: 50%;
+  margin-bottom: -5px;
+  right: 10px;
+}
+
+/* line 83, ../../sass/variance.scss */
+.submit-button:hover {
+  /* fallback */
+  background-color: #9e4f0a;
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ce670d), to(#9e4f0a));
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(top, #ce670d, #9e4f0a);
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, #ce670d, #9e4f0a);
+  /* IE 10 */
+  background: -ms-linear-gradient(top, #ce670d, #9e4f0a);
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, #ce670d, #9e4f0a);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  border-style: none;
+  border-width: 0px;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 25px;
+  padding: 5px 22px 5px 22px;
+  position: relative;
+  cursor: pointer;
+}
+/* line 3, ../../sass/modules/_arrows.scss */
+.submit-button:hover:after {
+  border-left: 5px solid white;
+  border-top: 5px solid rgba(0, 0, 0, 0);
+  border-bottom: 5px solid rgba(0, 0, 0, 0);
+  position: absolute;
+  content: " ";
+  bottom: 50%;
+  margin-bottom: -5px;
+  right: 10px;
+}
+
+/* line 87, ../../sass/variance.scss */
+.ui-icon {
+  float: left;
+  cursor: pointer;
+}
+
+/* line 91, ../../sass/variance.scss */
+.step-submit-panel {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 8px 25px;
+  width: 950px;
+  background-color: white;
+  float: right;
+  margin-top: 10px;
+}

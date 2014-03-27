@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="../../Content/themes/smoothness/jquery.ui.core.css" rel="stylesheet" />
+    <link href="../../Content/themes/smoothness/jquery.ui.theme.css" rel="stylesheet" />
+    <link href="../../Content/themes/base/jquery.ui.datepicker.css" rel="stylesheet" />
+
+    <script src="../jquery-2.0.3.js"></script>
+    <script src="../ui/jquery.ui.core.js"></script>
+    <script src="../ui/jquery.ui.widget.js"></script>
+    <script src="daterange.js"></script>
+</head>
+<body style="font-size: 80%">
+    <input id="start" type="text" />
+    <input id="end" type="text" />
+    <div id='clicke'>click me</div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#start').daterange({
+                endSelector: '#end',
+                dateFormat: 'dd-mm-yy',
+                dateselected: function(event,data) {
+                }
+            });
+            $('#clicke').click(function() {
+                var d = $('#start').daterange('getEndDate');
+                alert(d);
+            });
+        });
+    </script>
+</body>
+</html>

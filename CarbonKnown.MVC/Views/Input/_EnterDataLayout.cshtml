@@ -1,0 +1,291 @@
+﻿@using System.Text
+@using CarbonKnown.DAL.Models
+@using CarbonKnown.MVC.Code
+@using CarbonKnown.MVC.Models
+@using CalcIds = CarbonKnown.DAL.Models.Constants.Calculation
+@model EnterDataModel
+@{
+    Layout = "../Shared/_InputLayout.cshtml";
+    ViewBag.Title = "Enter Input Data";
+    ViewBag.InputMenu = "EnterData";
+    ViewBag.ngApp = "Input";
+    ViewBag.ngBodyCtrl = "Controller";
+    var stepNumber = ViewBag.InitialStep ?? 2;
+    var dateLabel = ViewBag.DateLabel;
+    var unitsLabel = ViewBag.UnitsLabel;
+    var unitsAside = ViewBag.UnitsAside;
+    var moneyAside = ViewBag.MoneyAside;
+}
+@functions
+{
+
+    private static string SideClass(int stepNumber)
+    {
+        return ((stepNumber % 2) == 0) ? "left" : "right";
+    }
+
+    private static string GetVariances(IEnumerable<Variance> variances)
+    {
+        var builder = new StringBuilder();
+        foreach (var variance in variances)
+        {
+            builder.AppendFormat("{0}:{{min:{1},max:{2}}},", variance.ColumnName, variance.MinValue, variance.MaxValue);
+        }
+        return builder.ToString();
+    }
+
+    private static string NullableGuid(Guid id)
+    {
+        return (id == Guid.Empty) ? string.Empty : id.ToString();
+    }
+
+}
+@section Styles
+{
+    @Styles.Render(
+    "~/Content/select2",
+    "~/Content/jqueryui",
+    "~/Content/input")
+}
+@section Scripts
+{
+    @Scripts.Render(
+        "~/Scripts/jquery",
+        "~/Scripts/jqueryui",
+        "~/Scripts/angular",
+        "~/Scripts/select2",
+        "~/Scripts/angularuijs",
+        "~/Scripts/uibootstrap",
+        "~/Scripts/angular-resource",
+        "~/Scripts/input")
+    <script type="text/javascript">
+        (function(readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function(window, document, angular, $, undefined) {
+            'use strict';
+            
+            angular
+                .module('Input')
+                .constant('Urls', {
+                    calculate: '@Url.HttpRouteUrl("CalculateEmissions", new { sourceId = ":sourceId" })',
+                    upsert: '@Url.HttpRouteUrl("Upsert" + Model.ViewName, new { })',
+                    insertManual: '@Url.HttpRouteUrl("InsertManualDataSource", new { })',
+                    editSource: '@Url.RouteUrl("editsource", new { sourceId = Model.EntryData.SourceId })',
+                    revert: '@Url.HttpRouteUrl("RevertCalculations", new { sourceId = ":sourceId" })',
+                    inputMain: '@Url.RouteUrl("inputhistory")',
+                    enterData: '@Url.RouteUrl("enterdata")',
+                    editData: '@Url.RouteUrl("editdata")',
+                })
+                .constant('TypeCalculationMapping',
+                    {
+                        '@Html.GetName(ConsumptionType.AirTravel)': '@CalcIds.AirTravelId',
+                        '@Html.GetName(ConsumptionType.CarHire)': '@CalcIds.CarHireId',
+                        '@Html.GetName(ConsumptionType.Courier)': '@CalcIds.CourierId',
+                        '@Html.GetName(ConsumptionType.Electricity)': '@CalcIds.ElectricityId',
+                        '@Html.GetName(ConsumptionType.HotelNights)': '@CalcIds.HotelNightsId',
+                        '@Html.GetName(ConsumptionType.Other)': '@CalcIds.FuelId',
+                        '@Html.GetName(ConsumptionType.Paper)': '@CalcIds.PaperId',
+                        '@Html.GetName(ConsumptionType.Waste)': '@CalcIds.WasteId',
+                        '@Html.GetName(ConsumptionType.Water)': '@CalcIds.WaterId'
+                    })
+                .constant('InitialRequest', {
+                    manualEntry: @(Model.ManualEntry ? "true" : "false"),
+                    canEdit: @(Model.CanEdit ? "true" : "false"),
+                    canRevert: @(Model.CanRevert ? "true" : "false"),
+                    consumptionType: '@Html.GetName((ConsumptionType)ViewBag.ConsumptionType)',
+                    showHover: function(entryData) { return (entryData.sourceId) ? '' : 'hover'; },
+                    referenceNotes: '@Model.ReferenceNotes',
+                    displayType: '@ViewBag.DisplayType',
+                    entryData: {
+                        entryId: '@NullableGuid(Model.EntryData.Id)',
+                        sourceId: '@NullableGuid(Model.EntryData.SourceId)',
+                        startDate: new Date('@Model.EntryData.StartDate.Value.ToString("yyyy-MM-ddT00:00:00.00Z")'),
+                        endDate: new Date('@Model.EntryData.EndDate.Value.ToString("yyyy-MM-ddT00:00:00.00Z")'),
+                        Units: @(Model.EntryData.Units ?? 0),
+                        Money: @(Model.EntryData.Money ?? 0),
+                        RowNo: @(Model.EntryData.RowNo ?? 0),
+                        CalculationId: '@ViewBag.CalculationId',
+                        @RenderSection("JSEntryData", false)
+                    },
+                    @if (IsSectionDefined("JSInitialRequest"))
+                    {
+                        @RenderSection("JSInitialRequest", false)
+                    }
+                    @if (!IsSectionDefined("JSInitialRequest") && (!string.IsNullOrEmpty(dateLabel)))
+                    {
+                        @:transformData:function(entryData){
+                        @:    entryData.endDate = entryData.startDate;
+                        @:    return entryData;
+                        @:},
+                    }
+                    variance: {
+                        @Html.Raw(GetVariances(Model.Variance))
+                    },
+                });
+        }));
+    </script>
+}
+<form name="form" novalidate>
+    @Html.AntiForgeryToken()
+    <nav id="consumption-type">
+        <div id="consumption-label">
+            <label class="step-label">Step 1: </label>
+            <label>Select Consumption Type</label>
+        </div>
+        <ul id="dashboard-items">
+            <li class="@Html.ActiveClass("ConsumptionType", ConsumptionType.Water)" hover-class="{{showHover(entryData)}}" ng-click="selectConsumptionType('@Html.GetName(ConsumptionType.Water)')">
+                <span class="water-icon"></span>
+                <div>Water</div>
+            </li>
+            <li class="@Html.ActiveClass("ConsumptionType", ConsumptionType.Electricity)" hover-class="{{showHover(entryData)}}"   ng-click="selectConsumptionType('@Html.GetName(ConsumptionType.Electricity)')">
+                <span class="electricity-icon"></span>
+                <div>Electricity</div>
+            </li>
+            <li class="@Html.ActiveClass("ConsumptionType", ConsumptionType.Paper)" hover-class="{{showHover(entryData)}}"   ng-click="selectConsumptionType('@Html.GetName(ConsumptionType.Paper)')">
+                <span class="paper-icon"></span>
+                <div>Paper</div>
+            </li>
+            <li class="@Html.ActiveClass("ConsumptionType", ConsumptionType.CarHire)" hover-class="{{showHover(entryData)}}"   ng-click="selectConsumptionType('@Html.GetName(ConsumptionType.CarHire)')">
+                <span class="carhire-icon"></span>
+                <div>Car Hire</div>
+            </li>
+            <li class="@Html.ActiveClass("ConsumptionType", ConsumptionType.HotelNights)" hover-class="{{showHover(entryData)}}"   ng-click="selectConsumptionType('@Html.GetName(ConsumptionType.HotelNights)')">
+                <span class="hotelnights-icon"></span>
+                <div>Hotel Nights</div>
+            </li>
+            <li  class="@Html.ActiveClass("ConsumptionType", ConsumptionType.AirTravel)" hover-class="{{showHover(entryData)}}"   ng-click="selectConsumptionType('@Html.GetName(ConsumptionType.AirTravel)')">
+                <span class="plane-icon"></span>
+                <div>Air Travel</div>
+            </li>
+            <li  class="@Html.ActiveClass("ConsumptionType", ConsumptionType.Waste)" hover-class="{{showHover(entryData)}}"   ng-click="selectConsumptionType('@Html.GetName(ConsumptionType.Waste)')">
+                <span class="waste-icon"></span>
+                <div>Waste</div>
+            </li>
+            <li  class="@Html.ActiveClass("ConsumptionType", ConsumptionType.Courier)" hover-class="{{showHover(entryData)}}"  ng-click="selectConsumptionType('@Html.GetName(ConsumptionType.Courier)')" >
+                <span class="courier-icon"></span>
+                <div>Courier</div>
+            </li>
+            <li class="@Html.ActiveClass("ConsumptionType", ConsumptionType.Other)" hover-class="{{showHover(entryData)}}"  ng-click="selectConsumptionType('@Html.GetName(ConsumptionType.Other)')" >
+                <span class="overview-icon"></span>
+                <div>Other</div>
+            </li>
+        </ul>
+    </nav>
+    <section id="input-steps">
+        @if (Model.EntryErrors.Any())
+        {
+            <div ng-show="!form.$dirty" class="hg-hide step-submit-panel ui-state-error ui-corner-all select-error-panel">
+                <span class="ui-icon ui-icon-alert"></span>
+                <ul>
+                    @foreach (var error in Model.EntryErrors)
+                    {
+                        <li>@error</li>
+                    }
+                </ul>
+            </div>
+        }
+        @RenderBody()
+        <div class="step-panel-@SideClass(stepNumber)">
+            <div class="step-label">Step @stepNumber: </div>
+            <label class="step-field-label">@(string.IsNullOrEmpty(dateLabel) ? "Start Date" : dateLabel)</label>
+            <input @(Model.CanEdit ? string.Empty : "disabled") name="StartDate" ui-date="startDateOptions" required type="text" class="date-box" ng-model="entryData.startDate" />
+            @if (string.IsNullOrEmpty(dateLabel))
+            {
+                <label class="step-field-label">End Date</label>
+                <input @(Model.CanEdit ? string.Empty : "disabled") name="EndDate" ui-date="endDateOptions" required type="text" class="date-box" ng-model="entryData.endDate" />
+            }
+        </div>
+        @{
+            stepNumber++;
+        }
+        @Html.Partial("_UrlSelection", new UrlSelectionModel
+            {
+                Label = "Cost Centre",
+                Name = "CostCode",
+                StepNumber = stepNumber,
+                CanEdit = Model.CanEdit,
+                NameKey = "Name",
+                Url = Server.UrlDecode(Url.RouteUrl("costcentres",new {consumptionType = ViewBag.ConsumptionType})),
+                InitialValue = Model.EntryData.CostCode,
+                MinInputLength = 3
+            })
+        @{
+            stepNumber++;
+        }
+        @if (IsSectionDefined("UnitsSection"))
+        {
+            @RenderSection("UnitsSection", false)
+        }
+        @if (!IsSectionDefined("UnitsSection"))
+        {
+            @Html.Partial("_DecimalStep", new DecimalStepModel
+            {
+                Label = string.IsNullOrEmpty(unitsLabel) ? "Units" : unitsLabel,
+                Name = "Units",
+                StepNumber = stepNumber,
+                SideHtml = unitsAside,
+                CanEdit = Model.CanEdit
+            })
+        }
+        @{
+            stepNumber++;
+        }
+        @Html.Partial("_DecimalStep", new DecimalStepModel
+            {
+                Label = "Monetary Value",
+                Name = "Money",
+                StepNumber = stepNumber,
+                SideHtml = string.IsNullOrEmpty(moneyAside) ? "<label class=\"side-selection\" ng-bind=\"CostCodeModel.CurrencyCode\"></label>" : moneyAside,
+                CanEdit = Model.CanEdit
+            })
+        @{
+            stepNumber++;
+        }
+        <div class="step-panel-@SideClass(stepNumber)">
+            <div class="step-label">Step @stepNumber: </div>
+            <div class="step-field-label">Notes</div>
+            <textarea @(Model.CanEdit ? string.Empty : "disabled")  id="Notes" name="ReferenceNo" cols="50" rows="3" ng-model="referenceNotes"></textarea>
+        </div>
+        @if ((stepNumber % 2) == 0)
+        {
+            <div class="step-panel-right"></div>
+        }
+        <div class="step-submit-panel">
+            @if ((Model.CanRevert) && (Model.ManualEntry))
+            {
+                <a ng-click="revert(entryData.sourceId)" ng-if="form.$valid" class="submit-button">Revert</a>
+            }
+            @if ((!Model.CanRevert) && (Model.CanEdit))
+            {
+                <a ng-click="submitForm(entryData)" ng-if="form.$valid" class="submit-button">Submit</a>
+            }
+            <a ng-click="cancelForm()" class="submit-button">Cancel</a>
+        </div>
+    </section>
+    <script type="text/ng-template" id="ModalResult.html">
+    <div class="modal-body">
+        <div class="step-field-label" ng-if="!processing && result && result.Succeeded">Data entry is ready to be calculated</div>
+        <div class="step-field-label" ng-if="processing">Busy processing please wait!</div>
+        <div ng-if="!processing && result && !result.Succeeded">Data entry contains errors</div>
+        <div ng-if="result && result.Errors && result.Errors.length">Summary of data entry</div>
+        <ul ng-if="result.Errors.length">
+            <li ng-repeat="item in result.Errors" >{{item.ErrorMessage}}</li>
+        </ul>
+        <div ng-if="referenceNotes">Comment:</div>
+        <div ng-if="referenceNotes">{{referenceNotes}}</div>
+    </div>
+    <div class="modal-footer" ng-if="manualEntry">
+        <a ng-click="calculate(entry.sourceId)" ng-if="result && result.Succeeded"  class="submit-button">Calculate</a>
+        <a ng-click="close()"  ng-if="!processing" class="submit-button">Close</a>
+    </div>
+    </script>
+    <script type="text/ng-template" id="Revert.html">
+    <div class="modal-body">
+        <div class="step-field-label" >You are about to revert the calculations are you sure?</div>
+    </div>
+    <div class="modal-footer" >
+        <a ng-click="revert(sourceId)"  class="submit-button">Revert</a>
+        <a ng-click="close()" class="submit-button">Close</a>
+    </div>
+    </script>
+</form>

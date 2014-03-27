@@ -1,0 +1,10 @@
+﻿@model CarbonKnown.MVC.Models.OverviewReportModel
+@{
+    Layout = "../Shared/_PrintLayout.cshtml";
+    ViewBag.Title = "Overview Report";
+}
+@section Styles
+{
+    @Styles.Render("~/Content/overviewreportprint")
+}
+@Html.Partial("~/Views/OverviewReport/_OverviewReport.cshtml", Model)

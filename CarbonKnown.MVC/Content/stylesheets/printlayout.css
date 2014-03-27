@@ -1,0 +1,152 @@
+/* line 17, ../../../../../../Users/User/AppData/Local/Temp/Mindscape/WebWorkbench/Ruby193/Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, ../../../../../../Users/User/AppData/Local/Temp/Mindscape/WebWorkbench/Ruby193/Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../../../../Users/User/AppData/Local/Temp/Mindscape/WebWorkbench/Ruby193/Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../../../../Users/User/AppData/Local/Temp/Mindscape/WebWorkbench/Ruby193/Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../../../../Users/User/AppData/Local/Temp/Mindscape/WebWorkbench/Ruby193/Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../../../../Users/User/AppData/Local/Temp/Mindscape/WebWorkbench/Ruby193/Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, ../../../../../../Users/User/AppData/Local/Temp/Mindscape/WebWorkbench/Ruby193/Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../../../../Users/User/AppData/Local/Temp/Mindscape/WebWorkbench/Ruby193/Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../../../../Users/User/AppData/Local/Temp/Mindscape/WebWorkbench/Ruby193/Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 1, ../../sass/base/_layout.scss */
+#header {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 75px;
+  overflow: hidden;
+  height: 77px;
+}
+
+/* line 8, ../../sass/base/_layout.scss */
+img {
+  border-style: none;
+  vertical-align: middle;
+}
+
+/* line 12, ../../sass/base/_layout.scss */
+a:hover, a:visited, a:link, a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* line 16, ../../sass/base/_layout.scss */
+.company-logo {
+  max-width: 107px;
+  max-height: 75px;
+}
+
+/* line 20, ../../sass/base/_layout.scss */
+#logo {
+  float: left;
+  margin-right: 20px;
+}
+
+/* line 24, ../../sass/base/_layout.scss */
+#footer {
+  clear: both;
+  position: relative;
+  background-color: white;
+  bottom: -10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  width: 970px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+}
+
+/* line 7, ../../sass/printlayout.scss */
+body, html {
+  background-color: #f2efec;
+  font-family: "Open Sans", sans-serif;
+  color: #553714;
+  font-size: 14px;
+  line-height: 18px;
+  overflow: hidden !important;
+}
+
+/* line 13, ../../sass/printlayout.scss */
+#content-section {
+  padding: 10px;
+  height: auto;
+}
+
+/* line 17, ../../sass/printlayout.scss */
+#legend-container.print {
+  height: auto;
+}
+
+/* line 20, ../../sass/printlayout.scss */
+.legend-title.print {
+  white-space: normal;
+}
+
+/* line 23, ../../sass/printlayout.scss */
+#mainChart.print {
+  width: 352px;
+  float: left;
+}
+
+/* line 27, ../../sass/printlayout.scss */
+#chart-container.print {
+  float: left;
+}

@@ -1,0 +1,30 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.DAL.Models.Paper
+@using CarbonKnown.MVC.Controllers
+@using CarbonKnown.MVC.Models
+@model EnterDataModel
+@{
+    Layout = "../_EnterDataLayout.cshtml";
+    ViewBag.ConsumptionType = ConsumptionType.Paper;
+    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.PaperId;
+    ViewBag.DisplayType = "Paper";
+    ViewBag.InitialStep =3;
+    var paperData = (Model.EntryData as PaperData) ?? new PaperData();
+
+    var paperTypesSelection = DataSelectionModel.CreateFromEnum(paperData, m => m.PaperType, InputController.PaperTypes);
+    paperTypesSelection.Label = "Type of paper";
+    paperTypesSelection.StepNumber =2;
+    paperTypesSelection.CanEdit = Model.CanEdit;
+
+    var unitsAside = "<label class=\"side-selection\"><select " + ((Model.CanEdit) ? string.Empty : " disabled ") + " ng-model=\"entryData.PaperUom\" required>";
+    unitsAside += "<option ng-selected=\"{{entryData.PaperUom === '" + Enum.GetName(typeof(PaperUom), PaperUom.Reams) + "'}}\"  value=\"" + Enum.GetName(typeof(PaperUom), PaperUom.Reams) + "\">" + Enum.GetName(typeof(PaperUom), PaperUom.Reams) + "</option>";
+    unitsAside += "<option ng-selected=\"{{entryData.PaperUom === '" + Enum.GetName(typeof(PaperUom), PaperUom.Tonnes) + "'}}\"  value=\"" + Enum.GetName(typeof(PaperUom), PaperUom.Tonnes) + "\">" + Enum.GetName(typeof(PaperUom), PaperUom.Tonnes) + "</option>";
+    unitsAside += "</select></label>";
+
+    ViewBag.UnitsAside = unitsAside;
+}
+@section JSEntryData
+{
+    PaperUom: '@(paperData.PaperUom ?? PaperUom.Tonnes)'
+}
+@Html.Partial("_DataSelection", paperTypesSelection)

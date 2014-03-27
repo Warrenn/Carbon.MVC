@@ -1,0 +1,15 @@
+.input-tab-button{
+	@include form-panel;
+	margin-right:10px;
+	float: left;
+	white-space: nowrap;
+	height: $selectionHeight;
+	line-height: $selectionHeight;
+}
+.input-tab-button.active,
+.input-tab-button:hover{
+	@include input-button($showArrow:false,$defaultHeight:false);
+	cursor: pointer;
+	height: $selectionHeight;
+	line-height: $selectionHeight;
+}

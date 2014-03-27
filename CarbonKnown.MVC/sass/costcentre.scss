@@ -1,0 +1,140 @@
+@import "modules/_global";
+@import "modules/_variables";
+@import "modules/_mixins";
+@import "Compass/CSS3/border-radius";
+@import "Compass/CSS3/opacity";
+@import "partials/_manage-panels";
+@import "partials/_navpanel";
+@import "partials/_modals";
+@import "partials/_buttons";
+@import "partials/_inputbutton";
+@import "partials/_button-groups";
+@import "partials/_dropdowns";
+@import "partials/_input-form-fields";
+@mixin step-panel($width:($contentWidth /2) - 55){
+	@include border-radius($borderRadius);
+	padding: 8px 25px;
+	width:$width;
+	background-color: white;
+}
+#manage-container{
+	@include default-contents;
+	margin-top:10px;
+}
+#manage-list-panel{
+	@include step-panel;
+	float: left;
+	height:$minheight;
+}
+#manage-item-panel{
+	@include step-panel;
+	float: right;
+	min-height:$minheight;
+}
+div.pick-a-color-markup{
+	width: ($contentWidth /4);
+	float:right;
+}
+.select2-choices{
+	@include border-radius($borderRadius);
+}
+.centre-name{
+	cursor:pointer;
+}
+.step-submit-panel{
+	@include step-panel($contentWidth - 50);
+	float: right;
+	margin-top: 10px;
+}
+.submit-button{
+	@include input-button;
+	float:right;
+	margin-left:10px;
+}
+.submit-button:hover{
+	@include input-button(darken($orange,5%));
+	cursor:pointer;
+}
+div.pick-a-color-markup .color-menu li{
+	margin-top:5px;
+}
+.nestedSortable-list {
+	display: block;
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+.nestedSortable-sublist {
+    padding-left: 30px;
+}
+.nestedSortable-item, .nestedSortable-placeholder {
+	display: block;
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+	min-height: 20px;
+	line-height: 20px;
+}
+.nestedSortable-handle {
+    display: block;
+    margin: 5px 0;
+    padding: 8px 12px;
+	background-color:rgba($orange,0.15);
+    border: 1px solid $orange;
+    color: $defaultColor;
+    text-decoration: none;
+    font-weight: bold;
+	@include border-radius($borderRadius);
+    line-height: 1.5em;
+	height:1.5em;
+	overflow:hidden;
+	white-space:nowrap;
+	cursor:default;
+}
+.nestedSortable-handle:hover {
+    color: $defaultColor;
+	background-color:rgba($orange,0.25);
+    border-color: $orange;
+}
+.nestedSortable-placeholder {
+    margin: 5px 0;
+    padding: 0;
+    min-height: 30px;
+	background-color:rgba($orange,0.15);
+    border: 2px dashed $orange;
+	@include border-radius($borderRadius);
+}
+.nestedSortable-drag {
+    position: absolute;
+    pointer-events: none;
+    z-index: 999;
+    opacity: .8;
+	cursor:grabbing;
+}
+#edit-table{
+	width:100%;
+}
+a.collapsable-node,
+a.close-node,
+a.add-child,
+a.collapsable-node:hover,
+a.close-node:hover,
+a.add-child:hover{
+	cursor:pointer;
+}
+.item-action{
+	@include border-radius($borderRadius);
+	background-color:$orange;
+	padding-right:4px;
+	padding-left:4px;
+	float:right;
+	color:white;
+	margin-left:10px;
+}
+.item-action:hover{
+	cursor:pointer;
+	color:white;
+}
+
+

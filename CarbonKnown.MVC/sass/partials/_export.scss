@@ -1,0 +1,33 @@
+@mixin print-icon($offset,$padding:26px){
+	background:url('../Images/icons.png');
+	background-position: -21px $offset;
+	background-repeat: no-repeat;
+	padding-bottom:3px;
+	padding-top:3px;
+	padding-left:$padding;
+}
+#print-jpg{
+	@include print-icon(-555px);
+}
+#print-jpg.hover{
+		@include print-icon(-585px);
+}
+#print-pdf{
+	@include print-icon(-615px);
+}
+#print-pdf.hover{
+		@include print-icon(-649px);
+}
+#print-panel{
+	@include form-panel;
+	margin-left:10px;
+	width:176px;
+	float: right;
+	div{
+		padding-right:20px;
+		float:left;
+	}
+	div.hover{
+		cursor:pointer;
+	}
+}

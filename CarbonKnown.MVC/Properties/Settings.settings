@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CarbonKnown.MVC.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="EmailTemplate" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="EmailSubject" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FileTypePaths" Type="System.Collections.Specialized.NameValueCollection" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="XSRFTimeout" Type="System.TimeSpan" Scope="Application">
+      <Value Profile="(Default)">00:03:00</Value>
+    </Setting>
+    <Setting Name="RootCostCentre" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Santam</Value>
+    </Setting>
+    <Setting Name="BuildingCostCentre" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Buildings</Value>
+    </Setting>
+    <Setting Name="GroupCostCentre" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">BUNITS</Value>
+    </Setting>
+    <Setting Name="InitialCalculationId" Type="System.Guid" Scope="Application">
+      <Value Profile="(Default)">d70ed5bc-6ad9-45e7-9498-27c0f131b449</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

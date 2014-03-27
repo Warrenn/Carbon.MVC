@@ -1,0 +1,93 @@
+@import "modules/_global";
+@import "Compass/CSS3/border-radius";
+@import "Compass/CSS3/opacity";
+@import "partials/_navpanel";
+@import "partials/_inputbutton";
+@import "partials/export";
+@include report-period{
+	width:$contentWidth - 260;
+}
+@mixin table-heading(){
+	width:50%;
+}
+@mixin table-value(){
+	text-align:right;
+}
+@mixin table-space(){
+	width:50%;
+}
+#carbonknown-logo{
+	float:left;
+}
+#company-logo{
+	float:right;
+}
+#overview-report-logos{
+	height:25px;
+	margin-bottom:10px;
+}
+td.overview-lineitem-heading{
+	@include table-heading();
+}
+td.overview-lineitem-value{
+	@include table-value();
+}
+td.overview-lineitem-space{
+	@include table-space();
+}
+#overview-report-section{
+	@include default-contents;
+	margin-top:10px;
+}
+#overview-report-panel{
+	@include border-radius($borderRadius);
+	padding:8px 25px;
+	background-color: white;
+}
+#overview-report-header{
+	width:100%;
+	height:30px;
+	margin:10px;
+	@include bold-font($size:$articleHeaderFontSize + 2);
+	text-align:center;
+}
+#overview-table{
+	margin:0px;
+	padding:0px;
+}
+td.overview-legend{
+	@include bold-font($size:$defaultFontSize);
+	@include table-heading();
+}
+.empty-gap{
+	height:20px;
+}
+td.overview-subheading{
+	@include bold-font;
+}
+td.overview-total-heading{
+	@include bold-font;
+	@include table-heading();
+}
+td.overview-total-value{
+	@include bold-font;
+	@include table-value();
+}
+.overview-total-line-heading{
+	border-top:2px solid #CCC;
+	border-bottom:2px solid #CCC;
+	@include bold-font;
+	@include table-heading();
+}
+.overview-total-line-value{
+	border-top:2px solid #CCC;
+	border-bottom:2px solid #CCC;
+	@include bold-font;
+	@include table-value();
+}
+.overview-total-line-space{
+	border-top:2px solid #CCC;
+	border-bottom:2px solid #CCC;
+	@include bold-font;
+	@include table-space();
+}

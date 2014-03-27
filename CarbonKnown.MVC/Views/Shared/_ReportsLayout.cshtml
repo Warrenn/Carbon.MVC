@@ -1,0 +1,18 @@
+﻿@using CarbonKnown.MVC.Code
+@{
+    Layout = "_Layout.cshtml";
+    ViewBag.MainMenu = "Reports";
+}
+@section Styles
+{
+    @RenderSection("Styles", false)
+}
+@section Scripts
+{
+    @RenderSection("Scripts", false)
+}
+<nav class="nav-panels">
+    @Html.ActionLink("Overview Report", "Index", "OverviewReport",null, new { @class = "input-tab-button " + Html.ActiveClass("ReportMenu", "Overview") })
+    @Html.ActionLink("Comparison", "Index", "Comparison",null, new { @class = "input-tab-button " + Html.ActiveClass("ReportMenu", "Comparison") })
+</nav>
+@RenderBody()

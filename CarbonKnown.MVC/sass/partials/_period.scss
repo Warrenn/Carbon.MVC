@@ -1,0 +1,13 @@
+.date-box{
+	@include border-radius($borderRadius);
+	background:url('../Images/icons.png');
+	@include default-font();
+	background-position: 80px -407px;
+	background-repeat: no-repeat;
+	background-color: white;
+	height: 20px;
+	border:$borderColor solid 1px;
+	padding-left: 10px;
+	width:120px;
+	cursor:pointer;
+}

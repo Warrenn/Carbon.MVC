@@ -1,0 +1,211 @@
+﻿@model CarbonKnown.MVC.Models.OverviewReportModel
+@using System.Configuration
+@using CarbonKnown.DAL.Models.Constants
+@using CarbonKnown.MVC.Code
+@using CarbonKnown.MVC.Controllers
+@{
+    var currentController = (OverviewReportController)ViewContext.Controller;
+    var costCode = Model.CostCodes[0];
+    var equipmentOwnedControlled = currentController.CalculateTotal(Model.StartDate, Model.EndDate, Activity.FuelId, costCode);
+    var companyVehicleFleet = currentController.CalculateTotal(Model.StartDate, Model.EndDate, Activity.CompanyOwnedVehicleFleetId, costCode);
+    var airConGas = currentController.CalculateTotal(Model.StartDate, Model.EndDate, Activity.RefrigerantsId, costCode);
+    var electricity = currentController.CalculateTotal(Model.StartDate, Model.EndDate, Activity.Scope2Id, costCode);
+    var officePaper = currentController.CalculateTotal(Model.StartDate, Model.EndDate, Activity.PaperId, costCode);
+    var courier = currentController.CalculateTotal(Model.StartDate, Model.EndDate, Activity.CourierId, costCode) * Model.EmployeePerc;
+    var thirdParty = currentController.CalculateTotal(Model.StartDate, Model.EndDate, Activity.ThirdPartyVehicleFleetId, costCode) * Model.EmployeePerc;
+    var businessTravel = currentController.CalculateTotal(Model.StartDate, Model.EndDate, Activity.BusinessTravelId, costCode) * Model.EmployeePerc;
+    var employeeComutting = currentController.CalculateTotal(Model.StartDate, Model.EndDate, Activity.CommuttingId, costCode) * Model.EmployeePerc;
+    var waste = currentController.CalculateTotal(Model.StartDate, Model.EndDate, Activity.WasteId, costCode);
+    var nonKyoto = currentController.CalculateTotal(Model.StartDate, Model.EndDate, Activity.NonKyotoId, costCode);
+    var totalScope1 = equipmentOwnedControlled + companyVehicleFleet + airConGas;
+    var totalScope1And2 = totalScope1 + electricity;
+    var totalScope12And3 = totalScope1And2 + officePaper + thirdParty + businessTravel + courier + employeeComutting + waste;
+    var totalEmissions = totalScope12And3 + nonKyoto;
+}
+@functions
+{
+
+    private static string FormatDate(DateTime date)
+    {
+        return date.ToString("yyyy/MM/dd");
+    }
+
+}
+<section id="overview-report-section">
+    <div id="overview-report-panel">
+        <div id="overview-report-logos">
+            <div id="carbonknown-logo">
+                <img src="@Url.Content("~/images/logo.png")" width="186" height="23"  alt="logo" /></div>
+            <div id="company-logo">
+                @if (File.Exists(Server.MapPath(ConfigurationManager.AppSettings["imageurl"])))
+                {
+                    <img src="@Url.Content(ConfigurationManager.AppSettings["imageurl"])" class="company-logo" alt="company logo" />
+                }
+            </div>
+        </div>
+        <div id="overview-report-header">@Model.CompanyName's Carbon Dioxide equivalent (CO<sub>2</sub>e) emissions</div>
+        <table id="overview-table">
+            <tbody>
+                <tr>
+                    <td class="overview-legend">Reporting Period</td>
+                    <td colspan="2">@FormatDate(Model.StartDate) - @FormatDate(Model.EndDate)</td>
+                </tr>
+                <tr>
+                    <td class="overview-legend">Carbon footprint calculation conducted on</td>
+                    <td colspan="2">@Model.CompanyName</td>
+                </tr>
+                <tr>
+                    <td class="overview-legend">Methodology</td>
+                    <td colspan="2">Greenhouse Gas Protocol Corporate Accounting and Reporting Standard</td>
+                </tr>
+                <tr>
+                    <td class="overview-legend">Total @Model.CompanyName employees covered by report</td>
+                    <td colspan="2">@Model.EmployeesCovered</td>
+                </tr>
+                <tr>
+                    <td class="overview-legend">Total @Model.CompanyName employees</td>
+                    <td colspan="2">@Model.TotalEmployees</td>
+                </tr>
+                <tr>
+                    <td class="overview-legend">Percentage @Model.CompanyName employees covered by report</td>
+                    <td colspan="2">@Model.EmployeePerc.ToString("P")</td>
+                </tr>
+                <tr>
+                    <td class="overview-legend">Total square meterage of head offices reported</td>
+                    <td colspan="2">@Model.SquareMeters</td>
+                </tr>
+                <tr>
+                    <td class="overview-legend">Scope and Boundry</td>
+                    <td colspan="2">@Model.ScopeBoundries</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="empty-gap"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="overview-subheading">Scope 1 Direct Emissions</td>
+                </tr>
+                <tr>
+                    <td class="overview-lineitem-heading">Equipment owned or controlled</td>
+                    <td class="overview-lineitem-value">@Html.FormatNumber(equipmentOwnedControlled)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td class="overview-lineitem-heading">Company-owned Vehicle Fleet</td>
+                    <td class="overview-lineitem-value">@Html.FormatNumber(companyVehicleFleet)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td class="overview-lineitem-heading">Air conditioning and refrigeration gas refills</td>
+                    <td class="overview-lineitem-value">@Html.FormatNumber(airConGas)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td class="overview-total-heading">Total Scope 1 Emissions</td>
+                    <td class="overview-total-value">@Html.FormatNumber(totalScope1)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="empty-gap"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="overview-subheading">Scope 2 Indirect Emissions</td>
+                </tr>
+                <tr>
+                    <td class="overview-lineitem-heading">Electricity</td>
+                    <td class="overview-lineitem-value">@Html.FormatNumber(electricity)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td class="overview-total-heading">Total Scope 1 and 2 Emissions</td>
+                    <td class="overview-total-value">@Html.FormatNumber(totalScope1And2)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="empty-gap"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="overview-subheading">Scope 3 Indirect Emissions</td>
+                </tr>
+                <tr>
+                    <td class="overview-lineitem-heading">Office Paper</td>
+                    <td class="overview-lineitem-value">@Html.FormatNumber(officePaper)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td class="overview-lineitem-heading">Third-party vehicle fleet</td>
+                    <td class="overview-lineitem-value">@Html.FormatNumber(thirdParty)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td class="overview-lineitem-heading">Business Travel</td>
+                    <td class="overview-lineitem-value">@Html.FormatNumber(businessTravel)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td class="overview-lineitem-heading">Courier</td>
+                    <td class="overview-lineitem-value">@Html.FormatNumber(courier)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td class="overview-lineitem-heading">Employee Commuting</td>
+                    <td class="overview-lineitem-value">@Html.FormatNumber(employeeComutting)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td class="overview-lineitem-heading">Waste</td>
+                    <td class="overview-lineitem-value">@Html.FormatNumber(waste)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td class="overview-total-heading">Total Scope 1, 2 & 3 Emissions (GHG Protocol)</td>
+                    <td class="overview-total-value">@Html.FormatNumber(totalScope12And3)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="empty-gap"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="overview-subheading">Non-Kyoto Protocol GHG emissions</td>
+                </tr>
+                <tr>
+                    <td class="overview-lineitem-heading">Non-Kyoto</td>
+                    <td class="overview-lineitem-value">@Html.FormatNumber(nonKyoto)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td class="overview-total-heading">Non-Kyoto Protocol GHG emissions</td>
+                    <td class="overview-total-value">@Html.FormatNumber(nonKyoto)</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="empty-gap"></td>
+                </tr>
+                <tr>
+                    <td class="overview-total-line-heading">TOTAL @Model.CompanyName @Model.EndDate.Year EMISSIONS CO<sub>2</sub>e (METRIC TONNES)</td>
+                    <td class="overview-total-line-value">@Html.FormatNumber(totalEmissions)</td>
+                    <td class="overview-total-line-space"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="empty-gap"></td>
+                </tr>
+                @{
+                    var emissionsPerEmpolyee = Model.TotalEmployees == 0 ? 0 : totalEmissions / Model.TotalEmployees;
+                }
+                <tr>
+                    <td class="overview-lineitem-heading">Emissions per employee (t/Full Time Employee)</td>
+                    <td class="overview-lineitem-value">@emissionsPerEmpolyee.ToString("P")</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+                @{
+                    var emissionsPerSqM = Model.SquareMeters == 0 ? 0 : totalEmissions / Model.SquareMeters;
+                }
+                <tr>
+                    <td class="overview-lineitem-heading">Emissions per square-metre office space (t/m2)</td>
+                    <td class="overview-lineitem-value">@emissionsPerSqM.ToString("P")</td>
+                    <td class="overview-lineitem-space"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+

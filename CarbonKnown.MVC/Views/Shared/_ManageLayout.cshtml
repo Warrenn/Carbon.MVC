@@ -1,0 +1,20 @@
+﻿@using CarbonKnown.MVC.Code
+@{
+    Layout = "_Layout.cshtml";
+    ViewBag.MainMenu = "Manage";
+}
+@section Styles
+{
+    @RenderSection("Styles", false)
+}
+@section Scripts
+{
+    @RenderSection("Scripts", false)
+}
+<nav class="nav-panels">
+    @Html.ActionLink("Cost Centres", "Index", "CostCentre",null, new { @class = "input-tab-button " + Html.ActiveClass("ManageMenu", "CostCentre") })
+    @Html.ActionLink("Census", "Index", "Census",null, new { @class = "input-tab-button " + Html.ActiveClass("ManageMenu", "Census") })
+    @Html.ActionLink("Targets", "Index", "Target",null, new { @class = "input-tab-button " + Html.ActiveClass("ManageMenu", "Targets") })
+    @Html.ActionLink("Variance", "Index", "Variance",null, new { @class = "input-tab-button " + Html.ActiveClass("ManageMenu", "Variance") })
+</nav>
+@RenderBody()

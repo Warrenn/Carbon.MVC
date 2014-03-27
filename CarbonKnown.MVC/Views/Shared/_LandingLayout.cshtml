@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>@ViewBag.Title</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+        <meta name="viewport" content="width=device-width" />
+        @RenderSection("Styles",false)
+        @Styles.Render(
+        "~/Content/googlefonts",
+        "~/Content/zendesk")
+    </head>
+    <body>
+        <div id="login">
+            <div class="header">
+                <img class="logo" src="@Url.Content("~/images/logo.png")" alt="logo" width="186" height="23" />
+                @Html.Raw(ViewBag.Message)
+            </div>
+            <div class="login-form">
+                @RenderBody()
+            </div>
+            <div class="footer">
+                <img alt="footer" width="208" height="69" src="@Url.Content("~/Images/logo_footer.png")" />
+                <div class="footer-content">
+                    <a href="http://www.carboncalculated.co.za">www.carboncalculated.co.za</a> | <a href="http://www.carboncalculated.co.za/contact-us/">                                                                Contact us</a> | Copyright © 2013 Carbon Calculated
+                </div>
+            </div>
+        </div>
+        @Scripts.Render("~/Scripts/zendesk")
+        @RenderSection("Scripts",false)
+    </body>
+</html>

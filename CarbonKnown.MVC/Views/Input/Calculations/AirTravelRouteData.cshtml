@@ -1,0 +1,97 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.DAL.Models.AirTravel
+@using CarbonKnown.MVC.Controllers
+@using CarbonKnown.MVC.Models
+@model EnterDataModel
+@{
+    Layout = "../_EnterDataLayout.cshtml";
+    ViewBag.ConsumptionType = ConsumptionType.AirTravel;
+    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.AirTravelId;
+    ViewBag.DisplayType = "Air Travel";
+    ViewBag.DateLabel = "Travel Date";
+    ViewBag.InitialStep = 3;
+    var airTravelData = (Model.EntryData as AirTravelRouteData);
+    
+    var fromCode = string.Empty;
+    var toCode = string.Empty;
+    if (airTravelData != null)
+    {
+        fromCode = airTravelData.FromCode;
+        toCode = airTravelData.ToCode;
+    }
+    
+    var travelSelection = DataSelectionModel.CreateFromEnum(airTravelData, data => data.TravelClass, InputController.TravelClasses);
+    travelSelection.Label = "Travel Class";
+    travelSelection.StepNumber = 2;
+    travelSelection.CanEdit = Model.CanEdit;
+}
+@Html.Partial("_DataSelection", travelSelection)
+@section JSEntryData
+{
+    Reversal:@((airTravelData != null) && (airTravelData.Reversal) ? "true" : "false")
+}
+@section UnitsSection
+{
+    <script type="text/javascript">
+        (function(readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function(window, document, angular, $, undefined) {
+            'use strict';
+
+            if (!window.$$Select2Options) window.$$Select2Options = {};
+            window.$$Select2Options['FromCode'] = {
+                url: '@Url.RouteUrl("airroutecodes")',
+                initialValue: { id: '@fromCode', text: '@fromCode' },
+                allowClear: true,
+                mapItem: function (item) {
+                    return { id: item, text: item };
+                },
+                search: function(scope, term, page, id) {
+                    var params = { searchTerm: term };
+                    if (!scope.ToCodeModel || !scope.ToCodeModel.id) return params;
+                    params.otherCode = scope.ToCodeModel.id;
+                    return params;
+                }
+            };
+
+            window.$$Select2Options['ToCode'] = {
+                url: '@Url.RouteUrl("airroutecodes")',
+                initialValue: { id: '@toCode', text: '@toCode' },
+                allowClear:true,
+                mapItem: function(item) {
+                    return { id: item, text: item };
+                },
+                search: function(scope, term, page, id) {
+                    var params = { searchTerm: term };
+                    if (!scope.FromCodeModel || !scope.FromCodeModel.id) return params;
+                    params.otherCode = scope.FromCodeModel.id;
+                    return params;
+                }
+            };
+        }));
+    </script>
+    <div class="step-panel-right">
+        <div class="step-label">Step 5: </div>
+        <label class="step-field-label">Route</label>
+        <div class="route-container">
+            <input @(Model.CanEdit ? string.Empty : "disabled") route-validation="ToCode" ui-select2="createOptions('FromCode')" class="route-input" data-placeholder="From" ng-model="FromCodeModel" name="FromCode" required  />
+            <label class="step-field-label">&nbsp;-</label>
+            <input @(Model.CanEdit ? string.Empty : "disabled") route-validation="FromCode" ui-select2="createOptions('ToCode')" class="route-input" data-placeholder="To" ng-model="ToCodeModel" name="ToCode" required  />
+        </div>
+        <div class="ng-hide select-error-panel" ng-show="form.FromCode.$dirty && form.FromCode.$invalid" >
+            <div class="ui-state-error ui-corner-all ">
+                <span class="ui-icon ui-icon-alert"></span>
+                <span  ng-if="form.FromCode.$error.required" >From code is required</span>
+                <span  ng-if="form.FromCode.$error.routeValidation" >From code and To code must be different</span>
+            </div>
+        </div>
+        <div class="ng-hide select-error-panel" ng-show="form.ToCode.$dirty && form.ToCode.$invalid" >
+            <div class="ui-state-error ui-corner-all ">
+                <span class="ui-icon ui-icon-alert"></span>
+                <span  ng-if="form.ToCode.$error.required" >To code is required</span>
+                <span  ng-if="form.ToCode.$error.routeValidation" >From code and To code must be different</span>
+            </div>
+        </div>
+    </div>
+}
+

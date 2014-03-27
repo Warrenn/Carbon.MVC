@@ -1,0 +1,120 @@
+﻿@using CarbonKnown.MVC.Models
+@using CarbonKnown.MVC.Properties
+@model CheckListModel
+@{
+    Layout = "../Shared/_ManageLayout.cshtml";
+    ViewBag.Title = "Manage Variances";
+    ViewBag.ManageMenu = "Variance";
+    ViewBag.ngApp = "Variance";
+    ViewBag.ngBodyCtrl = "Controller";
+}
+@section Styles
+{
+    @Styles.Render(
+    "~/Content/select2",
+    "~/Content/variance")
+}
+@section Scripts
+{
+    @Scripts.Render(
+    "~/Scripts/jquery",
+    "~/Scripts/angular",
+    "~/Scripts/select2",
+    "~/Scripts/uibootstrap",
+    "~/Scripts/angular-resource",
+    "~/Scripts/variance")
+    <script type="text/javascript">
+        (function (readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function (window, document, angular, $, undefined) {
+            'use strict';
+
+            angular
+                .module('Variance')
+                .constant('Urls', {
+                    calculations: '@Url.Action("Calculations")',
+                    columnNames: '@Url.Action("ColumnNames")',
+                    'delete': '@Url.Action("DeleteVariance")',
+                    variances: '@Url.Action("Variances")',
+                    upsert: '@Url.Action("UpsertVariance")'
+                })
+                .constant('InitialData', {
+                    calculationId: '@Settings.Default.InitialCalculationId'
+                });
+        }));
+    </script>
+}
+<section id="manage-container">
+    <div id="manage-list-panel">
+        <div id="variance-list" ck-scroll="scrollOptions">
+            <div hover-class="hover" ng-repeat="variance in variances" class="variance-item" ng-click="selectVariance(variance)">
+                <span class="item-action-container">
+                    <a class="item-action" ng-click="remove(variance,$index)">&#10006;</a>
+                </span>
+                <div>{{variance.calculation.text}}({{variance.columnName}}) min:{{variance.minValue}} - max:{{variance.maxValue}} </div>
+            </div>
+        </div>
+        <div id="add-new-panel">
+            <a ng-click="addNew()" class="submit-button">Add New</a>
+        </div>
+    </div>
+    <div id="manage-item-panel">
+        <form name="form">
+            <table id="edit-table">
+                <tbody>
+                    <tr>
+                        <td class="step-field-label">Calculation</td>
+                        <td>
+                            <input ui-select2="calculationOptions" class="step-input" ng-model="calculation" required  />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="step-field-label">Column Name</td>
+                        <td>
+                            <select ui-select2 class="step-input" ng-model="columnName" required >
+                                <option ng-repeat="col in columnNameOptions" ng-select="columnName == col.id" value="{{col.id}}">{{col.text}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="step-field-label">Minimum Value</td>
+                        <td>
+                            <input class="step-input" type="number" step="any" required ng-model="minValue" /></td>
+                    </tr>
+                    <tr>
+                        <td class="step-field-label">Maximum Value</td>
+                        <td>
+                            <input class="step-input" type="number" step="any" required ng-model="maxValue" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="step-submit-panel">
+        <a ng-click="submitForm()" ng-if="form.$valid" class="submit-button">Submit</a>
+        <a ng-click="cancelForm()" class="submit-button">Cancel</a>
+    </div>
+</section>
+<script type="text/ng-template" id="ModalDelete.html">
+    <div class="modal-body">
+        <div >Are you sure you want to delete variance?</div>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="delete(variance)" class="submit-button">Delete</a>
+        <a ng-click="close()"  class="submit-button">Close</a>
+    </div>
+</script>
+<script type="text/ng-template" id="ModalUpsert.html">
+    <div class="modal-body">
+        <div >Are you sure you want to {{action}} variance  with the following values?</div>
+        <div >Calculation: {{variance.calculation.text}}</div>
+        <div >Column Name: {{variance.columnName}}</div>
+        <div >Minimum Amount: {{variance.minValue}}</div>
+        <div >Maximum Amount: {{variance.maxValue}}</div>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="upsert(variance)" class="submit-button">Submit</a>
+        <a ng-click="close()"  class="submit-button">Close</a>
+    </div>
+</script>
+

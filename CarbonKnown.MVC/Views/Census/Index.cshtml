@@ -1,0 +1,137 @@
+﻿@using CarbonKnown.MVC.Models
+@model CheckListModel
+@{
+    Layout = "../Shared/_ManageLayout.cshtml";
+    ViewBag.Title = "Manage Census";
+    ViewBag.ManageMenu = "Census";
+    ViewBag.ngApp = "Census";
+    ViewBag.ngBodyCtrl = "Controller";
+}
+@section Styles
+{
+    @Styles.Render(
+    "~/Content/jqueryui",
+    "~/Content/census")
+}
+@section Scripts
+{
+    @{
+        var today = DateTime.Today;
+        var startDate = new DateTime(today.Year, today.Month, 1);
+        var endDate = startDate.AddMonths(1).AddDays(-1);
+    }
+    @Scripts.Render(
+    "~/Scripts/jquery",
+    "~/Scripts/jqueryui",
+    "~/Scripts/angular",
+    "~/Scripts/angularuijs",
+    "~/Scripts/uibootstrap",
+    "~/Scripts/angular-resource",
+    "~/Scripts/census")
+    <script type="text/javascript">
+        (function (readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function (window, document, angular, $, undefined) {
+            'use strict';
+
+            angular
+                .module('Census')
+                .constant('Urls', {
+                    'delete': '@Url.Action("DeleteCensus")',
+                    census: '@Url.Action("Census")',
+                    upsert: '@Url.Action("UpsertCensus")'
+                })
+                .constant('InitialData', {
+                    startDate: new Date('@startDate.ToString("yyyy-MM-dd")'),
+                    endDate: new Date('@endDate.ToString("yyyy-MM-dd")')
+                });
+        }));
+    </script>
+}
+<section id="manage-container">
+    <div id="manage-list-panel">
+        <div id="census-list" ck-scroll="scrollOptions">
+            <div hover-class="hover" ng-repeat="census in censusData" class="census-item" ng-click="selectCensus(census)">
+                <span>{{census.displayName}}</span>
+                <span class="item-action-container">
+                    <a class="item-action" ng-click="remove(census)">&#10006;</a>
+                </span>
+            </div>
+        </div>
+        <div id="add-new-panel">
+            <a ng-click="addNew()" class="submit-button">Add New</a>
+        </div>
+    </div>
+    <div id="manage-item-panel">
+        <form name="form">
+            <table id="edit-table">
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <label class="step-field-label">Start Date</label>
+                            <input name="StartDate" ui-date="startDateOptions" required type="text" class="date-box" ng-model="startDate" />
+                            <label class="step-field-label">End Date</label>
+                            <input name="EndDate" ui-date="endDateOptions" required type="text" class="date-box" ng-model="endDate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="step-field-label">Display Name</td>
+                        <td>
+                            <input class="step-input" type="text" required ng-model="displayName" /></td>
+                    </tr>
+                    <tr>
+                        <td class="step-field-label">Employees Covered</td>
+                        <td>
+                            <input class="step-input" type="number" step="1" min="0" required ng-model="employeesCovered" /></td>
+                    </tr>
+                    <tr>
+                        <td class="step-field-label">Total Employees</td>
+                        <td>
+                            <input class="step-input" type="number" step="1" min="0" required ng-model="totalEmployees" /></td>
+                    </tr>
+                    <tr>
+                        <td class="step-field-label">Square Meters</td>
+                        <td>
+                            <input class="step-input" type="number" step="any" min="0" required ng-model="squareMeters" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="step-field-label">Scope Boundries</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <textarea ng-model="scopeBoundries"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="step-submit-panel">
+        <a ng-click="submitForm()" ng-if="form.$valid" class="submit-button">Submit</a>
+        <a ng-click="cancelForm()" class="submit-button">Cancel</a>
+    </div>
+</section>
+<script type="text/ng-template" id="ModalDelete.html">
+    <div class="modal-body">
+        <div >Are you sure you want to delete {{census.displayName}} ?</div>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="delete(census)" class="submit-button">Delete</a>
+        <a ng-click="close()"  class="submit-button">Close</a>
+    </div>
+</script>
+<script type="text/ng-template" id="ModalUpsert.html">
+    <div class="modal-body">
+        <div >Are you sure you want to {{action}} census  with the following values?</div>
+        <div >Display Name: {{census.displayName}}</div>
+        <div >Start Date: {{census.startDate | date:'dd/MM/yyyy'}}</div>
+        <div >End Date: {{census.endDate | date:'dd/MM/yyyy'}}</div>
+        <div >Employees Covered: {{census.employeesCovered}}</div>
+        <div >Total Employees: {{census.totalEmployees}}</div>
+        <div >Square Meters: {{census.squareMeters}}</div>
+        <div >Scope Boundries: {{census.scopeBoundries}}</div>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="upsert(census)" class="submit-button">Submit</a>
+        <a ng-click="close()"  class="submit-button">Close</a>
+    </div>
+</script>

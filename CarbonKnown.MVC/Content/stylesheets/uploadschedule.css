@@ -1,0 +1,191 @@
+/* line 1, ../../sass/partials/_navpanel.scss */
+nav.nav-panels {
+  border-style: none;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  height: 58px;
+  overflow: hidden;
+}
+
+/* line 9, ../../sass/partials/_export.scss */
+#print-jpg {
+  background: url('/Images/../Images/icons.png?1390055645');
+  background-position: -21px -555px;
+  background-repeat: no-repeat;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  padding-left: 26px;
+}
+
+/* line 12, ../../sass/partials/_export.scss */
+#print-jpg.hover {
+  background: url('/Images/../Images/icons.png?1390055645');
+  background-position: -21px -585px;
+  background-repeat: no-repeat;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  padding-left: 26px;
+}
+
+/* line 15, ../../sass/partials/_export.scss */
+#print-pdf {
+  background: url('/Images/../Images/icons.png?1390055645');
+  background-position: -21px -615px;
+  background-repeat: no-repeat;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  padding-left: 26px;
+}
+
+/* line 18, ../../sass/partials/_export.scss */
+#print-pdf.hover {
+  background: url('/Images/../Images/icons.png?1390055645');
+  background-position: -21px -649px;
+  background-repeat: no-repeat;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  padding-left: 26px;
+}
+
+/* line 21, ../../sass/partials/_export.scss */
+#print-panel {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(85, 55, 20, 0.1);
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: rgba(85, 55, 20, 0.5);
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-right: 18px;
+  padding-left: 18px;
+  margin-left: 10px;
+  width: 176px;
+  float: right;
+}
+/* line 26, ../../sass/partials/_export.scss */
+#print-panel div {
+  padding-right: 20px;
+  float: left;
+}
+/* line 30, ../../sass/partials/_export.scss */
+#print-panel div.hover {
+  cursor: pointer;
+}
+
+/* line 1, ../../sass/partials/_inputbutton.scss */
+.input-tab-button {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(85, 55, 20, 0.1);
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: rgba(85, 55, 20, 0.5);
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-right: 18px;
+  padding-left: 18px;
+  margin-right: 10px;
+  float: left;
+  white-space: nowrap;
+  height: 24px;
+  line-height: 24px;
+}
+
+/* line 10, ../../sass/partials/_inputbutton.scss */
+.input-tab-button.active,
+.input-tab-button:hover {
+  /* fallback */
+  background-color: #b65b0c;
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e6730f), to(#b65b0c));
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(top, #e6730f, #b65b0c);
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, #e6730f, #b65b0c);
+  /* IE 10 */
+  background: -ms-linear-gradient(top, #e6730f, #b65b0c);
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, #e6730f, #b65b0c);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  border-style: none;
+  border-width: 0px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  height: 24px;
+  line-height: 24px;
+}
+
+/* line 9, ../../sass/partials/_navpanel.scss */
+#report-period {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(85, 55, 20, 0.1);
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: rgba(85, 55, 20, 0.5);
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-right: 18px;
+  padding-left: 18px;
+  width: 964px;
+  float: left;
+  white-space: nowrap;
+}
+
+/* line 10, ../../sass/uploadschedule.scss */
+#uploadschedule-section {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
+
+/* line 14, ../../sass/uploadschedule.scss */
+#uploadschedule-panel {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 8px 25px;
+  background-color: white;
+}
+
+/* line 19, ../../sass/uploadschedule.scss */
+#uploadschedule-buildings-table, #uploadschedule-group-table {
+  width: 100%;
+}
+
+/* line 22, ../../sass/uploadschedule.scss */
+.checkmark {
+  text-align: center;
+  color: green;
+}
+
+/* line 26, ../../sass/uploadschedule.scss */
+.cross {
+  text-align: center;
+  color: red;
+}

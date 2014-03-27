@@ -1,0 +1,28 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.DAL.Models.Refrigerant
+@using CarbonKnown.MVC.Controllers
+@using CarbonKnown.MVC.Models
+@model EnterDataModel
+@{
+    Layout = "../_EnterDataLayout.cshtml";
+    ViewBag.ConsumptionType = ConsumptionType.Other;
+    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.RefrigerantId;
+    ViewBag.DisplayType = "Refrigerant";
+    ViewBag.UnitsAside = "<label class=\"side-selection\">kg</label>";
+    ViewBag.InitialStep = 4;
+    var fuelDataModel = (Model.EntryData as RefrigerantData) ?? new RefrigerantData();
+    fuelDataModel.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.RefrigerantId;
+
+    var calculationSettings = DataSelectionModel.CreateFromEnum(fuelDataModel, m => (Guid?)m.CalculationId, InputController.SelectableCalculations);
+    calculationSettings.Label = "Calculation";
+    calculationSettings.StepNumber = 2;
+    calculationSettings.CanEdit = Model.CanEdit;
+    calculationSettings.SourceIdDependant = true;
+
+    var refrigerants = DataSelectionModel.CreateFromEnum(fuelDataModel, m => m.RefrigerantType, InputController.RefrigerantTypes);
+    refrigerants.Label = "Refrigerant Type";
+    refrigerants.StepNumber = 3;
+    refrigerants.CanEdit = Model.CanEdit;
+}
+@Html.Partial("_DataSelection", calculationSettings)
+@Html.Partial("_DataSelection", refrigerants)

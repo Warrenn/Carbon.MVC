@@ -1,0 +1,68 @@
+﻿@model CarbonKnown.MVC.Models.LoginModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "../Shared/_LandingLayout.cshtml";
+    ViewBag.Message = "<p><strong>To login,</strong> please enter your Username and Password</p>";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-item">
+        @Html.ValidationMessage(string.Empty)
+    </div>
+    <div class="form-item">
+        @Html.LabelFor(m => m.UserName)
+        @Html.TextBoxFor(m => m.UserName, new { @class = "form-input" })
+        @Html.ValidationMessageFor(m => m.UserName)
+    </div>
+    <div class="form-item">
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password, new { @class = "form-input" })
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+    <div class="form-item">
+        <label class="form-checkbox-label">@Html.CheckBoxFor(m => m.RememberMe) Remember me?</label>
+    </div>
+    <div class="form-item">
+        <div class="form-button-container">
+            <a class="form-button" id="btnLogin">Login</a>
+            <a class="form-button" id="btnRegister" href="@Url.Action("Register")" >Register</a>
+        </div>
+    </div>
+}
+@section Styles
+{
+    @Styles.Render(
+    "~/Content/jqueryui",
+    "~/Content/datatable",
+    "~/Content/bootstrapcss",
+    "~/Content/angularuicss",
+    "~/Content/pickacolorcss",
+    "~/Content/select2",
+    "~/Content/landing")
+}
+@section Scripts
+{
+    @Scripts.Render(
+    "~/Scripts/jquery", 
+    "~/Scripts/jqueryui",
+    "~/Scripts/mousewheel",
+    "~/Scripts/jqueryvalidate", 
+    "~/Scripts/tinycolorjs",
+    "~/Scripts/bootstrap",
+    "~/Scripts/fileapishim",
+    "~/Scripts/charts",
+    "~/Scripts/datatable",
+    "~/Scripts/angular",
+    "~/Scripts/select2",
+    "~/Scripts/unobtrusive",
+    "~/Scripts/pickacolorjs",
+    "~/Scripts/angularuijs",
+    "~/Scripts/fileapi",
+    "~/Scripts/uibootstrap",
+    "~/Scripts/angular-resource",
+    "~/Scripts/angular-route",
+    "~/Scripts/angular-sanitize",
+    "~/Scripts/angularanimate",
+    "~/Scripts/login")
+}

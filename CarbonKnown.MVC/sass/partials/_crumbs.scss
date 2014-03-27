@@ -1,0 +1,7 @@
+.bread-crumb-container{
+	@include default-contents();
+	white-space: nowrap;
+	border-style: none;
+	height:2.5em;
+	overflow:hidden;
+}

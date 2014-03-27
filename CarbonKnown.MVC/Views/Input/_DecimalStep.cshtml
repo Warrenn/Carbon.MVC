@@ -1,0 +1,31 @@
+﻿@model CarbonKnown.MVC.Models.DecimalStepModel
+@functions{
+
+    private static string SideClass(int stepNumber)
+    {
+        return ((stepNumber % 2) == 0) ? "left" : "right";
+    }
+}
+<div class="step-panel-@SideClass(Model.StepNumber)">
+    <div class="step-label">Step @Model.StepNumber: </div>
+    <label class="step-field-label">@Model.Label</label>
+    @if (!string.IsNullOrEmpty(Model.SideHtml))
+    {
+        @Html.Raw(Model.SideHtml)
+    }
+    <input @(Model.CanEdit ? string.Empty : "disabled") class="step-input" name="@Model.Name" type="number" step="any" required  ng-model="entryData.@Model.Name" />
+    <div class="ng-hide ui-state-error ui-corner-all select-error-panel" ng-show="form.@(Model.Name).$dirty && form.@Model.Name.$invalid" >
+        <span class="ui-icon ui-icon-alert"></span>
+        <span>@Model.Label</span>
+        <span  ng-if="form.@(Model.Name).$error.required" >is required</span>
+        <span  ng-if="form.@(Model.Name).$error.number" >must be numeric</span>
+    </div>
+    <div class="ng-hide ui-state-highlight ui-corner-all select-error-panel" ng-show="form.@(Model.Name).$viewValue < variance.@(Model.Name).min">
+        <span class="ui-icon ui-icon-info"></span>
+        <div>units are lower than minimum variance value of {{variance.@(Model.Name).min}}</div>
+    </div>
+    <div class="ng-hide ui-state-highlight ui-corner-all select-error-panel" ng-show="form.@(Model.Name).$viewValue > variance.@(Model.Name).max">
+        <span class="ui-icon ui-icon-info"></span>
+        <div>units are higher than maximum variance value of {{variance.@(Model.Name).max}}</div>
+    </div>
+</div>

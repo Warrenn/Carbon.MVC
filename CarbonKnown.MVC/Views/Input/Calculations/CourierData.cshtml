@@ -1,0 +1,32 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.DAL.Models.Courier
+@using CarbonKnown.MVC.Controllers
+@using CarbonKnown.MVC.Models
+@model EnterDataModel
+@{
+    Layout = "../_EnterDataLayout.cshtml";
+    ViewBag.ConsumptionType = ConsumptionType.Courier;
+    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.CourierId;
+    ViewBag.DisplayType = "Courier";
+    ViewBag.UnitsAside = "<label class=\"side-selection\">kms</label>";
+    ViewBag.InitialStep = 4;
+    
+    var courierModel = (Model.EntryData as CourierData);
+    var serviceTypeSelection = DataSelectionModel.CreateFromEnum(courierModel, data => data.ServiceType, InputController.CourierServiceTypes);
+    serviceTypeSelection.Label = "Service Type";
+    serviceTypeSelection.StepNumber = 2;
+    serviceTypeSelection.CanEdit = Model.CanEdit;
+}
+@section JSEntryData
+{
+    ChargeMass: @((courierModel !=null)?courierModel.ChargeMass:0)
+}
+@Html.Partial("_DataSelection", serviceTypeSelection)
+@Html.Partial("_DecimalStep", new DecimalStepModel
+{
+    Label = "Charge Mass",
+    Name = "ChargeMass",
+    StepNumber = 3,
+    SideHtml = "<label class=\"side-selection\">tonnes</label>",
+    CanEdit = Model.CanEdit
+})

@@ -1,0 +1,20 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.DAL.Models.Waste
+@using CarbonKnown.MVC.Controllers
+@using CarbonKnown.MVC.Models
+@model EnterDataModel
+@{
+    Layout = "../_EnterDataLayout.cshtml";
+    ViewBag.ConsumptionType = ConsumptionType.Waste;
+    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.WasteId;
+    ViewBag.DisplayType = "Waste";
+    ViewBag.InitialStep =3;
+    var wasteData = (Model.EntryData as WasteData) ?? new WasteData();
+
+    var wasteTypesSelection = DataSelectionModel.CreateFromEnum(wasteData, m => m.WasteType, InputController.WasteTypes, InputController.WasteTypesUom);
+    wasteTypesSelection.Label = "Type of waste";
+    wasteTypesSelection.StepNumber =2;
+    wasteTypesSelection.CanEdit = Model.CanEdit;
+    ViewBag.UnitsAside = "<label class=\"side-selection\" >{{WasteTypeModel.value}}</label>";
+}
+@Html.Partial("_DataSelection", wasteTypesSelection)

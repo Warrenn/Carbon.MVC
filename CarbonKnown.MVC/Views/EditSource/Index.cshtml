@@ -1,0 +1,207 @@
+﻿@using CarbonKnown.Calculation
+@using CarbonKnown.DAL.Models
+@using CarbonKnown.MVC.Constants
+@model CarbonKnown.MVC.Models.EditSourceModel
+@{
+    Layout = "../Shared/_InputLayout.cshtml";
+    ViewBag.Title = "Edit Data Source";
+    ViewBag.ngApp = "EditSource";
+    ViewBag.ngBodyCtrl = "Controller";
+}
+@functions
+{
+
+    public static string GetName<T>(T enumValue)
+    {
+        return Enum.GetName(typeof(T), enumValue) ?? string.Empty;
+    }
+
+    public static string SplitByCaps(string name)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(name, "([A-Z])", " $1").Trim();
+    }
+
+}
+@section Scripts
+{
+    @Scripts.Render(
+        "~/Scripts/jquery",
+        "~/Scripts/jqueryui",
+        "~/Scripts/bootstrap",
+        "~/Scripts/datatable",
+        "~/Scripts/viewseditsourceindex")
+    <script type="text/javascript">
+        (function(readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function(window, document, angular, $, undefined) {
+            'use strict';
+            window.$$EditEntry = function(entryId) {
+                @if (Model.SourceStatus == SourceStatus.PendingCalculation)
+                {
+                    @:window.location.href = '@Html.Raw(Url.RouteUrl("editdata"))' + '?' + $.param({ entryId: entryId });
+                }
+            };
+
+            window.$$InitialData = {};
+            @foreach (var calculation in Model.Calculations)
+            {
+                @:window.$$InitialData['@calculation.Key.Id'] = {
+                @:url: '@Html.Raw(Url.RouteUrl("sourceentries", new {action = CalculationModelFactory.EntryTypes[calculation.Key.Id].Name, sourceId = Model.SourceId}))',
+                @:mapping: ['', '', '', 'StartDate', 'EndDate', 'CostCode', 'Money', 'Units'
+                foreach (var descriptor in CalculationModelFactory.GetCustomProperties(calculation.Key.Id))
+                {
+                    @:, '@descriptor.Name'
+                }
+                @:]}
+            }
+        }));
+    </script>
+}
+@section Styles
+{
+    @Styles.Render("~/Content/editsource")
+}
+<section id="edit-source-section">
+    <div id="summary-left">
+        <div class="summary-label">
+            <label>Name :</label>
+            @if (File.Exists(Model.CurrentFileName))
+            {
+                <a href="@Url.HttpRouteUrl("filedownload", new { Model.SourceId })">@Model.Name</a>
+            }
+            else
+            {
+                @Model.Name
+            }
+        </div>
+        <div class="summary-label">
+            <label>Upload Date : </label>@Model.EditDate.ToString(Constants.DateFormat)
+        </div>
+        <div class="summary-label">
+            <label>User Name : </label>@Model.UserName
+        </div>
+        <div class="summary-label">
+            <label>Status : </label>@GetName(Model.SourceStatus)
+        </div>
+        <div class="summary-label">
+            <label>Comment : </label>
+        </div>
+        <div class="summary-label">@Model.Comment</div>
+        @if ((Model.SourceStatus == SourceStatus.PendingCalculation) && (!Model.SourceContainsErrors))
+        {
+            <div class="modal fade" id="calculateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            You are about to calculate the emissions for the file @Model.Name are you sure?
+                        </div>
+                        <div class="modal-footer">
+                            @using (Html.BeginForm("Calculate", "EditSource", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("sourceId", Model.SourceId)
+                                <input type="submit" class="submit-button" value="Calculate Emissions" />
+                            }
+                            <input type="button" class="submit-button" data-dismiss="modal" value="Close" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-label">
+                <input class="submit-button" type="submit" data-toggle="modal" data-target="#calculateModal" value="Calculate Emissions" />
+            </div>
+        }
+        @if ((Model.SourceStatus == SourceStatus.Calculated))
+        {
+            <div class="modal fade" id="revertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            You are about to revert the calculations for @Model.Name are you sure?
+                        </div>
+                        <div class="modal-footer">
+                            @using (Html.BeginForm("Revert", "EditSource", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("sourceId", Model.SourceId)
+                                <input type="submit" class="submit-button" value="Revert Caclulations" />
+                            }
+                            <input type="button" class="submit-button" data-dismiss="modal" value="Close" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-label">
+                <input class="submit-button" type="submit" data-toggle="modal" data-target="#revertModal"  value ="Revert Calculations"/>
+            </div>
+        }
+        @if (Model.SourceStatus == SourceStatus.PendingExtraction)
+        {
+            <div class="summary-label">
+                @using (Html.BeginForm("Cancel", "EditSource", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("sourceId", Model.SourceId)
+                    <input class="submit-button" type="submit" value="Cancel Upload" />
+                }
+                @if (!Model.SourceContainsErrors)
+                {
+                    using (Html.BeginForm("ExtractData", "EditSource", FormMethod.Post))
+                    {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("sourceId", Model.SourceId)
+                    <input class="submit-button" type="submit" value="Extract Data" />
+                    }
+                }
+            </div>
+        }
+    </div>
+    <div id="summary-right">
+        @if (Model.SourceErrors.Any())
+        {
+            <ul>
+            @foreach (var error in Model.SourceErrors)
+            {
+                <li class="summary-label error-filter">@error.ErrorMessage</li>
+            }
+            </ul>
+        }
+        @if(Model.SourceStatus != SourceStatus.PendingExtraction)
+        {
+            <div class="summary-label">@Model.DataEntries lines of data</div>
+            <div class="summary-label error-filter" data-error-type="AllErrors">@Model.DataEntriesInError lines with errors</div>
+            foreach (var error in Model.ErrorTypeCount)
+            {
+            <div class="summary-label error-filter"  data-error-type="@GetName(error.Key)">@error.Value lines with @SplitByCaps(GetName(error.Key)) errors</div>
+            }
+        }
+    </div>
+    @foreach (var calculation in Model.Calculations)
+    {
+        <div class="calculations-panel">
+            <div>
+                <label>@calculation.Key.Name: @calculation.Value</label>
+            </div>
+            <table class="calculation-table" id="@calculation.Key.Id">
+                <thead>
+                    <tr>
+                        <th>EntryId</th>
+                        <th>Errors</th>
+                        <th class="sortable">Row</th>
+                        <th class="sortable">Start Date</th>
+                        <th class="sortable">End Date</th>
+                        <th class="sortable">Cost Code</th>
+                        <th class="sortable">Money</th>
+                        <th class="sortable">Units</th>
+                        @foreach (var descriptor in CalculationModelFactory.GetCustomProperties(calculation.Key.Id))
+                        {
+                            <th class="sortable">@descriptor.DisplayName</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

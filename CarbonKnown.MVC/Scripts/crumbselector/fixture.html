@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="../../Content/crumbselector.css" rel="stylesheet" />
+    <link href="../../Content/jquery.mCustomScrollbar.css" rel="stylesheet" />
+    <script src="../jquery-2.0.3.js"></script>
+    <script src="../ui/jquery.ui.core.js"></script>
+    <script src="../ui/jquery.ui.widget.js"></script>
+    <script src="../jquery.mousewheel.js"></script>
+    <script src="../jquery.mCustomScrollbar.js"></script>
+    <script src="crumbselector.js"></script>
+</head>
+<body>
+    <br />
+    asdfadsf
+    <br />
+    <div style="display: block; padding-left: 0; padding-right: 30px;">
+        <div class="crumbc">some text</div>
+    </div>
+    <br />
+    <br />
+    <div style="display: block">
+        <div class="crumbc2">some text</div>
+    </div>
+    <input type="text" ckDateRange="{endSelector:'#enddate'}" />
+    <input type="text" id="enddate" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#scrollme').mCustomScrollbar();
+            var d = $('.crumbc').crumbselector({
+                walkTree: function(reflow) {
+                    reflow([
+                        {
+                            contents: '3:time out',
+                            data: { id: 5000 }
+                        },
+                        {
+                            contents: '2:no time out',
+                            data: { id: 3000 }
+                        },
+                        {
+                            contents: '1:left most node',
+                            data: { id: 2 }
+                        }]);
+                } ,
+                loadingContent: 'busy',
+                source: function (request, response) {
+                    setTimeout(function () {
+                        var returnResult = [];
+                        for (var index = 0; index < 20; index++) {
+                            returnResult.push({
+                                contents: request.data.id + ': (' + index + ')' + request.contents + 'Reeely really looooooooooooooooooooooooong description',
+                                data: { id: index * request.data.id }
+                            });
+                        }
+                        response(returnResult);
+                    }, 1000);
+                }
+            });
+            $('.crumbc2').crumbselector({
+                walkTree: function (reflow) {
+                    reflow([
+                        {
+                            contents: '23:the right most node',
+                            data: { id: 5 }
+                        },
+                        {
+                            contents: '22:next node',
+                            data: { id: 3 }
+                        },
+                        {
+                            contents: '21:left most node',
+                            data: { id: 2 }
+                        }]);
+                },
+                loadingContent: 'busy2',
+            });
+        });
+    </script>
+</body>
+</html>

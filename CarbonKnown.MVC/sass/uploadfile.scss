@@ -1,0 +1,85 @@
+@import "modules/_global";
+@import "modules/_variables";
+@import "modules/_mixins";
+@import "Compass/CSS3/border-radius";
+@import "Compass/CSS3/opacity";
+@import "partials/_navpanel";
+@import "partials/_modals";
+@import "partials/_manage-panels";
+@import "partials/_popovers";
+@import "partials/_progress-bars";
+@import "partials/_inputbutton";
+#upload-container{
+	@include default-contents;
+	margin-top:10px;
+}
+#upload-panel{
+	@include step-panel;
+	float: left;
+	div{
+		margin-bottom:5px;
+	}
+	min-height:$minheight;
+}
+#popover-content{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	max-height:65px;
+}
+#popover{
+	display:block;
+	position:relative;
+	max-width:100%;
+	max-height:125px;
+}
+#upload-files-panel{
+	@include step-panel;
+	float: right;
+	height:$minheight;
+}
+#help-button{
+	cursor:pointer;
+	@include bold-font($defaultFontSize,false);
+}
+.submit-button{
+	@include input-button;
+	float:right;
+	margin-left:10px;
+}
+.submit-button:hover{
+	@include input-button(darken($orange,5%));
+	cursor:pointer;
+}
+#step-submit-panel{
+	@include border-radius($borderRadius);
+	padding:8px 25px;
+	width:$contentWidth - 50;
+	background-color: white;
+	margin-top:10px;
+	float: right;
+}
+#drop-zone{
+	@include border-radius($borderRadius);
+	border: 1px solid $orange;
+	width:($contentWidth /2) - 70;
+	height:86px;
+	background-color:rgba($orange,0.25);
+	line-height:86px;
+	text-align:center;
+	color:$orange;
+	margin-top:5px;
+}
+.ui-state-success{
+	@include border-radius($borderRadius);
+	border: 1px solid green;
+	background-color:rgba(green,0.05);
+	color:green;
+}
+.ui-icon{
+	float:right;
+	cursor:pointer;
+	@include border-radius($borderRadius);
+}
+.ui-corner-all{
+	margin-bottom:10px;
+}

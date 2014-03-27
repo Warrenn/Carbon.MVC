@@ -1,0 +1,127 @@
+@import "Compass/CSS3/box-shadow";
+@import "Compass/CSS3/images";
+@import "Compass/CSS3";
+@import "Compass/CSS3/transition";
+@import "_animate";
+@import "_arrows";
+@import "C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/animation-0.1.alpha.3/stylesheets/_animation.scss";
+
+$font: 'Open Sans' , sans-serif;
+$defaultColor: #553714;
+$dialogWidth: 755px;
+$contentWidth:1000px;
+$BkColor: #F2EFEC;
+$borderColor: #BCBCBA;
+$defaultPadding: 20px;
+$defaultMargin:20%;
+$orange: #E6730F;
+$panelBk: rgba($defaultColor,0.1);
+$panelColor: rgba($defaultColor,0.5);
+$headingHeight:75px;
+$defaultFontSize:14px;
+$imageFontSize:12px;
+$boldFontSize:13px;
+$articleHeaderFontSize:16px;
+$numberFontSize:50px;
+$numberOfMenuItems : 8;
+$legendWidthRight:($contentWidth * 0.28) ;
+$legendSquareDimension:16px;
+$paneFactor: 0.56;
+$borderRadius:3px;
+$selectionHeight:24px;
+$stepHeight:35px;
+@mixin graph-panel{
+	@include border-radius($borderRadius);
+	background-color: white;
+	padding:15px;
+}
+@mixin line-height($size){
+	line-height:$size +4;
+}
+@mixin number-font($size:$numberFontSize){
+	font-size:$size;
+	@include line-height($size);
+	font-weight: 600;
+}
+@mixin centre-contents($text:false){
+	margin-left:auto;
+	margin-right:auto;
+	@if($text){
+		text-align: center;
+	}
+}
+@mixin default-contents{
+	width: $contentWidth;
+	@include centre-contents;
+}
+@mixin bold-font($size:$boldFontSize,$upper:true){
+	font-weight:bold;
+	font-size:$size;
+	@if($upper){
+		text-transform:uppercase;
+	}	
+}
+@mixin default-font($size: $defaultFontSize,$color: $defaultColor){
+	font-family: $font;
+	color:$color;
+	font-size:$size;
+	@include line-height($size);
+}
+@mixin form-panel($upper:true){
+	@include border-radius($borderRadius);
+	background-color: $panelBk;
+	@include bold-font($upper:$upper);
+	color: $panelColor;
+	padding-bottom:15px;
+	padding-top:15px;
+	padding-right:18px;
+	padding-left:18px;
+}
+@mixin form-input{
+	width:348px;
+	height:24px;
+	padding:5px;
+	margin:0px;
+	border: 1px solid $borderColor;
+	@include border-radius($borderRadius);
+	@include box-shadow( inset 0px 2px 2px rgba(black,0.1));
+}
+@mixin gradient($from,$to){
+    /* fallback */
+    background-color: $to;
+    /* Safari 4-5, Chrome 1-9 */
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from($from), to($to));
+    /* Safari 5.1, Chrome 10+ */
+    background: -webkit-linear-gradient(top, $from, $to);
+    /* Firefox 3.6+ */
+    background: -moz-linear-gradient(top, $from, $to);
+    /* IE 10 */
+    background: -ms-linear-gradient(top, $from, $to);
+    /* Opera 11.10+ */
+    background: -o-linear-gradient(top, $from, $to);
+}
+@mixin input-button($color:$orange,$showArrow:true,$defaultHeight:true){
+	@include gradient($color,darken($color,10%));
+	@include border-radius($borderRadius);
+	color: white;
+	font-weight: bold;
+	border-style:none;
+	border-width:0px;
+	text-transform: uppercase;
+	text-decoration: none;
+	@if($defaultHeight){
+		line-height:25px;
+		padding:5px 22px 5px 22px;
+	}
+	@if($showArrow){
+		@include right-arrow;
+	}
+}
+%listItems{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	li{
+		float: left;
+	}
+}

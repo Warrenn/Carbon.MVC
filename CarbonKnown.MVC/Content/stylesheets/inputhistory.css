@@ -1,0 +1,103 @@
+/* line 1, ../../sass/partials/_navpanel.scss */
+nav.nav-panels {
+  border-style: none;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+/* line 1, ../../sass/partials/_inputbutton.scss */
+.input-tab-button {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(85, 55, 20, 0.1);
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: rgba(85, 55, 20, 0.5);
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-right: 18px;
+  padding-left: 18px;
+  margin-right: 10px;
+  float: left;
+  white-space: nowrap;
+  height: 24px;
+  line-height: 24px;
+}
+
+/* line 10, ../../sass/partials/_inputbutton.scss */
+.input-tab-button.active,
+.input-tab-button:hover {
+  /* fallback */
+  background-color: #b65b0c;
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e6730f), to(#b65b0c));
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(top, #e6730f, #b65b0c);
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, #e6730f, #b65b0c);
+  /* IE 10 */
+  background: -ms-linear-gradient(top, #e6730f, #b65b0c);
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, #e6730f, #b65b0c);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  border-style: none;
+  border-width: 0px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  height: 24px;
+  line-height: 24px;
+}
+
+/* line 1, ../../sass/partials/_crumbs.scss */
+.bread-crumb-container {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  white-space: nowrap;
+  border-style: none;
+  height: 2.5em;
+  overflow: hidden;
+}
+
+/* line 8, ../../sass/inputhistory.scss */
+#input-history-container {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
+
+/* line 12, ../../sass/inputhistory.scss */
+#input-history-panel {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 8px 25px;
+  background-color: white;
+}
+
+/* line 17, ../../sass/inputhistory.scss */
+#input-history-table {
+  width: 100%;
+}
+
+/* line 20, ../../sass/inputhistory.scss */
+.sorting, .sorting_desc, .sorting_asc {
+  cursor: pointer;
+}

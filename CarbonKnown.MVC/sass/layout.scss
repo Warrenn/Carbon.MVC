@@ -1,0 +1,63 @@
+@import "modules/_global";
+@import "Compass/CSS3/border-radius";
+@import "base/_layout.scss";
+@import "compass/layout/sticky-footer";
+
+body, html{
+	background-color: $BkColor;
+	@include default-font;
+	margin:0;
+	padding:0;
+	height: 100%;
+}
+#main-menu{
+	float: left;
+	cursor:pointer;
+	color: $panelColor;
+	@include bold-font();
+	@extend %listItems;
+	li{
+		padding-left:$defaultPadding;
+		padding-right:$defaultPadding;
+	}
+	li:hover {
+		color: 	$defaultColor;
+	}
+}
+#seperator{
+	border-right: $defaultColor solid 1px;
+}
+#main-menu .active{
+	background-color: $panelBk;
+	color: $defaultColor;
+	border-bottom: 2px solid $orange;
+	@include top-arrow($orange);
+}
+#topright{
+	position:absolute;
+	top:0px;
+	right:0px;
+	left:50%;
+	height: $headingHeight + 2;
+	margin-left:($contentWidth / 2);
+	background-color:white;
+}
+nav{
+	width:100%;
+	border:0px;
+	border-bottom: 9px solid $defaultColor;
+}
+
+#account-box, #header-image{
+	float:right;
+	background:white;
+	a{
+		font-size:$imageFontSize;
+	}
+	padding-left:$defaultPadding;
+	@extend %listItems;
+	li{
+		padding-left: $defaultPadding * 0.3;
+		padding-right: $defaultPadding * 0.3;
+	}
+}

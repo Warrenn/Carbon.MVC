@@ -1,0 +1,28 @@
+@import "modules/_global";
+@import "Compass/CSS3/border-radius";
+@import "Compass/CSS3/opacity";
+@import "partials/_navpanel";
+@import "partials/_inputbutton";
+@include report-period{
+	width:$contentWidth - 36;
+}
+#uploadschedule-section{
+	@include default-contents;
+	margin-top:10px;
+}
+#uploadschedule-panel{
+	@include border-radius($borderRadius);
+	padding:8px 25px;
+	background-color: white;
+}
+.checklist-table{
+	width:100%;
+}
+.checkmark{
+		text-align:center;
+		color: green;
+}
+.cross{
+		text-align:center;
+		color: red;
+}

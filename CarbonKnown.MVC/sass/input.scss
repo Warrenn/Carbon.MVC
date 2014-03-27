@@ -1,0 +1,113 @@
+@import "modules/_global";
+@import "modules/_variables";
+@import "modules/_mixins";
+@import "Compass/CSS3/border-radius";
+@import "Compass/CSS3/opacity";
+@import "partials/_navpanel";
+@import "partials/_period";
+@import "partials/_modals";
+@import "partials/_inputbutton";
+@import "partials/_input-form-fields";
+
+$numberOfMenuItems : 9;
+
+@import "partials/_icons";
+ .carhire-icon{
+	@include icon(-790px,48px);
+ } 
+ .hotelnights-icon{
+	@include icon(-685px,48px);
+ }
+ .plane-icon{
+ 	@include icon(-744px,48px);
+}
+.route-input{
+	width:100px;
+}
+.route-container{
+	float:right;
+}
+#dashboard-items{
+	@include dashboard-items;
+}
+#consumption-type{
+	@include default-contents;
+	background-color:$defaultColor;
+	height:113px;
+	margin-top:10px;
+	@include border-radius($borderRadius);
+}
+#consumption-label{
+	@include bold-font($defaultFontSize);
+	color:white;
+	padding:8px 25px;
+}
+.step-label{
+	@include bold-font($defaultFontSize);
+	color:$orange;
+}
+@mixin step-panel($width:($contentWidth /2) - 55){
+	@include border-radius($borderRadius);
+	padding:8px 25px;
+	width:$width;
+	background-color: white;
+	margin-top:10px;
+}
+.step-panel-right{
+	@include step-panel;
+	float: right;
+	height: 96px;
+}
+.step-panel-left{
+	@include step-panel;
+	float: left;
+	height: 96px;
+}
+.step-submit-panel{
+	@include step-panel($contentWidth - 50);
+	float: right;
+}
+.submit-button{
+	@include input-button;
+	float:right;
+	margin-left:10px;
+}
+.submit-button:hover{
+	@include input-button(darken($orange,5%));
+	cursor:pointer;
+}
+.submit-button .left{
+	float:left;
+}
+.submit-button:hover{
+	@include input-button(darken($orange,5%));
+	cursor:pointer;
+}
+.step-field-label{
+	@include bold-font($defaultFontSize);
+	color:$defaultColor;
+}
+#input-steps{
+	@include default-contents;
+}
+div.ng-invalid, input.ng-invalid{
+	border: 1px solid #CD0A0A;
+	background-color: #FEF1EC;
+	color: #CD0A0A;
+	@include border-radius($borderRadius);
+}
+.select-error-panel{
+	margin-top:0.9em;
+}
+span.ui-icon{
+	float:left;
+}
+.side-selection{
+	float:right;
+	@include bold-font($defaultFontSize);
+	color:$defaultColor;
+	padding-left: 0.3em;
+	margin-right: 0.3em;
+}
+
+

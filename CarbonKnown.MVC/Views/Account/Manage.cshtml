@@ -1,0 +1,113 @@
+﻿@model CarbonKnown.MVC.Models.PasswordModel
+@{
+    ViewBag.Title = "Manage Account";
+    Layout = "../Shared/_LandingLayout.cshtml";
+}
+<div id="content">
+    <div class="wrap cf">
+        <div>
+            <h1>Manage Settings For @User.Identity.Name</h1>
+        </div>
+    </div>
+    @using (Html.BeginForm("Manage", "Account", FormMethod.Post, new { @id = "steps" }))
+    {
+        @Html.AntiForgeryToken()
+        <table cellpadding="1" cellspacing="1" style="width: 60%" align="center" class="Table">
+            <tbody>
+                <tr>
+                    <td colspan="2" valign="top">
+                        <table style="width: 100%">
+                            <tbody>
+                                <tr>
+                                    <td align="left" width="30%" class="style1">@Html.LabelFor(m => m.FirstName)</td>
+                                    <td align="left" width="20%">@Html.TextBoxFor(m => m.FirstName)</td>
+                                    <td align="left" width="50%">@Html.ValidationMessageFor(m => m.FirstName)</td>
+                                </tr>
+                                <tr>
+                                    <td align="left" width="30%" class="style1">@Html.LabelFor(m => m.LastName)</td>
+                                    <td align="left" width="20%">@Html.TextBoxFor(m => m.LastName)</td>
+                                    <td align="left" width="50%">@Html.ValidationMessageFor(m => m.LastName)</td>
+                                </tr>
+                                <tr>
+                                    <td align="left" width="30%" class="style1">@Html.LabelFor(m => m.Email)</td>
+                                    <td align="left" width="20%">@Html.TextBoxFor(m => m.Email)</td>
+                                    <td align="left" width="50%">@Html.ValidationMessageFor(m => m.Email)</td>
+                                </tr>
+                                <tr>
+                                    <td align="left" width="30%" class="style1">@Html.LabelFor(m => m.ChangePassword)</td>
+                                    <td align="left" width="20%">@Html.CheckBoxFor(m => m.ChangePassword, new { @id = "changePassword" })</td>
+                                    <td align="left" width="50%">@Html.ValidationMessageFor(m => m.ChangePassword)</td>
+                                </tr>
+                                <tr>
+                                    <td align="left" width="30%" class="style1">@Html.LabelFor(m => m.OldPassword)</td>
+                                    <td align="left" width="20%">@Html.PasswordFor(m => m.OldPassword, new { @id = "oldPassword" })</td>
+                                    <td align="left" width="50%">@Html.ValidationMessageFor(m => m.OldPassword)</td>
+                                </tr>
+                                <tr>
+                                    <td align="left" width="30%" class="style1">@Html.LabelFor(m => m.NewPassword)</td>
+                                    <td align="left" width="20%">@Html.PasswordFor(m => m.NewPassword, new { @id = "newPassword" })</td>
+                                    <td align="left" width="50%">@Html.ValidationMessageFor(m => m.NewPassword)</td>
+                                </tr>
+                                <tr>
+                                    <td align="left" width="30%" class="style1">@Html.LabelFor(m => m.ConfirmPassword)</td>
+                                    <td align="left" width="20%">@Html.PasswordFor(m => m.ConfirmPassword, new { @id = "confirmPassword" })</td>
+                                    <td align="left" width="50%">@Html.ValidationMessageFor(m => m.ConfirmPassword)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="submit-wrap1">
+                                            @Html.ValidationSummary()
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="submit-wrap1">
+                                            <input type="submit" value="Submit" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>
+@section styles
+{
+    @Styles.Render("~/Content/landing")
+}
+@section scripts
+{
+    @Scripts.Render(
+    "~/Scripts/jquery", 
+    "~/Scripts/jqueryvalidate", 
+    "~/Scripts/unobtrusive")
+   <script type="text/javascript">
+        (function(code) {
+            code(window.jQuery, window, document);
+        }(function ($, window, document, undefined) {
+            $(function () {
+                function setvisibility(elem) {
+                    if (elem.is(":checked")) {
+                        $('#oldPassword').removeAttr('disabled');
+                        $('#newPassword').removeAttr('disabled');
+                        $('#confirmPassword').removeAttr('disabled');
+                    } else {
+                        $('#oldPassword').attr('disabled', 'disabled');
+                        $('#newPassword').attr('disabled', 'disabled');
+                        $('#confirmPassword').attr('disabled', 'disabled');
+                    }
+                };
+                var checkbox = $('#changePassword');
+                setvisibility(checkbox);
+                checkbox.change(function () {
+                    var $this = $(this);
+                    setvisibility($this);
+                });
+            });
+        }));
+    </script>
+}

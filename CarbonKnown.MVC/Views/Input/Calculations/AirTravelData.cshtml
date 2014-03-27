@@ -1,0 +1,21 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.DAL.Models.AirTravel
+@using CarbonKnown.MVC.Controllers
+@using CarbonKnown.MVC.Models
+@model EnterDataModel
+@{
+    Layout = "../_EnterDataLayout.cshtml";
+    ViewBag.ConsumptionType = ConsumptionType.AirTravel;
+    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.AirTravelId;
+    ViewBag.DisplayType = "Air Travel";
+    ViewBag.DateLabel = "Travel Date";
+    ViewBag.UnitsAside = "<label class=\"side-selection\"> kms</label>";
+    ViewBag.InitialStep = 3;
+    var airTravelData = (Model.EntryData as AirTravelData);
+    var travelSelection = DataSelectionModel.CreateFromEnum(airTravelData, data => data.TravelClass, InputController.TravelClasses);
+    travelSelection.Label = "Travel Class";
+    travelSelection.StepNumber = 2;
+    travelSelection.CanEdit = Model.CanEdit;
+}
+@Html.Partial("_DataSelection", travelSelection)
+

@@ -1,0 +1,667 @@
+/* line 1, ../../sass/partials/_navpanel.scss */
+nav.nav-panels {
+  border-style: none;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+/* line 11, ../../sass/partials/_modals.scss */
+.modal-open {
+  overflow: hidden;
+}
+
+/* line 16, ../../sass/partials/_modals.scss */
+.modal {
+  display: none;
+  overflow: auto;
+  overflow-y: scroll;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+}
+/* line 28, ../../sass/partials/_modals.scss */
+.modal.fade .modal-dialog {
+  -webkit-transform: translate(0, -25%);
+  -ms-transform: translate(0, -25%);
+  transform: translate(0, -25%);
+  -webkit-transition: -webkit-transform 0.3s ease-out;
+  -moz-transition: -moz-transform 0.3s ease-out;
+  -o-transition: -o-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+}
+/* line 32, ../../sass/partials/_modals.scss */
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+
+/* line 36, ../../sass/partials/_modals.scss */
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+  z-index: 1050;
+}
+
+/* line 44, ../../sass/partials/_modals.scss */
+.modal-content {
+  position: relative;
+  background-color: white;
+  border: 1px solid #999999;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  background-clip: padding-box;
+  outline: none;
+}
+
+/* line 57, ../../sass/partials/_modals.scss */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+  background-color: black;
+}
+/* line 66, ../../sass/partials/_modals.scss */
+.modal-backdrop.fade {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+/* line 67, ../../sass/partials/_modals.scss */
+.modal-backdrop.in {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+
+/* line 72, ../../sass/partials/_modals.scss */
+.modal-header {
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  min-height: 16.42857px;
+}
+
+/* line 78, ../../sass/partials/_modals.scss */
+.modal-header .close {
+  margin-top: -2px;
+}
+
+/* line 83, ../../sass/partials/_modals.scss */
+.modal-title {
+  margin: 0;
+  line-height: 1.42857;
+}
+
+/* line 90, ../../sass/partials/_modals.scss */
+.modal-body {
+  position: relative;
+  padding: 20px;
+}
+
+/* line 96, ../../sass/partials/_modals.scss */
+.modal-footer {
+  margin-top: 15px;
+  padding: 19px 20px 20px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+/* line 21, ../../sass/modules/_mixins.scss */
+.modal-footer:before, .modal-footer:after {
+  content: " ";
+  display: table;
+}
+/* line 25, ../../sass/modules/_mixins.scss */
+.modal-footer:after {
+  clear: both;
+}
+/* line 104, ../../sass/partials/_modals.scss */
+.modal-footer .btn + .btn {
+  margin-left: 5px;
+  margin-bottom: 0;
+}
+/* line 109, ../../sass/partials/_modals.scss */
+.modal-footer .btn-group .btn + .btn {
+  margin-left: -1px;
+}
+/* line 113, ../../sass/partials/_modals.scss */
+.modal-footer .btn-block + .btn-block {
+  margin-left: 0;
+}
+
+@media screen and (min-width: 768px) {
+  /* line 121, ../../sass/partials/_modals.scss */
+  .modal-dialog {
+    width: 600px;
+    margin: 30px auto;
+  }
+
+  /* line 125, ../../sass/partials/_modals.scss */
+  .modal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+}
+/* line 6, ../../sass/partials/_popovers.scss */
+.popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1010;
+  display: none;
+  max-width: 276px;
+  padding: 1px;
+  text-align: left;
+  background-color: white;
+  background-clip: padding-box;
+  border: 1px solid #cccccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  white-space: normal;
+}
+/* line 26, ../../sass/partials/_popovers.scss */
+.popover.top {
+  margin-top: -10px;
+}
+/* line 27, ../../sass/partials/_popovers.scss */
+.popover.right {
+  margin-left: 10px;
+}
+/* line 28, ../../sass/partials/_popovers.scss */
+.popover.bottom {
+  margin-top: 10px;
+}
+/* line 29, ../../sass/partials/_popovers.scss */
+.popover.left {
+  margin-left: -10px;
+}
+
+/* line 32, ../../sass/partials/_popovers.scss */
+.popover-title {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 18px;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ebebeb;
+  border-radius: 5px 5px 0 0;
+}
+
+/* line 43, ../../sass/partials/_popovers.scss */
+.popover-content {
+  padding: 9px 14px;
+}
+
+/* line 53, ../../sass/partials/_popovers.scss */
+.popover .arrow, .popover .arrow:after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+
+/* line 62, ../../sass/partials/_popovers.scss */
+.popover .arrow {
+  border-width: 11px;
+}
+
+/* line 65, ../../sass/partials/_popovers.scss */
+.popover .arrow:after {
+  border-width: 10px;
+  content: "";
+}
+
+/* line 71, ../../sass/partials/_popovers.scss */
+.popover.top .arrow {
+  left: 50%;
+  margin-left: -11px;
+  border-bottom-width: 0;
+  border-top-color: #999999;
+  border-top-color: rgba(0, 0, 0, 0.25);
+  bottom: -11px;
+}
+/* line 78, ../../sass/partials/_popovers.scss */
+.popover.top .arrow:after {
+  content: " ";
+  bottom: 1px;
+  margin-left: -10px;
+  border-bottom-width: 0;
+  border-top-color: white;
+}
+/* line 86, ../../sass/partials/_popovers.scss */
+.popover.right .arrow {
+  top: 50%;
+  left: -11px;
+  margin-top: -11px;
+  border-left-width: 0;
+  border-right-color: #999999;
+  border-right-color: rgba(0, 0, 0, 0.25);
+}
+/* line 93, ../../sass/partials/_popovers.scss */
+.popover.right .arrow:after {
+  content: " ";
+  left: 1px;
+  bottom: -10px;
+  border-left-width: 0;
+  border-right-color: white;
+}
+/* line 101, ../../sass/partials/_popovers.scss */
+.popover.bottom .arrow {
+  left: 50%;
+  margin-left: -11px;
+  border-top-width: 0;
+  border-bottom-color: #999999;
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+  top: -11px;
+}
+/* line 108, ../../sass/partials/_popovers.scss */
+.popover.bottom .arrow:after {
+  content: " ";
+  top: 1px;
+  margin-left: -10px;
+  border-top-width: 0;
+  border-bottom-color: white;
+}
+/* line 117, ../../sass/partials/_popovers.scss */
+.popover.left .arrow {
+  top: 50%;
+  right: -11px;
+  margin-top: -11px;
+  border-right-width: 0;
+  border-left-color: #999999;
+  border-left-color: rgba(0, 0, 0, 0.25);
+}
+/* line 124, ../../sass/partials/_popovers.scss */
+.popover.left .arrow:after {
+  content: " ";
+  right: 1px;
+  border-right-width: 0;
+  border-left-color: white;
+  bottom: -10px;
+}
+
+@-webkit-keyframes progress-bar-stripes {
+  /* line 11, ../../sass/partials/_progress-bars.scss */
+  from {
+    background-position: 40px 0;
+  }
+
+  /* line 12, ../../sass/partials/_progress-bars.scss */
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes progress-bar-stripes {
+  /* line 17, ../../sass/partials/_progress-bars.scss */
+  from {
+    background-position: 40px 0;
+  }
+
+  /* line 18, ../../sass/partials/_progress-bars.scss */
+  to {
+    background-position: 0 0;
+  }
+}
+
+/* line 27, ../../sass/partials/_progress-bars.scss */
+.progress {
+  overflow: hidden;
+  height: 20px;
+  margin-bottom: 20px;
+  background-color: whitesmoke;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* line 37, ../../sass/partials/_progress-bars.scss */
+.progress-bar {
+  float: left;
+  width: 0%;
+  height: 100%;
+  font-size: 12px;
+  line-height: 20px;
+  color: white;
+  text-align: center;
+  background-color: #428bca;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  -webkit-transition: width 0.6s ease;
+  -moz-transition: width 0.6s ease;
+  -o-transition: width 0.6s ease;
+  transition: width 0.6s ease;
+}
+
+/* line 51, ../../sass/partials/_progress-bars.scss */
+.progress-striped .progress-bar {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-size: 40px 40px;
+}
+
+/* line 57, ../../sass/partials/_progress-bars.scss */
+.progress.active .progress-bar {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+  -moz-animation: progress-bar-stripes 2s linear infinite;
+  -ms-animation: progress-bar-stripes 2s linear infinite;
+  -o-animation: progress-bar-stripes 2s linear infinite;
+  animation: progress-bar-stripes 2s linear infinite;
+}
+
+/* line 66, ../../sass/partials/_progress-bars.scss */
+.progress-bar-success {
+  background-color: #5cb85c;
+}
+/* line 545, ../../sass/modules/_mixins.scss */
+.progress-striped .progress-bar-success {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+
+/* line 70, ../../sass/partials/_progress-bars.scss */
+.progress-bar-info {
+  background-color: #5bc0de;
+}
+/* line 545, ../../sass/modules/_mixins.scss */
+.progress-striped .progress-bar-info {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+
+/* line 74, ../../sass/partials/_progress-bars.scss */
+.progress-bar-warning {
+  background-color: #f0ad4e;
+}
+/* line 545, ../../sass/modules/_mixins.scss */
+.progress-striped .progress-bar-warning {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+
+/* line 78, ../../sass/partials/_progress-bars.scss */
+.progress-bar-danger {
+  background-color: #d9534f;
+}
+/* line 545, ../../sass/modules/_mixins.scss */
+.progress-striped .progress-bar-danger {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+
+/* line 1, ../../sass/partials/_inputbutton.scss */
+.input-tab-button {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(85, 55, 20, 0.1);
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: rgba(85, 55, 20, 0.5);
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-right: 18px;
+  padding-left: 18px;
+  margin-right: 10px;
+  float: left;
+  white-space: nowrap;
+  height: 24px;
+  line-height: 24px;
+}
+
+/* line 10, ../../sass/partials/_inputbutton.scss */
+.input-tab-button.active,
+.input-tab-button:hover {
+  /* fallback */
+  background-color: #b65b0c;
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e6730f), to(#b65b0c));
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(top, #e6730f, #b65b0c);
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, #e6730f, #b65b0c);
+  /* IE 10 */
+  background: -ms-linear-gradient(top, #e6730f, #b65b0c);
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, #e6730f, #b65b0c);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  border-style: none;
+  border-width: 0px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  height: 24px;
+  line-height: 24px;
+}
+
+/* line 12, ../../sass/uploadfile.scss */
+#upload-container {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
+
+/* line 16, ../../sass/uploadfile.scss */
+#upload-panel {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 8px 25px;
+  width: 445px;
+  background-color: white;
+  float: left;
+  min-height: 382px;
+}
+/* line 19, ../../sass/uploadfile.scss */
+#upload-panel div {
+  margin-bottom: 5px;
+}
+
+/* line 24, ../../sass/uploadfile.scss */
+#popover-content {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 65px;
+}
+
+/* line 29, ../../sass/uploadfile.scss */
+#popover {
+  display: block;
+  position: relative;
+  max-width: 100%;
+  max-height: 125px;
+}
+
+/* line 35, ../../sass/uploadfile.scss */
+#upload-files-panel {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 8px 25px;
+  width: 445px;
+  background-color: white;
+  float: right;
+  height: 382px;
+}
+
+/* line 40, ../../sass/uploadfile.scss */
+#help-button {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* line 44, ../../sass/uploadfile.scss */
+.submit-button {
+  /* fallback */
+  background-color: #b65b0c;
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e6730f), to(#b65b0c));
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(top, #e6730f, #b65b0c);
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, #e6730f, #b65b0c);
+  /* IE 10 */
+  background: -ms-linear-gradient(top, #e6730f, #b65b0c);
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, #e6730f, #b65b0c);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  border-style: none;
+  border-width: 0px;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 25px;
+  padding: 5px 22px 5px 22px;
+  position: relative;
+  float: right;
+  margin-left: 10px;
+}
+/* line 3, ../../sass/modules/_arrows.scss */
+.submit-button:after {
+  border-left: 5px solid white;
+  border-top: 5px solid rgba(0, 0, 0, 0);
+  border-bottom: 5px solid rgba(0, 0, 0, 0);
+  position: absolute;
+  content: " ";
+  bottom: 50%;
+  margin-bottom: -5px;
+  right: 10px;
+}
+
+/* line 49, ../../sass/uploadfile.scss */
+.submit-button:hover {
+  /* fallback */
+  background-color: #9e4f0a;
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ce670d), to(#9e4f0a));
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(top, #ce670d, #9e4f0a);
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, #ce670d, #9e4f0a);
+  /* IE 10 */
+  background: -ms-linear-gradient(top, #ce670d, #9e4f0a);
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, #ce670d, #9e4f0a);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  border-style: none;
+  border-width: 0px;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 25px;
+  padding: 5px 22px 5px 22px;
+  position: relative;
+  cursor: pointer;
+}
+/* line 3, ../../sass/modules/_arrows.scss */
+.submit-button:hover:after {
+  border-left: 5px solid white;
+  border-top: 5px solid rgba(0, 0, 0, 0);
+  border-bottom: 5px solid rgba(0, 0, 0, 0);
+  position: absolute;
+  content: " ";
+  bottom: 50%;
+  margin-bottom: -5px;
+  right: 10px;
+}
+
+/* line 53, ../../sass/uploadfile.scss */
+#step-submit-panel {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 8px 25px;
+  width: 950px;
+  background-color: white;
+  margin-top: 10px;
+  float: right;
+}
+
+/* line 61, ../../sass/uploadfile.scss */
+#drop-zone {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #e6730f;
+  width: 430px;
+  height: 86px;
+  background-color: rgba(230, 115, 15, 0.25);
+  line-height: 86px;
+  text-align: center;
+  color: #e6730f;
+  margin-top: 5px;
+}
+
+/* line 72, ../../sass/uploadfile.scss */
+.ui-state-success {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid green;
+  background-color: rgba(0, 128, 0, 0.05);
+  color: green;
+}
+
+/* line 78, ../../sass/uploadfile.scss */
+.ui-icon {
+  float: right;
+  cursor: pointer;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+
+/* line 83, ../../sass/uploadfile.scss */
+.ui-corner-all {
+  margin-bottom: 10px;
+}

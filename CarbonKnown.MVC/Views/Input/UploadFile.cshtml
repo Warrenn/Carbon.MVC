@@ -1,0 +1,115 @@
+﻿@using CarbonKnown.MVC
+@model CarbonKnown.DAL.Models.UserProfile
+@{
+    Layout = "../Shared/_InputLayout.cshtml";
+    ViewBag.Title = "Upload File Data";
+    ViewBag.InputMenu = "UploadFile";
+    ViewBag.ngApp = "Upload";
+    ViewBag.ngBodyCtrl = "Controller";
+}
+@section Styles
+{
+    @Styles.Render(
+    "~/Content/jqueryui",
+    "~/Content/uploadfile")
+}
+<section id="upload-container">
+    <div id="upload-panel">
+        <div style="width: auto">
+            <label>Please select upload type</label>
+            <span>
+                <select ng-disabled="uploads.length" id="filetypes" ng-model="fileHandler" ng-options="h.name for h in fileTypes">
+                </select>
+                <span id="help-button" ng-if="!showhelp" ng-click="toggleHelp()">?</span>
+            </span>
+            <div class="popover bottom fade in" ng-if="showhelp" id="popover">
+                <div class="arrow"></div>
+
+                <div class="popover-inner">
+                    <h3 class="popover-title">{{fileHandler.name}}<span class="ui-icon ui-icon-closethick" ng-click="toggleHelp()"></span></h3>
+                    <div id="popover-content" class="popover-content" ck-scroll="scrollOptions" ng-bind-html="fileHandler.description">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>Notes:</div>
+        <div>
+            <textarea ng-disabled="uploads.length" id="Notes" name="ReferenceNotes" cols="50" rows="3" ng-model="referenceNotes"></textarea>
+        </div>
+        <div>
+            <input name="files" type="file" ng-file-select="onFileSelect($files)" multiple />
+        </div>
+        <div>
+            <div ng-show="dropSupported" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" id="drop-zone">Drop Zone</div>
+            <div ng-show="!dropSupported" class="ng-hide">HTML5 Drop File is not supported on this browser</div>
+        </div>
+    </div>
+    <div id="upload-files-panel" ck-scroll="scrollOptions">
+        <div ng-repeat="uploadItem in uploads" class="ui-corner-all {{panelClass(uploadItem)}}">
+            <div>
+                {{uploadItem.name}}
+                <span class="ui-icon ui-icon-closethick" ng-click="cancelItem($index)"></span>
+                <span class="ng-hide ui-icon ui-icon-alert " ng-show="showError(uploadItem)"></span>
+            </div>
+            <div>
+                <progressbar class="progress-striped" value="uploadItem.progress" type="{{progressType(uploadItem)}}">{{uploadItem.progress}}%</progressbar>
+            </div>
+            <ul>
+                <li ng-repeat="message in uploadItem.errors">{{message}}</li>
+            </ul>
+        </div>
+    </div>
+    <div id="step-submit-panel">
+        <a class="submit-button ng-hide" ng-show="showSubmit()" ng-click="submit()">Extract Data</a>
+        <a class="submit-button" ng-click="cancelAll()">Cancel</a>
+    </div>
+</section>
+<script id="ModalResult.html" type="text/ng-template">
+<div class="modal-body">
+    <div>The following files have been scheduled for extraction</div>
+    <ul>
+        <li ng-repeat="name in fileNames">{{name}}</li>
+    </ul>
+    <div>When the extraction is complete an email will be sent to @Model.Email with a link to calculate the emissions.</div>
+</div>
+<div class="modal-footer">
+    <a ng-click="close()" ng-if="showClose" class="submit-button left">Close</a>
+</div>
+</script>
+@section scripts
+{
+    @Scripts.Render(
+        "~/Scripts/jquery",
+        "~/Scripts/mousewheel",
+        "~/Scripts/fileapishim",
+        "~/Scripts/angular",
+        "~/Scripts/fileapi",
+        "~/Scripts/uibootstrap",
+        "~/Scripts/angular-resource",
+        "~/Scripts/angular-sanitize",
+        "~/Scripts/angularanimate",
+        "~/Scripts/upload")
+    <script type="text/javascript">
+        (function (readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function (window, document, angular, $, undefined) {
+            'use strict';
+
+            angular
+                .module('Upload')
+                .constant('Urls', {
+                    extract: '@Url.HttpRouteUrl("ExtractData", new { sourceId = ":sourceId" })',
+                    cancel: '@Url.HttpRouteUrl("CancelFile", new { sourceId = ":sourceId" })',
+                    upload: '@Url.HttpRouteUrl("UploadFile", new { })',
+                    inputHistory: '@Url.RouteUrl("inputhistory", new { })'
+                })
+                .constant('FileTypes', [
+                    @for (var index = 0; index < UploadConfig.Instance.FileTypes.Count; index++)
+                    {
+                        var type = UploadConfig.Instance.FileTypes[index];
+                        @:{ handler: '@type.Handler', name: '@type.DisplayName', description: '@(Html.Raw(Server.HtmlDecode(type.Description)))' },
+                    }
+                ]);
+        }));
+    </script>
+}

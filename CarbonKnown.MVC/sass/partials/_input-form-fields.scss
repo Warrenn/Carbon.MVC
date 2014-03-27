@@ -1,0 +1,25 @@
+.step-input{
+	float:right;
+	width: ($contentWidth /4);
+}
+input.step-input{
+	@include border-radius($borderRadius);
+	height: 20px;
+	border:$borderColor solid 1px;
+	text-align: right;
+	padding-right:10px;
+	width: ($contentWidth /4) - 10;
+}
+textarea{
+	@include border-radius($borderRadius);
+	border:$borderColor solid 1px;
+	width: ($contentWidth /2) - 46;
+	height: 48px;
+	@include default-font();
+}
+div.ng-invalid, input.ng-invalid{
+	border: 1px solid #CD0A0A;
+	background-color: #FEF1EC;
+	color: #CD0A0A;
+	@include border-radius($borderRadius);
+}

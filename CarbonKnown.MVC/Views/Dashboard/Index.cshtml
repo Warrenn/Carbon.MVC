@@ -1,0 +1,124 @@
+﻿@using CarbonKnown.MVC.BLL
+@using CarbonKnown.MVC.Models
+@using CarbonKnown.MVC.Properties
+@model DashboardRequest
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.MainMenu = "Dashboard";
+    ViewBag.ngApp = "Dashboard";
+    ViewBag.ngBodyCtrl = "Controller";
+}
+@section Styles
+{
+    @Styles.Render(
+    "~/Content/jqueryui",
+    "~/Content/dashboard")
+}
+<nav class="dashboard">
+    <ul id="dashboard-items">
+        @foreach (var configuration in SliceService.Configurations)
+        {
+            var name = Enum.GetName(typeof (Section), configuration.Key);
+            <li ng-class="{'active': request.section==='@name'}" hover-class="hover" ng-click="redirect({'section':'@name',dimension:'ActivityGroup',activityGroupId:null,costCode:'@Settings.Default.RootCostCentre'})">
+                <span class="@name.ToLower()-icon"></span>
+                <div>@configuration.Value.DisplayName</div>
+            </li>
+        }
+    </ul>
+</nav>
+<nav class="nav-panels">
+    <div id="report-period">
+        <label>Reporting Period</label>
+        <input type="text" id="report-period-fromdate" ui-date="startDateOptions" ng-model="request.startDate" class="date-box" />
+        <label>-</label>
+        <input type="text" class="date-box" ng-model="request.endDate" ui-date="endDateOptions" id="report-period-todate" />
+    </div>
+    <div id="advanced-search" hover-class="hover" ng-click="toggleSearch()" ng-class="{'search-open': searchOpen,'search-closed': !searchOpen}" >Advanced Search</div>
+    <div id="print-panel" hover-class="hover" >
+        <div id="print-jpg" hover-class="hover" ng-click="print('@Url.Action("PrintJpg")')" >JPG</div>
+        <div id="print-pdf" hover-class="hover" ng-click="print('@Url.Action("PrintPdf")')" >PDF</div>
+    </div>
+</nav>
+<nav class="bread-crumb-container" ng-hide="!searchOpen && (request.dimension !== 'ActivityGroup')">
+    <ck-crumb-selector tree-walk-data="activityTreeWalkData" load-children="loadActivityChildren" node-selected="activityNodeSelected" />
+</nav>
+<nav class="bread-crumb-container" ng-hide="!searchOpen && (request.dimension !== 'CostCentre')">
+    <ck-crumb-selector tree-walk-data="costCentreTreeWalkData" load-children="loadCostCentreChildren" node-selected="costCentreNodeSelected" />
+</nav>
+<section id="content-section">
+    <section id="left-article">
+        <section class="side-panel" ng-class="{'loading-image': loadingSummary}" ng-hide="!summaryData || !summaryData.displayTotal" >
+            <header>Total</header>
+            <h1 ck-resize ng-bind="summaryData.total | ckCurrency:' '"></h1>
+            <div class="side-panel-footnote" ng-bind-html="summaryData.co2label"></div>
+        </section>
+        <section class="side-panel" ng-class="{'loading-image': loadingSummary}" >
+            <header>Total Consumption Cost</header>
+            <h1 ng-repeat="currency in summaryData.currencies" class="highlight" ck-resize ng-bind-html="currency"  ></h1>
+        </section>
+        <section class="side-panel" ng-class="{'loading-image': loadingSummary}"  ng-hide="!summaryData || !summaryData.displayTotal">
+            <header>YEAR-ON-YEAR COMPARISON</header>
+            <h1  class="highlight" ck-resize="44" ng-class="{'change-decrease': summaryData.yoy<=0,'change-increase': summaryData.yoy>0}" class="dashboard-legend-item" ng-bind="summaryData.yoy | ckPercent"></h1>
+            <div class="side-panel-footnote date-footnote" ng-bind="dateRange"></div>
+        </section>
+    </section>
+    <section id="right-article"  ng-class="{'loading-image': loadingGraphData}">
+        <div id="chart-container">
+             <div id="chart-tooltip"  ng-cloak><div>{{chartTooltipHeading}}</div><div>{{chartTooltipValue}}</div></div>
+            <highchart id="mainChart" chart="chart"config="chartConfig" />
+       </div>
+        <div id="legend-container" ck-scroll="scrollOptions" ck-scroll-to="scrollTo">
+            <ul id="chart-legend">
+                <li ng-repeat="slice in slices" id="{{slice.sliceId}}" data="{{summaryData.yoy}}" class="dashboard-legend-item">
+                    <div  ng-mouseenter="legendOver($index)" ng-click="sliceClicked(slice)" class="legend-square" ng-attr-style="background-color: #{{slice.color}};">
+                    </div>
+                    <div class="legend-description-container">
+                        <header ng-click="sliceClicked(slice)" ng-mouseenter="legendOver($index)">
+                            <span class="legend-title" ck-overflow="100" ng-bind="slice.title"></span>
+                            <span class="legend-seperator" ng-cloak></span>
+                            <span class="legend-amount" ng-bind="slice.amount | ckCurrency:' '"></span>
+                            <span class="legend-amount" ng-bind-html="slice.co2label"></span>
+                        </header>
+                        <span class="legend-description" ng-bind="slice.description"></span>
+                        <span ng-if="slice.units && slice.uom" ng-bind-html="'(' + (slice.units | ckCurrency:' ') + ' ' + slice.uom + ' )'" ></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+</section>
+@section Scripts
+{
+    @Scripts.Render(
+    "~/Scripts/jquery", 
+    "~/Scripts/jqueryui", 
+    "~/Scripts/mousewheel", 
+    "~/Scripts/charts", 
+    "~/Scripts/angular", 
+    "~/Scripts/angularuijs", 
+    "~/Scripts/angular-resource", 
+    "~/Scripts/angular-route", 
+    "~/Scripts/angular-sanitize", 
+    "~/Scripts/angularanimate",
+    "~/Scripts/dashboard")
+    <script type="text/javascript">
+        (function(readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function(window, document, angular, $, undefined) {
+            'use strict';
+
+            angular
+                .module('Dashboard')
+                .constant('DashboardUrl', '@Url.Content("~/dashboard")')
+                .constant('ApiUrl', '@Url.Content("~/api")')
+                .constant('InitialRequest', {
+                    costCode: '@Model.CostCode',
+                    activityGroupId: '@Model.ActivityGroupId',
+                    startDate: new Date('@Model.StartDate.ToString("yyyy-MM-ddT00:00:00.00Z")'),
+                    endDate: new Date('@Model.EndDate.ToString("yyyy-MM-ddT00:00:00.00Z")'),
+                    dimension: '@Model.Dimension',
+                    section: '@Model.Section'
+                });
+        }));
+    </script>
+}

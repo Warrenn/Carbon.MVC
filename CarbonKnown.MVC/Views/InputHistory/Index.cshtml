@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "../Shared/_InputLayout.cshtml";
+    ViewBag.Title = "Input History";
+    ViewBag.InputMenu = "Index";
+}
+@section Styles
+{
+    @Styles.Render("~/Content/inputhistory")
+}
+@section Scripts
+{
+    @Scripts.Render(
+    "~/Scripts/jquery", 
+    "~/Scripts/datatable", 
+    "~/Scripts/viewsinputindex")
+    <script type="text/javascript">
+        (function(readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function(window, document, angular, $, undefined) {
+            'use strict';
+            window.$$InitialData = {
+                historyUrl: '@Url.RouteUrl(new { controller = "InputHistory", action = "History" })'
+            };
+        }));
+    </script>
+}
+<section id="input-history-container">
+    <div id="input-history-panel">
+        <table id="input-history-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Edit Date</th>
+                    <th>User Name</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</section>

@@ -1,0 +1,27 @@
+@import "modules/_global";
+@import "Compass/CSS3/border-radius";
+@import "Compass/CSS3/opacity";
+@import "partials/_navpanel";
+@import "partials/_inputbutton";
+@import "partials/_crumbs";
+@import "partials/_period";
+
+@include report-period{
+	width:$contentWidth - 36;
+}
+#overview-report-section{
+	@include default-contents;
+	margin-top:10px;
+}
+#audit-history-container{
+	@include default-contents;
+	margin-top:10px;
+}
+#audit-history-panel{
+	@include border-radius($borderRadius);
+	padding:8px 25px;
+	background-color: white;
+}
+#audit-history-table{
+	width:100%;
+}

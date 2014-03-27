@@ -1,0 +1,21 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.DAL.Models.Electricity
+@using CarbonKnown.MVC.Controllers
+@using CarbonKnown.MVC.Models
+@model EnterDataModel
+@{
+    Layout = "../_EnterDataLayout.cshtml";
+    ViewBag.ConsumptionType = ConsumptionType.Electricity;
+    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.ElectricityId;
+    ViewBag.DisplayType = "Electricity";
+    ViewBag.InitialStep = 3;
+    ViewBag.UnitsAside = "<label class=\"side-selection\"> kWh</label>";
+    var electricityModel = (Model.EntryData as ElectricityData);
+
+
+    var selectionSettings = DataSelectionModel.CreateFromEnum(electricityModel, m => m.ElectricityType, InputController.ElectricityTypes);
+    selectionSettings.Label = "Electricity Factor";
+    selectionSettings.StepNumber = 2;
+    selectionSettings.CanEdit = Model.CanEdit;
+}
+@Html.Partial("_DataSelection", selectionSettings)

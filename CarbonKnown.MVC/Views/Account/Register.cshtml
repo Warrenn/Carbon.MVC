@@ -1,0 +1,70 @@
+﻿@model CarbonKnown.MVC.Models.RegisterModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "../Shared/_LandingLayout.cshtml";
+}
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new {@id = "steps"}))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-item">
+        @Html.ValidationMessage(string.Empty)
+    </div>
+    <div class="form-item">
+        @Html.LabelFor(m => m.FirstName)
+        @Html.TextBoxFor(m => m.FirstName,new{@class="form-input"})
+        @Html.ValidationMessageFor(m => m.FirstName)
+    </div>
+    <div class="form-item">
+        @Html.LabelFor(m => m.LastName)
+        @Html.TextBoxFor(m => m.LastName,new{@class="form-input"})
+        @Html.ValidationMessageFor(m => m.LastName)
+    </div>
+    <div class="form-item">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email,new{@class="form-input"})
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+    <div class="form-item">
+        @Html.LabelFor(m => m.UserName)
+        @Html.TextBoxFor(m => m.UserName,new{@class="form-input"})
+        @Html.ValidationMessageFor(m => m.UserName)
+    </div>
+    <div class="form-item">
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password,new{@class="form-input"})
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+    <div class="form-item">
+        @Html.LabelFor(m => m.ConfirmPassword)
+        @Html.PasswordFor(m => m.ConfirmPassword,new{@class="form-input"})
+        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+    </div>
+    <div class="form-item">
+        <div class="form-button-container">
+            <a class="form-button" id="btnSubmit">Submit</a>
+            <a class="form-button" id="btnRegister" href="@Url.Action("Login","Account")" >Cancel</a>
+        </div>
+    </div>
+}
+@section styles
+{
+    @Styles.Render("~/Content/landing")
+}
+@section scripts
+{
+    @Scripts.Render(
+    "~/Scripts/jquery", 
+    "~/Scripts/jqueryvalidate", 
+    "~/Scripts/unobtrusive")
+    <script type="text/javascript">
+        (function(readyfunction) {
+            readyfunction(window.jQuery, window, document, undefined);
+        }(function($, window, document) {
+            $(function() {
+                $('#btnSubmit').click(function () {
+                    $('form').submit();
+                });
+            });
+        }));
+    </script>
+}

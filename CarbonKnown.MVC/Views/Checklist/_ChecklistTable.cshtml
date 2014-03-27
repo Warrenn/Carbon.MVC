@@ -1,0 +1,49 @@
+﻿@using CarbonKnown.MVC.Models
+@model ChecklistTableViewModel
+@functions
+{
+
+    private IHtmlString CheckMark(bool containsValues)
+    {
+        return Html.Raw(containsValues ?
+                            "<div class=\"checkmark\" >&#x2713;</div>" :
+                            "<div class=\"cross\" >&#x2717;</div>");
+    }
+
+}
+<table class="checklist-table">
+    <thead>
+        <tr>
+            <th>@Model.Heading</th>
+            @foreach (var column in Model.Rows.First().Columns)
+            {
+                <th>@column.Heading</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Model.Rows)
+        {
+            <tr>
+                <td>@Html.ActionLink(row.Heading,"Index","TraceSource", new
+                        {
+                            startDate = Model.StartDate.ToString("yyyy-MM-ddT00:00:00"), 
+                            endDate = Model.EndDate.ToString("yyyy-MM-ddT00:00:00"), 
+                            costCode = row.CostCode, 
+                            activityGroupId = (Guid?)null
+                        }, new { })</td>
+                @foreach (var column in row.Columns)
+                {
+                    <td><a href="@Url.Action("Index","TraceSource",new
+                                     {
+                                         startDate = Model.StartDate.ToString("yyyy-MM-ddT00:00:00"), 
+                                         endDate = Model.EndDate.ToString("yyyy-MM-ddT00:00:00"), 
+                                         costCode = row.CostCode, 
+                                         activityGroupId = column.ActivitiyId
+                                     })">@CheckMark(column.ContainsValues)</a></td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+

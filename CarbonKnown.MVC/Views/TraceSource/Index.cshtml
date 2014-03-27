@@ -1,0 +1,97 @@
+﻿@using CarbonKnown.MVC.Code
+@using CarbonKnown.MVC.Constants
+@model CarbonKnown.MVC.Models.AuditHistoryModel
+@{
+    Layout = "../Shared/_InputLayout.cshtml";
+    ViewBag.Title = "Trace Data Source";
+    ViewBag.InputMenu = "TraceSource";
+    ViewBag.ngApp = "TraceSource";
+    ViewBag.ngBodyCtrl = "Controller";
+}
+@section Styles
+{
+    @Styles.Render(
+    "~/Content/jqueryui",
+    "~/Content/tracesource")
+}
+@section Scripts
+{
+    @Scripts.Render(
+    "~/Scripts/jquery",
+    "~/Scripts/jqueryui",
+    "~/Scripts/angular",
+    "~/Scripts/angularuijs",
+    "~/Scripts/angular-resource",
+    "~/Scripts/tracesource")
+    <script type="text/javascript">
+        (function (readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function (window, document, angular, $, undefined) {
+            'use strict';
+
+            angular
+                .module('TraceSource')
+                .constant('ApiUrl', '@Url.Content("~/api")')
+                .constant('InitialRequest', {
+                    costCode: '@Model.CostCode',
+                    activityGroupId: '@Model.ActivityGroupId',
+                    startDate: new Date('@Model.StartDate.ToString("yyyy-MM-ddT00:00:00.00Z")'),
+                    endDate: new Date('@Model.EndDate.ToString("yyyy-MM-ddT00:00:00.00Z")'),
+                });
+        }));
+    </script>
+}
+<nav class="nav-panels">
+    <div id="report-period">
+        <label>Reporting Period</label>
+        <input type="text" id="report-period-fromdate" ui-date="startDateOptions" ng-model="startDate" class="date-box" />
+        <label>-</label>
+        <input type="text" class="date-box" ng-model="endDate" ui-date="endDateOptions" id="report-period-todate" />
+    </div>
+</nav>
+<nav class="bread-crumb-container">
+    <ck-crumb-selector tree-walk-data="activityTreeWalkData" load-children="loadActivityChildren" node-selected="activityNodeSelected" />
+</nav>
+<nav class="bread-crumb-container">
+    <ck-crumb-selector tree-walk-data="costCentreTreeWalkData" load-children="loadCostCentreChildren" node-selected="costCentreNodeSelected" />
+</nav>
+<section id="audit-history-container">
+    <div id="audit-history-panel">
+        <table id="audit-history-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Edit Date</th>
+                    <th>User Name</th>
+                    <th>Units</th>
+                    <th>Emissions</th>
+                    <th>Cost</th>
+                    <th>HandlerName</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var auditEntry in Model.History)
+                {
+                    <tr>
+                        <td>
+                            @if (File.Exists(auditEntry.CurrentFileName))
+                            {
+                                <a href="@Url.HttpRouteUrl("filedownload", new {auditEntry.SourceId})">@auditEntry.Name</a>
+                            }
+                            else
+                            {
+                                @Html.RouteLink(auditEntry.Name, "editsource", new { auditEntry.SourceId })
+                            }
+                        </td>
+                        <td>@string.Format("{0:" + Constants.DateFormat + "}", auditEntry.DateEdit)</td>
+                        <td>@auditEntry.UserName</td>
+                        <td>@Html.FormatNumber(auditEntry.Units)</td>
+                        <td>@Html.FormatNumber(auditEntry.Emissions)</td>
+                        <td>@Html.FormatNumber(auditEntry.Cost)</td>
+                        <td>@Html.RouteLink(auditEntry.Name, new { controller = "Input", action = "EditSource", sourceId = auditEntry.SourceId })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

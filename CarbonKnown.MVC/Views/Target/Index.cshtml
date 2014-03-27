@@ -1,0 +1,154 @@
+﻿@using CarbonKnown.MVC.Models
+@using CarbonKnown.MVC.Properties
+@model CheckListModel
+@{
+    Layout = "../Shared/_ManageLayout.cshtml";
+    ViewBag.Title = "Manage Targets";
+    ViewBag.ManageMenu = "Targets";
+    ViewBag.ngApp = "Targets";
+    ViewBag.ngBodyCtrl = "Controller";
+}
+@section Styles
+{
+    @Styles.Render(
+    "~/Content/select2",
+    "~/Content/jqueryui",
+    "~/Content/target")
+}
+@section Scripts
+{
+    @{
+        var today = DateTime.Today;
+        var startDate = new DateTime(today.Year, today.Month, 1);
+        var endDate = startDate.AddMonths(1).AddDays(-1);
+    }
+    @Scripts.Render(
+    "~/Scripts/jquery",
+    "~/Scripts/jqueryui",
+    "~/Scripts/angular",
+    "~/Scripts/select2",
+    "~/Scripts/angularuijs",
+    "~/Scripts/uibootstrap",
+    "~/Scripts/angular-resource",
+    "~/Scripts/target")
+    <script type="text/javascript">
+        (function (readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function (window, document, angular, $, undefined) {
+            'use strict';
+
+            angular
+                .module('Targets')
+                .constant('Urls', {
+                    activityChildren: '@Url.HttpRouteUrl("ChildrenActivityGroup", new { })',
+                    costCentreChildren: '@Url.HttpRouteUrl("ChildrenCostCentre", new { })',
+                    activityTreeWalk: '@Url.HttpRouteUrl("TreeWalkActivity", new { })',
+                    costCentreTreeWalk: '@Url.HttpRouteUrl("TreeWalkCostCentre", new { })',
+                    'delete': '@Url.Action("DeleteTarget")',
+                    targets: '@Url.Action("Targets")',
+                    upsert: '@Url.Action("UpsertTarget")'
+                })
+                .constant('InitialData', {
+                    initialDate: new Date('@startDate.ToString("yyyy-MM-dd")'),
+                    targetDate: new Date('@endDate.ToString("yyyy-MM-dd")'),
+                    rootCostCode: '@Settings.Default.RootCostCentre'
+                });
+        }));
+    </script>
+}
+<section id="manage-container">
+    <div id="manage-list-panel">
+        <div id="target-list" ck-scroll="scrollOptions">
+            <div hover-class="hover" ng-repeat="target in targets" class="target-item" ng-click="selectTarget(target)">
+                <span class="item-action-container">
+                    <a class="item-action" ng-click="remove(target)">&#10006;</a>
+                </span>
+                <div>Activity:{{target.activityGroupName}} </div>
+                <div>Cost Centre:{{target.costCentreName}}</div>
+            </div>
+        </div>
+        <div id="add-new-panel">
+            <a ng-click="addNew()" class="submit-button">Add New</a>
+        </div>
+    </div>
+    <div id="manage-item-panel">
+        <form name="form">
+            <table id="edit-table">
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <div class="modal-step">
+                                <ck-crumb-selector tree-walk-data="activityTreeWalkData" load-children="loadActivityChildren" node-selected="activityNodeSelected" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="modal-step">
+                                <ck-crumb-selector tree-walk-data="costCentreTreeWalkData" load-children="loadCostCentreChildren" node-selected="costCentreNodeSelected" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label class="step-field-label">Initial Date</label>
+                            <input ui-date="startDateOptions" class="date-box" name="initialDate" ng-model="initialDate" />
+                            <label class="step-field-label">Target Date</label>
+                            <input ui-date="endDateOptions" class="date-box" name="targetDate" ng-model="targetDate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="step-field-label">Target Type</td>
+                        <td>
+                            <select ui-select2 class="step-input" ng-model="targetType" required  >
+                                <option ng-selected="targetType == 'CarbonEmissions'" value="CarbonEmissions">Carbon Emissions</option>
+                                <option ng-selected="targetType == 'Money'" value="Money">Money</option>
+                                <option ng-selected="targetType == 'Units'" value="Units">Units</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="step-field-label">Initial Amount</td>
+                        <td>
+                            <input class="step-input" type="number" step="any" required ng-model="initialAmount" /></td>
+                    </tr>
+                    <tr>
+                        <td class="step-field-label">Target Amount</td>
+                        <td>
+                            <input class="step-input" type="number" step="any" required ng-model="targetAmount" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="step-submit-panel">
+        <a ng-click="submitForm()" ng-if="form.$valid" class="submit-button">Submit</a>
+        <a ng-click="cancelForm()" class="submit-button">Cancel</a>
+    </div>
+</section>
+<script type="text/ng-template" id="ModalDelete.html">
+    <div class="modal-body">
+        <div >Are you sure you want to delete target?</div>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="delete(target)" class="submit-button">Delete</a>
+        <a ng-click="close()"  class="submit-button">Close</a>
+    </div>
+</script>
+<script type="text/ng-template" id="ModalUpsert.html">
+    <div class="modal-body">
+        <div >Are you sure you want to {{action}} target  with the following values?</div>
+        <div >Initial Date: {{target.initialDate | date:'dd/MM/yyyy'}}</div>
+        <div >Target Date: {{target.targetDate | date:'dd/MM/yyyy'}}</div>
+        <div >Initial Amount: {{target.initialAmount}}</div>
+        <div >Target Amount: {{target.targetAmount}}</div>
+        <div >Target Type: {{target.targetType}}</div>
+        <div >Activity Group: {{target.activityGroupName}}</div>
+        <div >Cost Centre: {{target.costCentreName}}</div>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="upsert(target)" class="submit-button">Submit</a>
+        <a ng-click="close()"  class="submit-button">Close</a>
+    </div>
+</script>
+

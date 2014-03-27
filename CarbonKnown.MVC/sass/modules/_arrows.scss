@@ -1,0 +1,39 @@
+@mixin right-arrow($color:white,$size:5px,$indent:10px){
+	position:relative;
+	&:after{
+		border-left:$size solid $color;
+		border-top:$size solid rgba(black,0);
+		border-bottom:$size solid rgba(black,0);
+		position:absolute;
+		content:" ";
+		bottom:50%;
+		margin-bottom:-$size;
+		right: $indent;
+	}
+}
+@mixin top-arrow($color:white,$size:5px,$indent:0px){
+	position:relative;
+	&:after{
+		border-bottom:$size solid $color;
+		border-left:$size solid rgba(black,0);
+		border-right:$size solid rgba(black,0);
+		position:absolute;
+		content:"";
+		right:50%;
+		margin-right:-$size;
+		bottom: $indent;
+	}
+}
+@mixin bottom-arrow($color:white,$size:5px,$indent:0px){
+	position:relative;
+	&:after{
+		border-top:$size solid $color;
+		border-left:$size solid rgba(black,0);
+		border-right:$size solid rgba(black,0);
+		position:absolute;
+		content:"";
+		right:50%;
+		margin-right:-$size;
+		bottom: $indent;
+	}
+}

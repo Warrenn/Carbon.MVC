@@ -1,0 +1,15 @@
+nav.nav-panels{
+	border-style:none;
+	@include default-contents();
+	margin-top: 10px;
+	overflow:hidden;
+}
+@mixin report-period{
+	#report-period{
+		@include form-panel;
+		@content;
+		float: left;
+		white-space: nowrap;
+		height:$selectionHeight;
+	}
+}

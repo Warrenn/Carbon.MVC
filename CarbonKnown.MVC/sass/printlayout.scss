@@ -1,0 +1,31 @@
+@import "modules/_global";
+@import "Compass/CSS3/border-radius";
+@import "Compass/CSS3/opacity";
+@import "compass/reset.scss";
+@import "compass/layout.scss";
+@import "base/_layout.scss";
+body, html{
+	background-color: $BkColor;
+	@include default-font;
+	overflow:hidden !important;
+}
+
+#content-section{
+	padding:10px;
+	height:auto;
+}
+#legend-container.print{
+	height:auto;
+}
+.legend-title.print{
+	white-space:normal;
+}
+#mainChart.print{
+	width: ($contentWidth * 0.69) -($legendWidthRight + $legendSquareDimension +42);
+	float:left;
+}
+#chart-container.print{
+	float:left;
+}
+
+

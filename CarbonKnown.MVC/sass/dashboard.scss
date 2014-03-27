@@ -1,0 +1,211 @@
+@import "modules/_global";
+@import "Compass/CSS3/border-radius";
+@import "Compass/CSS3/opacity";
+@import "partials/_icons";
+@import "partials/_export";
+@import "partials/_period";
+@import "partials/_navpanel";
+@import "partials/_crumbs";
+
+$transition: 1s linear all;
+@mixin ng-hide-from{
+	opacity: 1;
+	height:2.5em;
+}
+@mixin ng-hide-to{
+	opacity: 0;
+	height:0;
+}
+@include ng-hide('bread-crumb-container',$transition);
+#content-section{
+	@include default-contents();
+	min-width: $contentWidth;
+}
+#left-article{
+	width: $contentWidth * 0.266;
+	float:left;
+}
+#right-article{
+	@include graph-panel;
+	float:right;
+	width:$contentWidth * 0.69;
+}
+.dashboard-legend-item{
+	height:100%;
+	opacity: 1;
+}
+$transition: 1s linear all;
+@mixin ng-animation-from{
+	opacity: 0;
+}
+@mixin ng-animation-to{
+	opacity: 1;
+}
+@include ng-animation('dashboard-legend-item',$transition);
+.loading-image{
+	background:url('../images/loading.gif');
+	background-repeat: no-repeat;
+	background-position-x: center;
+	background-size: 80px;
+}
+#chart-container{
+	float: left;
+	width: ($contentWidth * 0.69) -($legendWidthRight + $legendSquareDimension +42);
+}
+#chart-tooltip{
+	@include centre-contents(true);
+	position:relative;
+	bottom:-200px;
+	z-index:1;
+	height: 0px;
+	color:$panelColor;
+	width:200px;
+}
+#chart-legend{
+	list-style:none;
+	margin:0;
+	padding:0;
+	li{
+		margin-bottom:15px;
+		display: inline-block;
+	}
+}
+.legend-square{
+	width: $legendSquareDimension;
+	height: $legendSquareDimension;
+	float: left;
+	margin-right: 12px;
+	margin-top:3px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+#legend-container {
+	float: right;
+	width:($legendWidthRight + $legendSquareDimension +42);
+	height: 382px;
+}
+.legend-description-container{
+	float: left;
+	width: $legendWidthRight;
+	header{
+		padding:0px;
+		width:auto;
+		margin:0px;
+		height: initial;
+		@include line-height($defaultFontSize);
+	}
+}
+.legend-seperator{
+	@include right-arrow($panelColor,$indent:0,$size:6px);
+	padding-right:6px;
+}
+.legend-title{
+	@include bold-font($defaultFontSize,false);
+	vertical-align: middle;
+	color: $orange;
+	white-space: nowrap;
+	cursor: pointer;
+}
+.legend-amount{
+	@include bold-font($upper:false);
+	vertical-align: middle;
+	margin-left:5px;
+	white-space: nowrap;
+}
+.legend-description{
+	width: $legendWidthRight;
+	margin-bottom: 0px;
+}
+#advanced-search{
+	background-size: 58px;
+	@include form-panel(false);
+	height: $selectionHeight;
+	line-height: $selectionHeight;
+	float:left;
+	width: $contentWidth  - (($contentWidth * $paneFactor) + 304);
+	text-align: center;
+}
+@include report-period{
+	width: $contentWidth * $paneFactor;
+    min-width: $contentWidth * $paneFactor;
+	margin-right:10px;
+}
+#advanced-search.hover{
+	background-color:$orange;
+	cursor:pointer;
+	color: white;
+}
+#advanced-search.hover.search-closed{
+	@include bottom-arrow($indent: 13px);
+}
+#advanced-search.hover.search-open{
+	@include top-arrow;
+}
+.side-panel{
+	@include graph-panel;
+	@include border-radius($borderRadius);
+	background-color: white;
+	padding:15px;
+	margin-bottom: 10px;
+}
+.side-panel header{
+		color:$panelColor;
+		margin:0;
+		width:auto;
+		line-height:normal;
+		height: initial;
+		@include bold-font($articleHeaderFontSize);
+}
+.side-panel h1{
+		@include number-font;
+		margin:initial;
+		margin-bottom: 6px;
+		margin-top: 6px;
+		white-space: nowrap;
+		text-align: right;
+}
+%change{
+	background:url('../images/icons.png');
+	background-repeat: no-repeat;
+	padding-left: 44px;
+}
+.change-increase{
+	@extend %change;
+	background-position: 10px -440px;
+}
+.change-decrease{
+	@extend %change;
+	background-position: 10px -493px;
+}
+.side-panel-footnote{
+	@include bold-font($articleHeaderFontSize,$upper:false);
+	@include line-height($articleHeaderFontSize);
+	margin-top:5px;
+	color: $panelColor;
+}
+.date-footnote{
+	text-align:center;
+}
+.highlight{
+	color:$orange;
+}
+nav.dashboard{
+	margin-top:0;
+	height:88px;
+	background-color:$defaultColor;
+	border-style: none;
+	overflow:hidden;
+}
+nav.nav-panels{
+	label{
+		margin-right:10px;
+		margin-left:10px;
+	}
+}
+#dashboard-items{
+	@include dashboard-items;
+	height:100%;
+	li.active{
+		@include top-arrow($size:8px);
+	}
+}

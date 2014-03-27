@@ -1,0 +1,61 @@
+@mixin ng-animation-from{
+}
+@mixin ng-animation-to{
+}
+@mixin ng-animation($className,$transition){
+	$animationName: #{$className}-animation;
+	@include keyframes($animationName) {
+	  from {
+		@include ng-animation-from;
+	  }
+	  to {
+		@include ng-animation-to;
+	  }
+	}
+	.#{$className}.ng-enter {
+		@include transition($transition);
+		@include animation($animationName $transition);
+		@include ng-animation-from;
+	}
+	.#{$className}.ng-enter.ng-enter-active {
+		@include transition($transition);
+		@include ng-animation-to;
+	}
+}
+@mixin ng-animation-stagger-delay($className,$delay){
+	.#{$className}.ng-enter-stagger {
+		@include transition-delay($delay);
+	}
+}
+@mixin ng-animation-stagger-duration($className,$delay){
+	.#{$className}.ng-enter-stagger {
+		@include transition-duration($delay);
+	}
+}
+@mixin ng-hide-from{
+}
+@mixin ng-hide-to{
+}
+@mixin ng-hide($className,$transition){
+	$animationName: #{$className}-animation;
+	@include keyframes($animationName) {
+	  from {
+		@include ng-hide-from;
+	  }
+	  to {
+		@include ng-hide-to;
+	  }
+	}
+	.#{$className} {
+		@include transition($transition);
+		@include animation($animationName $transition);
+		@include ng-hide-from;
+	}
+	.#{$className}.ng-hide-add,
+	.#{$className}.ng-hide-remove {
+		display:block!important;
+	}
+	.#{$className}.ng-hide {
+		@include ng-hide-to;
+	}
+}

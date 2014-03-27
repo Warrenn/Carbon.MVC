@@ -1,0 +1,151 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.MVC.Properties
+@using Newtonsoft.Json
+@{
+    Layout = "../Shared/_ManageLayout.cshtml";
+    ViewBag.Title = "Manage Cost Centres";
+    ViewBag.ManageMenu = "CostCentre";
+    ViewBag.ngApp = "CostCentre";
+    ViewBag.ngBodyCtrl = "Controller";
+}
+@section Styles
+{
+    @Styles.Render(
+    "~/Content/select2",
+    "~/Content/pickacolorcss",
+    "~/Content/costcentre")
+}
+@section Scripts
+{
+    @Scripts.Render(
+    "~/Scripts/jquery",
+    "~/Scripts/angular",
+    "~/Scripts/select2",
+    "~/Scripts/tinycolor.js",
+    "~/Scripts/pickacolorjs",
+    "~/Scripts/uibootstrap",
+    "~/Scripts/angular-resource",
+    "~/Scripts/costcentre")
+    <script type="text/javascript">
+        (function (readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function (window, document, angular, $, undefined) {
+            'use strict';
+
+            angular
+                .module('CostCentre')
+                .constant('Urls', {
+                    childCostCentres: '@Url.Action("ChildCostCentres")',
+                    canDelete: '@Url.Action("CanDelete")',
+                    reOrder: '@Url.Action("ReOrder")',
+                    reParent: '@Url.Action("ReParent")',
+                    'delete': '@Url.Action("DeleteCostCentre")',
+                    treeWalk: '@Url.Content("~/api")',
+                    currencies: '@Url.Action("Currency")',
+                    upsert: '@Url.Action("UpsertCostCentre")'
+                })
+                .constant('InitialRequest', {
+                    rootCostCode: '@Settings.Default.RootCostCentre',
+                    tags:@(Html.Raw(JsonConvert.SerializeObject(Enum.GetNames(typeof(ConsumptionType)))))
+                });
+        }));
+    </script>
+}
+<section id="manage-container">
+    <div id="manage-list-panel" ck-scroll="scrollOptions">
+        <ol ui-nested-sortable="options" ng-model="costCentres">
+            <li ng-repeat="costCentreNode in costCentres" ui-nested-sortable-item="" ng-include="'costcentre.html'"></li>
+        </ol>
+    </div>
+    <div id="manage-item-panel">
+        <form name="form">
+            <table id="edit-table">
+                <thead>
+                    <tr>
+                        <th colspan="2"><span ng-repeat="item in treeWalk">{{item.contents}}<span ng-if="$index < (treeWalk.length-1)">&#9654;</span></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CostCode</td>
+                        <td>
+                            <input class="step-input" type="text" ng-model="costCode" ng-hide="!addNew" required ng-pattern="/^[0-9a-zA-Z ]+$/" />
+                            <span class="step-input" ng-if="!addNew">{{costCode}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>
+                            <input class="step-input" ng-model="name" required /></td>
+                    </tr>
+                    <tr>
+                        <td>Color</td>
+                        <td><input class="step-input" type="text" ng-model="color" pick-a-color="colorOptions" required  /></td>
+                    </tr>
+                    <tr>
+                        <td>Currency</td>
+                        <td><input class="step-input" ng-model="currencyCode" ui-select2="select2Currency" required  /></td>
+                    </tr>
+                    <tr>
+                        <td>Consumption Types</td>
+                        <td><input class="step-input" type="text"
+                                   ui-select2="select2ConsumptionTypes"
+                                   ng-model="consumptionTypes" required  /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" >Description</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <textarea ng-model="description" ></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="step-submit-panel">
+        <a ng-click="submitForm()" ng-if="form.$valid" class="submit-button">Submit</a>
+        <a ng-click="cancelForm()" class="submit-button">Cancel</a>
+    </div>
+</section>
+<script type="text/ng-template" id="ModalDelete.html">
+    <div class="modal-body">
+        <div >Are you sure you want to delete {{costCentre.name}} ?</div>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="delete(costCentre)" class="submit-button">Delete</a>
+        <a ng-click="close()"  class="submit-button">Close</a>
+    </div>
+</script>
+<script type="text/ng-template" id="ModalUpsert.html">
+    <div class="modal-body">
+        <div >Are you sure you want to {{action}} cost centre  with the following values?</div>
+        <div >Cost Code: {{costCentre.costCode}}</div>
+        <div >Parent Cost Code: {{costCentre.parentCostCode}}</div>
+        <div >Name: {{costCentre.name}}</div>
+        <div >Color: {{costCentre.color}}</div>
+        <div >Currency: {{costCentre.currencyCode.id}}</div>
+        <div >Consumption Types:<span ng-repeat="type in costCentre.consumptionTypes" > {{type}} </span></div>
+        <div >Description:{{costCentre.description}}</div>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="upsert(costCentre)" class="submit-button">Submit</a>
+        <a ng-click="close()"  class="submit-button">Close</a>
+    </div>
+</script>
+<script type="text/ng-template" id="costcentre.html" >
+    <div ui-nested-sortable-handle ng-mouseover="enter(costCentreNode)" ng-mouseleave="leave(costCentreNode)" >
+        <a class="collapsable-node" data-nodrag ng-click="toggle(this)">{{collapsed?'&#9698;':'&#9654;'}}</a>
+        <span data-nodrag ng-click="selectCentre(this,costCentreNode)" >{{costCentreNode.name}}</span>
+        <span class="item-action-container">
+            <a class="item-action" ng-hide="!costCentreNode.entered || !costCentreNode.canDelete" data-nodrag ng-click="remove(this,costCentreNode)">&#10006;</a>
+            <a class="item-action" ng-if="costCentreNode.entered" data-nodrag ng-click="newSubItem(this,costCentreNode)">&#10010; </a>
+        </span>
+    </div>
+    <ol ui-nested-sortable="options" ng-model="costCentreNode.children" ng-hide="!collapsed">
+        <li ng-repeat="costCentreNode in costCentreNode.children" ui-nested-sortable-item="" ng-include="'costcentre.html'">f
+    </li>
+    </ol>
+</script>
+
+

@@ -1,0 +1,93 @@
+@import "modules/_global";
+@import "modules/_variables";
+@import "modules/_mixins";
+@import "Compass/CSS3/border-radius";
+@import "Compass/CSS3/opacity";
+@import "partials/_navpanel";
+@import "partials/_inputbutton";
+@import "partials/export";
+@import "partials/_period";
+@import "partials/_modals";
+
+@include report-period{
+	width:$contentWidth - 567;
+}
+.series-target{
+	padding:6px;
+	margin:2px;
+	border: 1px solid $borderColor;
+	float:left;
+	@include bold-font;
+	@include border-radius($borderRadius);
+	@include box-shadow( inset 0px 2px 2px rgba(black,0.1));
+}
+.series-target.active,
+.series-target:hover{
+	color: white;
+	background-color: $orange;
+	cursor:pointer;
+}
+.pick-a-color-markup{
+	float: left;
+}
+.submit-button{
+	@include input-button;
+	float:right;
+	margin-left:10px;
+}
+.submit-button:hover{
+	@include input-button(darken($orange,5%));
+	cursor:pointer;
+}
+.series-name{
+	@include border-radius($borderRadius);
+	float:left;
+	padding:5px;
+	margin:3px;
+}
+.series-label{
+	float: left;
+	@include bold-font($size:20px,$upper:false);
+	line-height:24px;
+	padding:3px;
+	padding-left:8px;
+}
+.modal-step{
+	width:100%;
+	height:$stepHeight;
+}
+.header{
+	@include bold-font($articleHeaderFontSize);
+	color: $orange;
+	text-align: center;
+}
+#comparison-report-section{
+	@include default-contents;
+	margin-top:10px;
+}
+#comparison-report-panel{
+	@include border-radius($borderRadius);
+	padding:8px 25px;
+	background-color: white;
+}
+a.comparison-graph-type,
+.comparison-graph-type{
+	background-size: 58px;
+	@include form-panel(false);
+	float:left;
+	text-align: center;
+	margin-left:10px;
+	height:$selectionHeight;
+	@include bold-font;
+	line-height:$selectionHeight;
+}
+
+a.comparison-graph-type:hover, 
+.comparison-graph-type.hover, 
+.comparison-graph-type.active{
+		@include bold-font;
+		background-color:$orange;
+		cursor:pointer;
+		color: white;
+		border:none;
+}

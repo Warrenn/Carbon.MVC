@@ -1,0 +1,34 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.DAL.Models.Fleet
+@using CarbonKnown.MVC.Controllers
+@using CarbonKnown.MVC.Models
+@model EnterDataModel
+@{
+    Layout = "../_EnterDataLayout.cshtml";
+    ViewBag.ConsumptionType = ConsumptionType.Other;
+    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.FleetId;
+    ViewBag.DisplayType = "Fleet";
+    ViewBag.InitialStep =5;
+    ViewBag.UnitsAside = "<label class=\"side-selection\">litres</label>";
+    var fleetData = (Model.EntryData as FleetData) ?? new FleetData();
+    fleetData.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.FleetId;
+
+    var calculationSettings = DataSelectionModel.CreateFromEnum(fleetData, m => (Guid?)m.CalculationId, InputController.SelectableCalculations);
+    calculationSettings.Label = "Calculation";
+    calculationSettings.StepNumber = 2;
+    calculationSettings.CanEdit = Model.CanEdit;
+    calculationSettings.SourceIdDependant = true;
+
+    var scopeTypesSelection = DataSelectionModel.CreateFromEnum(fleetData, m => m.Scope, InputController.FleetScopes);
+    scopeTypesSelection.Label = "Scope";
+    scopeTypesSelection.StepNumber =3;
+    scopeTypesSelection.CanEdit = Model.CanEdit;
+
+    var fuelTypesSelection = DataSelectionModel.CreateFromEnum(fleetData, m => m.FuelType, InputController.FleetFuelTypes);
+    fuelTypesSelection.Label = "Fuel Type";
+    fuelTypesSelection.StepNumber = 4;
+    fuelTypesSelection.CanEdit = Model.CanEdit;
+}
+@Html.Partial("_DataSelection", calculationSettings)
+@Html.Partial("_DataSelection", scopeTypesSelection)
+@Html.Partial("_DataSelection", fuelTypesSelection)

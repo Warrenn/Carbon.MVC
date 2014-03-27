@@ -1,0 +1,62 @@
+﻿.style1
+{
+    color: #E6730F;
+}
+.audittrail th
+{
+    background-color: #B99B78;
+    color: #FFF;
+    font-size: 13px;
+    height: 18px;
+    width: auto;
+    padding-bottom: 12px;
+    padding: 6px 4px 4px 6px;
+    font-weight: normal;
+    font-variant: normal;
+    line-height: normal;
+    font-style: normal;
+    border: #CFCFCF solid 1px;
+}
+.audittrail
+{
+    width: 100%;
+}
+.audittrail td
+{
+    padding: 6px 6px 3px 3px;
+    border: #CFCFCF solid 1px;
+}
+table.audittrail
+{
+    width: 100%;
+    border: #CFCFCF solid 1px;
+    background-color: #FFF;
+    font-size: 13px;
+}
+table.audittrail .groupheading td
+{
+    color: #483011;
+    font-family: 'Open Sans' , sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    border: none;
+}
+table.audittrail .factorheading td
+{
+    color: #EB7A28;
+    font-family: 'Open Sans' , sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 26px;
+    outline-color: #EB7A28;
+    outline-style: none;
+    outline-width: 0px;
+    position: relative;
+    text-decoration: none;
+    border: none;
+}
+.hiddenbutton {
+    display: none;
+}
+

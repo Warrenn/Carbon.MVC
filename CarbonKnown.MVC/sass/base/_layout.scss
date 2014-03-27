@@ -1,0 +1,33 @@
+#header{
+	@include default-contents();
+	line-height: $headingHeight;
+	overflow:hidden;
+	height: $headingHeight + 2;
+}
+img
+{  
+	border-style: none;
+	vertical-align: middle;
+}
+a:hover, a:visited, a:link, a:active{
+	text-decoration:none;
+	color: inherit;
+}
+.company-logo{
+	max-width:107px;
+	max-height:$headingHeight;
+}
+#logo{
+	float:left;
+	margin-right:$defaultPadding;
+}
+#footer {
+	clear: both;
+	position: relative;
+	background-color: white;
+	bottom: -10px;
+	@include border-radius($borderRadius);
+	width: $contentWidth - 30;
+	@include centre-contents;
+	padding:15px;
+}

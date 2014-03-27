@@ -1,0 +1,10 @@
+@import "modules/_global";
+@import "Compass/CSS3/border-radius";
+$minheight: 382px;
+
+@mixin step-panel($width:($contentWidth /2) - 55){
+	@include border-radius($borderRadius);
+	padding: 8px 25px;
+	width:$width;
+	background-color: white;
+}

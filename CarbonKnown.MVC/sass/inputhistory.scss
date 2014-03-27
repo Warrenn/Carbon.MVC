@@ -1,0 +1,22 @@
+@import "modules/_global";
+@import "Compass/CSS3/border-radius";
+@import "Compass/CSS3/opacity";
+@import "partials/_navpanel";
+@import "partials/_inputbutton";
+@import "partials/_crumbs";
+
+#input-history-container{
+	@include default-contents;
+	margin-top:10px;
+}
+#input-history-panel{
+	@include border-radius($borderRadius);
+	padding:8px 25px;
+	background-color: white;
+}
+#input-history-table{
+	width:100%;
+}
+.sorting, .sorting_desc, .sorting_asc{
+	cursor:pointer;
+}

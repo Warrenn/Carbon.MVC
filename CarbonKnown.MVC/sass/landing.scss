@@ -1,0 +1,76 @@
+﻿@import "modules/_global";
+@import "Compass/CSS3/border-radius";
+
+body{
+	@include default-font;
+}
+#login{
+	width: $dialogWidth;
+	@include centre-contents;
+}
+.header{
+	padding-top: 60px;
+	padding-bottom: 20px;
+	display:block;
+	margin-bottom: $defaultPadding;
+	clear:both;
+	img{
+		float: left;
+	}
+	p{
+		margin: 0px;
+		padding-top: 5px;
+		float: right;
+		strong{
+			font-weight: bold;
+		}
+	}
+}
+.login-form{
+	@include border-radius(5px);
+	background-color: $BkColor;
+	margin-top: $defaultPadding;
+	padding-top: 45px;
+	padding-right: $defaultPadding;
+	padding-left: $defaultPadding;
+	padding-bottom:45px;
+}
+.footer-content{
+	@include default-font($size:$imageFontSize);
+	position:absolute;
+	right:0px;
+	bottom:0px;
+}
+.form-item{
+	margin-left:178px;
+	margin-right:178px;
+	margin-bottom:$defaultPadding;
+	label{
+		display:block;
+		line-height:20px;
+		margin-bottom: 3px;
+	}
+}	
+.form-button-container{
+	@include centre-contents(true);
+}
+.form-input{
+	@include form-input;
+}
+.form-checkbox-label{
+	@include default-font($color:$orange);
+}
+.form-button{
+	@include input-button;
+}
+.form-button:hover{
+	@include input-button(darken($orange,5%));
+	cursor:pointer;
+}
+.footer{
+	padding-top: 10px;
+	position:relative;
+}
+.field-validation-error{
+	color:red;
+}

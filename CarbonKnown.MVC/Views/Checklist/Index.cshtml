@@ -1,0 +1,89 @@
+﻿@using CarbonKnown.DAL.Models.Constants
+@using CarbonKnown.MVC.Models
+@using CarbonKnown.MVC.Properties
+@model CheckListModel
+@{
+    Layout = "../Shared/_InputLayout.cshtml";
+    ViewBag.Title = "Checklist";
+    ViewBag.InputMenu = "Checklist";
+    ViewBag.ngApp = "Checklist";
+    ViewBag.ngBodyCtrl = "Controller";
+}
+@section Styles
+{
+    @Styles.Render("~/Content/checklist")
+}
+@functions{
+
+    private static string MonthName(int month)
+    {
+        var date = new DateTime(1900, month + 1, 1);
+        return date.ToString("MMMM");
+    }
+
+}
+@section Scripts
+{
+    @Scripts.Render(
+    "~/Scripts/jquery",
+    "~/Scripts/angular",
+    "~/Scripts/checklist")
+}
+<nav class="nav-panels">
+    <div id="report-period">
+        <label>Select Month</label>
+        <select ng-model="month" ng-init="month = @Model.SelectedMonth">
+            @for (var monthIndex = 0; monthIndex < 12; monthIndex++)
+            {
+                <option value="@monthIndex" @((Model.SelectedMonth == monthIndex) ? "selected=\"selected\"" : "") >@MonthName(monthIndex)</option>
+            }
+        </select>
+        <label>Select Year</label>
+        <select ng-model="year" ng-init="year = @Model.SelectedYear">
+            @for (var yearIndex = Model.MaxYearInRange; yearIndex >= Model.MinYearInRange; yearIndex--)
+            {
+                <option value="@yearIndex" @((Model.SelectedYear == yearIndex) ? "selected=\"selected\"" : "") >@yearIndex</option>
+            }
+        </select>
+    </div>
+</nav>
+<section id="uploadschedule-section">
+    <div id="uploadschedule-panel">
+        @Html.Action("MultipleCostCodesCheckListTable", new ChecklistTableSettings
+            {
+                Heading = "Building",
+                CostCode = Settings.Default.BuildingCostCentre,
+                Month = Model.SelectedMonth,
+                Year = Model.SelectedYear,
+                ActivityColumns = new Dictionary<Guid, string>
+                    {
+                        {Activity.WaterId,"Water"},
+                        {Activity.Scope2Id,"Electricity"},
+                        {WasteActivityId.WasteToLandfillId,"Waste To Landfill"},
+                        {WasteActivityId.RecylcedWasteId,"Recycled Waste"},
+                        {Activity.RefrigerantsId,"AC"},
+                        {FuelActivityId.LPGId,"LPG"},
+                        {FuelActivityId.DieselId,"Diesel"},
+                        {FuelActivityId.PetrolId,"Petrol"}
+                    }
+            })
+        @Html.Action("SingleCostCodeCheckListTable", new ChecklistTableSettings
+            {
+                Heading = "Group",
+                CostCode = Settings.Default.GroupCostCentre,
+                Month = Model.SelectedMonth,
+                Year = Model.SelectedYear,
+                ActivityColumns = new Dictionary<Guid, string>
+                    {
+                        {Activity.PaperId,"Paper"},
+                        {Activity.HotelNightsId,"Hotel"},
+                        {Activity.AirTravelId,"Air Travel"},
+                        {Activity.CarHireId,"Car Hire"},
+                        {Activity.CompanyOwnedVehicleFleetId,"Fleet Scope 1"},
+                        {Activity.ThirdPartyVehicleFleetId,"Fleet Scope 3"},
+                        {Activity.CourierId,"Courier"}
+                    }
+            })
+    </div>
+</section>
+

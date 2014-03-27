@@ -1,0 +1,78 @@
+@import "modules/_global";
+@import "modules/_variables";
+@import "modules/_mixins";
+@import "Compass/CSS3/border-radius";
+@import "Compass/CSS3/opacity";
+@import "partials/_navpanel";
+@import "partials/_modals";
+@import "partials/_popovers";
+@import "partials/_inputbutton";
+
+@mixin step-panel($width:($contentWidth /2) - 55){
+	@include border-radius($borderRadius);
+	padding:8px 25px;
+	width:$width;
+	background-color: white;
+	margin-top:10px;
+}
+#edit-source-section{
+	@include default-contents;
+}
+.calculations-panel{
+	@include border-radius($borderRadius);
+	padding:8px 25px;
+	background-color: white;
+	width:$contentWidth - 50;
+	margin-top:10px;
+	clear:both;
+}
+label.summary-label{
+	@include bold-font($defaultFontSize);
+	color:$defaultColor;
+}
+.calculation-table{
+	width:100%;
+	td{
+		text-align:center;
+	}
+}
+.sorting, .sorting_desc{
+	cursor:pointer;
+}
+#summary-left{
+	@include step-panel;
+	float: left;
+	margin-bottom:10px;
+	min-height: 150px;
+}
+#summary-right{
+	@include step-panel;
+	float: right;
+	margin-bottom:10px;
+	min-height: 150px;
+}
+.submit-button{
+	@include input-button;
+	float:right;
+	cursor:pointer;
+}
+.summary-comment{
+	@include border-radius($borderRadius);
+}
+.error-filter, .sortable{
+	cursor:pointer;
+}
+.rowhover{
+	background-color:rgba($orange,0.5);
+	cursor:pointer;
+}
+.rowerror{
+	background-color:rgba(red,0.1);
+}
+.cellerror{
+	@include border-radius($borderRadius);
+	border-color: red;
+	border-width: 1px;
+	border-style: solid;
+	background-color:rgba(red,0.1);
+}

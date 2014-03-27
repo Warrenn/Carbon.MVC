@@ -1,0 +1,84 @@
+﻿@using System.Configuration
+@using CarbonKnown.MVC.Code
+@functions
+{
+    private bool UserInRole(params string[] roles)
+    {
+        return roles.Any(role => User.IsInRole(role));
+    }
+}
+<!DOCTYPE html>
+<html lang="en" @Html.NgApp() >
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="fragment" content="!" />
+    @RenderSection("Styles", false)
+    @Styles.Render(
+    "~/Content/googlefonts",
+    "~/Content/zendesk")
+</head>
+<body @Html.NgCtrl() >
+    <header id="header">
+        <a href="#" id="logo">
+            <img src="@Url.Content("~/images/logo.png")" width="186" height="23"  alt="logo" />
+        </a>
+        <ul id="main-menu">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="@Html.ActiveClass("MainMenu", "Dashboard")" >
+                    @Html.ActionLink("Dashboard", "Index", new { controller = "Dashboard" }, new { target = "_self" })
+                </li>
+                <li class="@Html.ActiveClass("MainMenu", "Reports")">
+                    @Html.ActionLink("Reports", "Index", new { controller = "OverviewReport" }, new { target = "_self" })
+                </li>
+                if (UserInRole("Admin", "Capturer"))
+                {
+                    <li class="@Html.ActiveClass("MainMenu", "Input")">
+                        @Html.ActionLink("Input", "Index", new { controller = "Input" }, new { target = "_self" })
+                    </li>
+                }
+                if (UserInRole("Admin"))
+                {
+                    <li class="@Html.ActiveClass("MainMenu", "Manage")">
+                        @Html.ActionLink("Manage", "Index", new { controller = "CostCentre" }, new { target = "_self" })
+                    </li>
+                }
+            }
+        </ul>
+        <div id="header-image">
+            @if (File.Exists(Server.MapPath(ConfigurationManager.AppSettings["imageurl"])))
+            {
+                <img src="@Url.Content(ConfigurationManager.AppSettings["imageurl"])" class="company-logo" alt="company logo" />
+            }
+        </div>
+        <ul id="account-box">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li><a href="#"></a></li>
+                <li>
+                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+                    }
+                </li>
+                <li><a href="#" id="seperator"></a></li>
+                <li>@Html.ActionLink(User.Identity.Name, "Manage", "Account")</li>
+            }
+        </ul>
+        <div id="topright"></div>
+   </header>
+    <nav></nav>
+    @RenderBody()
+    <footer id="footer" >
+        <div>
+            Copyright © 2013 | Carbon Calculated
+        </div>
+    </footer>
+    @Scripts.Render("~/Scripts/zendesk")
+    @RenderSection("Scripts", false)
+</body>
+</html>

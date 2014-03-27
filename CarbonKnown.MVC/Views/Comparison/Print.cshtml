@@ -1,0 +1,101 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.MVC.Models
+@using Newtonsoft.Json
+@model ComparisonChartViewModel
+@{
+    ViewBag.Title = "Print Comparison";
+    Layout = "../Shared/_PrintLayout.cshtml";
+}
+@functions
+{
+
+    public static string GetSeries(ComparisonSeriesViewModel[] series)
+    {
+        var seriesData = series
+            .Select(model => new {name = (model.target) ? model.name + " - target" : model.name, tooltip = new {valueSuffix = model.uom}, model.data});
+        return JsonConvert.SerializeObject(seriesData);
+    }
+
+    public static string YAxisLabel(ComparisonSeriesViewModel[] series)
+    {
+        if (series.Length <= 0) return string.Empty;
+        var uom = series[0].uom;
+        return series.All(model => model.uom == uom) ?
+                   string.Format("Measurment in {0}", uom) :
+                   "Measurment in multiple units";
+    }
+
+    public static string GetHeading(ComparisonChartRequestModel request)
+    {
+        switch (request.targetType)
+        {
+            case TargetType.CarbonEmissions:
+                return string.Format("Comparison of carbon emissions {0:dd/MM/yyy} - {1:dd/MM/yyyy}", request.startDate, request.endDate);
+            case TargetType.Money:
+                return string.Format("Comparison of costs {0:dd/MM/yyy} - {1:dd/MM/yyyy}", request.startDate, request.endDate);
+            case TargetType.Units:
+                return string.Format("Comparison of units {0:dd/MM/yyy} - {1:dd/MM/yyyy}", request.startDate, request.endDate);
+            default:
+                throw new ArgumentOutOfRangeException("request");
+        }
+    }
+
+}
+@section Scripts
+{
+    @Scripts.Render(
+    "~/Scripts/jquery",
+    "~/Scripts/charts")
+    <script type="text/javascript">
+        (function(readyfunction) {
+            readyfunction(window, document, window.angular, window.jQuery);
+        }(function(window, document, angular, $, undefined) {
+            'use strict';
+            $(document).ready(function() {
+
+                $('#mainChart').highcharts({
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        style: {
+                            fontSize: '14px',
+                            lineHeight: '26px',
+                            color: '#eb7a28',
+                            width: '300px'
+                        },
+                        text: '@GetHeading(Model.request)'
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0,
+                            animation: null
+                        }
+                    },
+                    xAxis: {
+                        min: 0,
+                        categories: @Html.Raw(JsonConvert.SerializeObject(Model.categories))
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: '@Html.Raw(YAxisLabel(Model.series))'
+                        }
+                    },
+                    series: @Html.Raw(GetSeries(Model.series))
+                });
+            });
+        }));
+    </script>
+}
+@section Styles
+{
+    @Styles.Render("~/Content/overviewreportprint")
+}
+<section id="overview-report-section">
+    <div id="mainChart" />
+</section>

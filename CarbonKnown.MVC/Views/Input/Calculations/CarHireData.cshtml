@@ -1,0 +1,20 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.DAL.Models.CarHire
+@using CarbonKnown.MVC.Controllers
+@using CarbonKnown.MVC.Models
+@model EnterDataModel
+@{
+    Layout = "../_EnterDataLayout.cshtml";
+    ViewBag.ConsumptionType = ConsumptionType.CarHire;
+    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.CarHireId;
+    ViewBag.DisplayType = "Car Hire";
+    ViewBag.InitialStep = 3;
+    ViewBag.UnitsAside = "<label class=\"side-selection\"> kms</label>";
+    var carHireModel = (Model.EntryData as CarHireData);
+
+    var selectionSettings = DataSelectionModel.CreateFromEnum(carHireModel, m => m.CarGroupBill, InputController.GroupBills);
+    selectionSettings.Label = "Engine Type - Size";
+    selectionSettings.StepNumber = 2;
+    selectionSettings.CanEdit = Model.CanEdit;
+}
+@Html.Partial("_DataSelection", selectionSettings)

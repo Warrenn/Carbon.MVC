@@ -1,0 +1,288 @@
+/* line 1, ../../sass/partials/_navpanel.scss */
+nav.nav-panels {
+  border-style: none;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+/* line 1, ../../sass/partials/_inputbutton.scss */
+.input-tab-button {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(85, 55, 20, 0.1);
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: rgba(85, 55, 20, 0.5);
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-right: 18px;
+  padding-left: 18px;
+  margin-right: 10px;
+  float: left;
+  white-space: nowrap;
+  height: 24px;
+  line-height: 24px;
+}
+
+/* line 10, ../../sass/partials/_inputbutton.scss */
+.input-tab-button.active,
+.input-tab-button:hover {
+  /* fallback */
+  background-color: #b65b0c;
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e6730f), to(#b65b0c));
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(top, #e6730f, #b65b0c);
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, #e6730f, #b65b0c);
+  /* IE 10 */
+  background: -ms-linear-gradient(top, #e6730f, #b65b0c);
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, #e6730f, #b65b0c);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  border-style: none;
+  border-width: 0px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  height: 24px;
+  line-height: 24px;
+}
+
+/* line 9, ../../sass/partials/_export.scss */
+#print-jpg {
+  background: url("../Images/icons.png");
+  background-position: -21px -555px;
+  background-repeat: no-repeat;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  padding-left: 26px;
+}
+
+/* line 12, ../../sass/partials/_export.scss */
+#print-jpg.hover {
+  background: url("../Images/icons.png");
+  background-position: -21px -585px;
+  background-repeat: no-repeat;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  padding-left: 26px;
+}
+
+/* line 15, ../../sass/partials/_export.scss */
+#print-pdf {
+  background: url("../Images/icons.png");
+  background-position: -21px -615px;
+  background-repeat: no-repeat;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  padding-left: 26px;
+}
+
+/* line 18, ../../sass/partials/_export.scss */
+#print-pdf.hover {
+  background: url("../Images/icons.png");
+  background-position: -21px -649px;
+  background-repeat: no-repeat;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  padding-left: 26px;
+}
+
+/* line 21, ../../sass/partials/_export.scss */
+#print-panel {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(85, 55, 20, 0.1);
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: rgba(85, 55, 20, 0.5);
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-right: 18px;
+  padding-left: 18px;
+  margin-left: 10px;
+  width: 176px;
+  float: right;
+}
+/* line 26, ../../sass/partials/_export.scss */
+#print-panel div {
+  padding-right: 20px;
+  float: left;
+}
+/* line 30, ../../sass/partials/_export.scss */
+#print-panel div.hover {
+  cursor: pointer;
+}
+
+/* line 8, ../../sass/partials/_navpanel.scss */
+#report-period {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(85, 55, 20, 0.1);
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: rgba(85, 55, 20, 0.5);
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-right: 18px;
+  padding-left: 18px;
+  width: 740px;
+  float: left;
+  white-space: nowrap;
+  height: 24px;
+}
+
+/* line 19, ../../sass/overviewreport.scss */
+#carbonknown-logo {
+  float: left;
+}
+
+/* line 22, ../../sass/overviewreport.scss */
+#company-logo {
+  float: right;
+}
+
+/* line 25, ../../sass/overviewreport.scss */
+#overview-report-logos {
+  height: 25px;
+  margin-bottom: 10px;
+}
+
+/* line 29, ../../sass/overviewreport.scss */
+td.overview-lineitem-heading {
+  width: 50%;
+}
+
+/* line 32, ../../sass/overviewreport.scss */
+td.overview-lineitem-value {
+  text-align: right;
+}
+
+/* line 35, ../../sass/overviewreport.scss */
+td.overview-lineitem-space {
+  width: 50%;
+}
+
+/* line 38, ../../sass/overviewreport.scss */
+#overview-report-section {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
+
+/* line 42, ../../sass/overviewreport.scss */
+#overview-report-panel {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 8px 25px;
+  background-color: white;
+}
+
+/* line 47, ../../sass/overviewreport.scss */
+#overview-report-header {
+  width: 100%;
+  height: 30px;
+  margin: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* line 54, ../../sass/overviewreport.scss */
+#overview-table {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* line 58, ../../sass/overviewreport.scss */
+td.overview-legend {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  width: 50%;
+}
+
+/* line 62, ../../sass/overviewreport.scss */
+.empty-gap {
+  height: 20px;
+}
+
+/* line 65, ../../sass/overviewreport.scss */
+td.overview-subheading {
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+/* line 68, ../../sass/overviewreport.scss */
+td.overview-total-heading {
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  width: 50%;
+}
+
+/* line 72, ../../sass/overviewreport.scss */
+td.overview-total-value {
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+/* line 76, ../../sass/overviewreport.scss */
+.overview-total-line-heading {
+  border-top: 2px solid #CCC;
+  border-bottom: 2px solid #CCC;
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  width: 50%;
+}
+
+/* line 82, ../../sass/overviewreport.scss */
+.overview-total-line-value {
+  border-top: 2px solid #CCC;
+  border-bottom: 2px solid #CCC;
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+/* line 88, ../../sass/overviewreport.scss */
+.overview-total-line-space {
+  border-top: 2px solid #CCC;
+  border-bottom: 2px solid #CCC;
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  width: 50%;
+}

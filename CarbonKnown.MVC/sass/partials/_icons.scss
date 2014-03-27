@@ -1,0 +1,55 @@
+@mixin dashboard-items{
+	color:white;
+	@extend %listItems;
+	@include default-contents();
+	li{
+		height:100%;
+		padding-left: (($contentWidth / ($numberOfMenuItems ) - 55) / 2) - 2 ;
+		padding-right: (($contentWidth / ($numberOfMenuItems ) - 55) / 2) - 2 ;
+		@include opacity(0.5);
+		div{
+			text-align: center;
+		}
+		span{
+			padding-top:10px;
+		}
+	}
+	li.hover, li.active{
+		@include opacity(1);
+		cursor: pointer;
+	}
+}
+@mixin icon($offset:0px,$width:43px,$height:41px){
+	height:$height;
+	width: $width;
+	display:block;
+	@include centre-contents;
+	background:url('../Images/icons.png');
+	background-position: 0 $offset;
+	background-repeat: no-repeat;
+	background-origin:content-box;
+}
+.overview-icon{
+	@include icon;
+ }
+ .water-icon{
+	@include icon(-51px);
+ } 
+ .electricity-icon{
+	@include icon(-102px);
+ }
+ .paper-icon{
+	@include icon(-153px);
+ }
+ .waste-icon{
+	@include icon(-204px);
+ }
+ .travel-icon{
+	@include icon(-306px);
+ }
+ .fleet-icon{
+	@include icon(-357px);
+ }
+ .courier-icon{
+	@include icon(-255px);
+ }

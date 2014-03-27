@@ -1,0 +1,32 @@
+﻿@using CarbonKnown.DAL.Models
+@using CarbonKnown.DAL.Models.Fuel
+@using CarbonKnown.MVC.Controllers
+@using CarbonKnown.MVC.Models
+@model EnterDataModel
+@{
+    Layout = "../_EnterDataLayout.cshtml";
+    ViewBag.ConsumptionType = ConsumptionType.Other;
+    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.FuelId;
+    ViewBag.DisplayType = "Fuel";
+    ViewBag.InitialStep = 4;
+    var fuelDataModel = (Model.EntryData as FuelData) ?? new FuelData();
+    fuelDataModel.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.FuelId;
+
+    var calculationSettings = DataSelectionModel.CreateFromEnum(fuelDataModel, m => (Guid?)m.CalculationId, InputController.SelectableCalculations);
+    calculationSettings.Label = "Calculation";
+    calculationSettings.StepNumber = 2;
+    calculationSettings.CanEdit = Model.CanEdit;
+    calculationSettings.SourceIdDependant = true;
+
+    var fuelTypeSettings = DataSelectionModel.CreateFromEnum(fuelDataModel, m => m.FuelType, InputController.FuelTypes, InputController.FuelTypesUOM);
+    fuelTypeSettings.Label = "Fuel Type";
+    fuelTypeSettings.StepNumber = 3;
+    fuelTypeSettings.CanEdit = Model.CanEdit;
+    ViewBag.UnitsAside = "<label class=\"side-selection\"><select " + ((Model.CanEdit) ? string.Empty : " disabled ") + " ng-model=\"entryData.UOM\" required><option  ng-repeat=\"u in FuelTypeModel.value\" ng-selected=\"{{u.id === entryData.UOM}}\"  value=\"{{u.id}}\">{{u.text}}</option></select></label>";
+}
+@section JSEntryData
+{
+    UOM: '@fuelDataModel.UOM'
+}
+@Html.Partial("_DataSelection", calculationSettings)
+@Html.Partial("_DataSelection", fuelTypeSettings)

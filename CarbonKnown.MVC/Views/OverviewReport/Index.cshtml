@@ -1,0 +1,35 @@
+﻿@model CarbonKnown.MVC.Models.OverviewReportModel
+@{
+    Layout = "../Shared/_ReportsLayout.cshtml";
+    ViewBag.Title = "Overview Report";
+    ViewBag.ReportMenu = "Overview";
+    ViewBag.ngApp = "OverviewReport";
+    ViewBag.ngBodyCtrl = "Controller";
+}
+@section Styles
+{
+    @Styles.Render("~/Content/overviewreport")
+}
+@section scripts
+{
+    @Scripts.Render(
+    "~/Scripts/jquery", 
+    "~/Scripts/angular", 
+    "~/Scripts/overviewreport")
+}
+<nav class="nav-panels">
+    <div id="report-period">
+        <label>Reporting Period</label>
+        <select ng-model="census" ng-init="census = @Model.CensusId">
+            @foreach (var census in Model.CensusItems)
+            {
+                <option value="@census.Id" @((census.Id == Model.CensusId) ? "selected=\"selected\"" : "") >@census.DisplayName</option>
+            }
+        </select>
+    </div>
+    <div id="print-panel" hover-class="hover" >
+        <div id="print-jpg" hover-class="hover" ng-click="print('@Url.Action("PrintJpg", new { id = Model.CensusId })')" >JPG</div>
+        <div id="print-pdf" hover-class="hover" ng-click="print('@Url.Action("PrintPdf", new { id = Model.CensusId })')" >PDF</div>
+    </div>
+</nav>
+@Html.Partial("~/Views/OverviewReport/_OverviewReport.cshtml", Model)
