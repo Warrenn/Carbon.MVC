@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F920D950-DB93-4593-8754-8EC89A85BC1F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CarbonKnown.WCF</RootNamespace>
+    <AssemblyName>CarbonKnown.WCF</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accommodation\AccommodationDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Accommodation\IAccommodationService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="AirTravelRoute\AirTravelRouteDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="AirTravelRoute\IAirTravelRouteService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="AirTravelRoute\TravelClass.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="AirTravel\AirTravelDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="AirTravel\IAirTravelService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="AirTravel\TravelClass.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="CarHire\CarGroupBill.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="CarHire\CarHireDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="CarHire\ICarHireService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Commuting\CommutingDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Commuting\CommutingType.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Commuting\ICommutingService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="CourierRoute\CourierRouteDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="CourierRoute\ICourierRouteService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="CourierRoute\ServiceType.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Courier\CourierDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Courier\ICourierService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Courier\ServiceType.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="DataEntry\DataEntryDataContract.cs" />
+    <Compile Include="DataEntry\DataEntryErrorDataContract.cs" />
+    <Compile Include="DataEntry\DataEntryUpsertResultDataContract.cs" />
+    <Compile Include="DataEntry\DataErrorType.cs" />
+    <Compile Include="DataSource\FileDataContract.cs" />
+    <Compile Include="DataSource\IDataSourceService.cs" />
+    <Compile Include="DataSource\SourceErrorType.cs" />
+    <Compile Include="DataSource\SourceResultDataContract.cs" />
+    <Compile Include="DataSource\ManualDataContract.cs" />
+    <Compile Include="Electricity\ElectricityDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Electricity\ElectricityType.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Electricity\IElectricityService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Fleet\FleetDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Fleet\FleetScope.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Fleet\FuelType.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Fleet\IFleetService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Fuel\FuelDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Fuel\FuelType.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Fuel\IFuelService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Fuel\UnitOfMeasure.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Paper\IPaperService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Paper\PaperDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Paper\PaperType.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Paper\PaperUom.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Refrigerant\IRefrigerantService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Refrigerant\RefrigerantDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Refrigerant\RefrigerantType.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Waste\IWasteService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Waste\WasteDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Waste\WasteType.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Water\IWaterService.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Water\WaterDataContract.cs">
+      <DependentUpon>Services.txt4</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Accommodation\Services.txt4" />
+    <None Include="AirTravelRoute\Services.txt4" />
+    <None Include="AirTravel\Services.txt4" />
+    <None Include="App.config" />
+    <None Include="CarHire\Services.txt4" />
+    <None Include="Commuting\Services.txt4" />
+    <None Include="CourierRoute\Services.txt4" />
+    <None Include="Courier\Services.txt4" />
+    <None Include="Electricity\Services.txt4" />
+    <None Include="Fleet\Services.txt4" />
+    <None Include="Fuel\Services.txt4" />
+    <None Include="Paper\Services.txt4" />
+    <None Include="Refrigerant\Services.txt4" />
+    <None Include="Waste\Services.txt4" />
+    <None Include="Water\Services.txt4" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

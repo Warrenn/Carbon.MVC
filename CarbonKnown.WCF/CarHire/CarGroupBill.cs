@@ -1,0 +1,30 @@
+﻿namespace CarbonKnown.WCF.CarHire
+{
+	public enum CarGroupBill
+    {
+		A,
+		B,
+		C,
+		D,
+		E,
+		F,
+		G,
+		H,
+		I,
+		J,
+		K,
+		L,
+		M,
+		N,
+		O,
+		P,
+		AveragePetrol,
+		GreaterThan2LPetrol,
+		LessThan14LPetrol,
+		Diesel17To2L,
+		LessThan17Diesel,
+		GreaterThan2LDiesel,
+		GreaterThan500Cc,
+		AverageDiesel,
+    }
+}

@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CarbonKnown.GenericFile.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SourceSheet" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Transactions</Value>
+    </Setting>
+    <Setting Name="GenericFilePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Carbon Known Transactions.xlsx</Value>
+    </Setting>
+    <Setting Name="GenericDownloadName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Carbon Known Transactions.xlsx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
