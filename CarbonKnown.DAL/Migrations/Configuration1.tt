@@ -1,0 +1,74 @@
+﻿<#@ template debug="true" hostSpecific="true" #>
+<#@ output extension=".cs" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ Assembly name="EnvDte" #>
+<#@ assembly name="$(SolutionDir)\CarbonKnown.Calculation\bin\Debug\CarbonKnown.DAL.dll" #>
+<#@ assembly name="$(SolutionDir)\CarbonKnown.Calculation\bin\Debug\CarbonKnown.Calculation.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="System.Reflection" #> 
+<#@ import namespace="EnvDTE" #>
+<#@ include file="$(SolutionDir)\VisualStudioHelper.ttinclude" #>
+<#
+	var visualStudio = (this.Host as IServiceProvider).GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+	var solutionPath = Path.GetDirectoryName(visualStudio.Solution.FullName);
+#>
+using System;
+using CarbonKnown.DAL.Models;
+using System.Data.Entity.Migrations;
+namespace CarbonKnown.DAL.Migrations
+{
+    public  sealed partial class Configuration
+	{
+        private void GeneratedSeed(DataContext context)
+        {
+			context.Calculations.AddOrUpdate(
+<#
+			var index = 0 ;
+			var length = CarbonKnown.Calculation.CalculationModelFactory.Calculations.Count;
+			foreach (var keyValue in CarbonKnown.Calculation.CalculationModelFactory.Calculations)
+            {
+				index++;
+				var calculation = keyValue.Value;
+#>
+                new Calculation
+                {
+                    ActivityGroups = new[]
+						{
+<#
+                foreach (var activity in keyValue.Value.ActivityGroups)
+                {
+#>
+                            context.ActivityGroups.Find(new Guid("<#=activity.Id #>")),
+<#
+                }
+#>
+						},
+						AssemblyQualifiedName = "<#=calculation.AssemblyQualifiedName  #>",
+						Id = new Guid("<#=calculation.Id  #>"),
+						Name = "<#=calculation.Name #>",
+                        ConsumptionType = (ConsumptionType)<#=(int)calculation.ConsumptionType #>,
+						Factors = new[]
+						{
+<#
+                foreach (var factor in keyValue.Value.Factors)
+                {
+#>
+                            context.Factors.Find(new Guid("<#=factor.Id  #>")),
+<#
+                }
+#>
+						}
+					}<#=(index<length)?",":"" #><#
+            }
+#>);
+		}
+	}
+}

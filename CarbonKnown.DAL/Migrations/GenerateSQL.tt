@@ -1,0 +1,244 @@
+﻿<#@ template  debug="true" hostSpecific="true" #>
+<#@ output extension=".cs" #>
+<#@ Assembly Name="System.Core" #>
+<#@ Assembly Name="System.Configuration" #>
+<#@ Assembly Name="System.Data" #>
+<#@ Assembly Name="System" #>
+<#@ Assembly Name="System.Windows.Forms" #>
+<#@ Assembly name="EnvDte" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="System.Resources" #> 
+<#@ import namespace="System.Configuration" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="EnvDTE" #>
+<#@ include file="$(SolutionDir)\VisualStudioHelper.ttinclude" #>
+<#
+	var visualStudio = (this.Host as IServiceProvider).GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+	var project = visualStudio.Solution.FindProjectItem(this.Host.TemplateFile).ContainingProject as EnvDTE.Project;
+	var webConfig = this.VisualStudioHelper.FindProjectItem("App.config");
+	var config = System.Configuration.ConfigurationManager.OpenMappedExeConfiguration(
+	 new System.Configuration.ExeConfigurationFileMap { ExeConfigFilename = webConfig.FileNames[0] },
+	 ConfigurationUserLevel.None);
+	var createCommands = string.Empty;
+	var connStrings = config.ConnectionStrings;
+	var connectionString = config.ConnectionStrings.ConnectionStrings["CarbonKnown"].ConnectionString;
+	var databaseVersion = string.Empty;
+	var sqlHash = new Hashtable();
+	sqlHash.Add("DropFunctions","DECLARE @name VARCHAR(128) " + Environment.NewLine + 
+		"DECLARE @SQL VARCHAR(254) " + Environment.NewLine + 
+		"DECLARE @constraint VARCHAR(254)" + Environment.NewLine + 
+		"SELECT @name = (SELECT TOP 1 [name] FROM sysobjects WHERE [type] = 'P' AND category = 0 ORDER BY [name])" + Environment.NewLine + 
+		"WHILE @name is not null " + Environment.NewLine + 
+		"BEGIN " + Environment.NewLine + 
+		"    SELECT @SQL = 'DROP PROCEDURE [dbo].[' + RTRIM(@name) +']'" + Environment.NewLine + 
+		"    EXEC (@SQL)" + Environment.NewLine + 
+		"    PRINT 'Dropped Procedure: ' + @name" + Environment.NewLine + 
+		"    SELECT @name = (SELECT TOP 1 [name] FROM sysobjects WHERE [type] = 'P' AND category = 0 AND [name] > @name ORDER BY [name])" + Environment.NewLine + 
+		"END;" + Environment.NewLine + 
+		"SELECT @name = (SELECT TOP 1 [name] FROM sysobjects WHERE [type] = 'V' AND category = 0 ORDER BY [name])" + Environment.NewLine + 
+		"WHILE @name IS NOT NULL" + Environment.NewLine + 
+		"BEGIN" + Environment.NewLine + 
+		"    SELECT @SQL = 'DROP VIEW [dbo].[' + RTRIM(@name) +']'" + Environment.NewLine + 
+		"    EXEC (@SQL)" + Environment.NewLine + 
+		"    PRINT 'Dropped View: ' + @name" + Environment.NewLine + 
+		"    SELECT @name = (SELECT TOP 1 [name] FROM sysobjects WHERE [type] = 'V' AND category = 0 AND [name] > @name ORDER BY [name])" + Environment.NewLine + 
+		"END;" + Environment.NewLine + 
+		"SELECT @name = (SELECT TOP 1 [name] FROM sysobjects WHERE [type] IN (N'FN', N'IF', N'TF', N'FS', N'FT') AND category = 0 ORDER BY [name])" + Environment.NewLine + 
+		"WHILE @name IS NOT NULL" + Environment.NewLine + 
+		"BEGIN" + Environment.NewLine + 
+		"    SELECT @SQL = 'DROP FUNCTION [dbo].[' + RTRIM(@name) +']'" + Environment.NewLine + 
+		"    EXEC (@SQL)" + Environment.NewLine + 
+		"    PRINT 'Dropped Function: ' + @name" + Environment.NewLine + 
+		"    SELECT @name = (SELECT TOP 1 [name] FROM sysobjects WHERE [type] IN (N'FN', N'IF', N'TF', N'FS', N'FT') AND category = 0 AND [name] > @name ORDER BY [name])" + Environment.NewLine + 
+		"END;" + Environment.NewLine + 
+		"SELECT @name = (SELECT TOP 1 TABLE_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE constraint_catalog=DB_NAME() AND CONSTRAINT_TYPE = 'FOREIGN KEY' ORDER BY TABLE_NAME)" + Environment.NewLine + 
+		"WHILE @name is not null" + Environment.NewLine + 
+		"BEGIN" + Environment.NewLine + 
+		"    SELECT @constraint = (SELECT TOP 1 CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE constraint_catalog=DB_NAME() AND CONSTRAINT_TYPE = 'FOREIGN KEY' AND TABLE_NAME = @name ORDER BY CONSTRAINT_NAME)" + Environment.NewLine + 
+		"    WHILE @constraint IS NOT NULL" + Environment.NewLine + 
+		"    BEGIN" + Environment.NewLine + 
+		"        SELECT @SQL = 'ALTER TABLE [dbo].[' + RTRIM(@name) +'] DROP CONSTRAINT [' + RTRIM(@constraint) +']'" + Environment.NewLine + 
+		"        EXEC (@SQL)" + Environment.NewLine + 
+		"        PRINT 'Dropped FK Constraint: ' + @constraint + ' on ' + @name" + Environment.NewLine + 
+		"        SELECT @constraint = (SELECT TOP 1 CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE constraint_catalog=DB_NAME() AND CONSTRAINT_TYPE = 'FOREIGN KEY' AND CONSTRAINT_NAME <> @constraint AND TABLE_NAME = @name ORDER BY CONSTRAINT_NAME)" + Environment.NewLine + 
+		"    END" + Environment.NewLine + 
+		"SELECT @name = (SELECT TOP 1 TABLE_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE constraint_catalog=DB_NAME() AND CONSTRAINT_TYPE = 'FOREIGN KEY' ORDER BY TABLE_NAME)" + Environment.NewLine + 
+		"END; ");
+
+	using(var conn = new SqlConnection(connectionString)){
+		var commandText = "Select pr.name, mod.definition from sys.objects pr INNER JOIN sys.sql_modules mod ON pr.object_id = mod.object_id where type IN (N'FN', N'IF', N'TF', N'FS', N'FT', N'V', N'P')";
+
+		var command  = conn.CreateCommand();
+		command.CommandText = commandText;
+		command.CommandType = CommandType.Text;
+		conn.Open();
+		var reader = command.ExecuteReader();
+		while(reader.Read()){
+			createCommands = createCommands + "Sql(Resources.GetString(\"" +reader["name"]  + "\"));" + Environment.NewLine;
+			sqlHash.Add(reader["name"] ,reader["definition"]);
+		}
+		conn.Dispose();
+    }
+
+	using(var conn = new SqlConnection(connectionString)){
+		var commandText = "Select TOP 1 [MigrationId] from [dbo].[__MigrationHistory] WHERE [MigrationId] NOT LIKE '%_AutomaticMigration' ORDER BY [MigrationId] DESC ";
+
+		var command  = conn.CreateCommand();
+		command.CommandText = commandText;
+		command.CommandType = CommandType.Text;
+		conn.Open();
+		var reader = command.ExecuteReader();
+		while(reader.Read()){
+			databaseVersion = reader["MigrationId"] as string;
+		}
+		conn.Dispose();
+    }
+	if(string.IsNullOrEmpty(databaseVersion)) return string.Empty;
+	var rootFolder = Path.GetDirectoryName(this.VisualStudioHelper.SolutionFile);
+	
+	var resxFileName = Directory.GetFiles(rootFolder,databaseVersion + "*.resx",SearchOption.AllDirectories).FirstOrDefault();
+	if(resxFileName != null){
+		UpdateResourceFile(sqlHash,resxFileName);
+    }
+	var codeFileName = Directory.GetFiles(rootFolder,databaseVersion + "*.cs",SearchOption.AllDirectories).FirstOrDefault();
+	var projectItem = this.VisualStudioHelper.FindProjectItem(codeFileName);
+	if(projectItem == null) return string.Empty;
+
+    foreach (
+        EnvDTE.CodeClass classInFile in
+            this.VisualStudioHelper.CodeModel.GetAllCodeElementsOfType(projectItem.FileCodeModel.CodeElements,
+                                                                        EnvDTE.vsCMElement.vsCMElementClass,
+                                                                        false))
+    {
+        foreach (
+            EnvDTE.CodeFunction functionElement in
+                this.VisualStudioHelper.CodeModel.GetAllCodeElementsOfType(classInFile.Children,
+                                                                            EnvDTE.vsCMElement
+                                                                                    .vsCMElementFunction, true))
+        {
+            if (functionElement.Name == "Up")
+            {
+                var ep = functionElement.GetEndPoint(vsCMPart.vsCMPartBody);
+                var editpoint = ep.CreateEditPoint();
+				var createStartTag = "//Create Stored Procedures, Views and Functions";
+				var createEndTag = "//End Create";
+				EditPoint startEp = null;
+				EditPoint endEp = null;
+				TextRanges ran = null;
+
+				var foundTag = editpoint.FindPattern(createStartTag,
+					(int)vsFindOptions.vsFindOptionsFromStart, 
+					ref startEp,
+					ref ran);
+
+				if(!foundTag) startEp = editpoint;
+				
+				editpoint.FindPattern(createEndTag,
+					(int)vsFindOptions.vsFindOptionsFromStart, 
+					ref endEp,
+					ref ran);
+
+				startEp.ReplaceText(endEp,
+					((foundTag)? string.Empty :createStartTag) + Environment.NewLine + 
+					"Sql(Resources.GetString(\"DropFunctions\"));" + Environment.NewLine + 
+					createCommands + 
+					createEndTag + ((foundTag)?string.Empty : Environment.NewLine),
+				(int)vsEPReplaceTextOptions.vsEPReplaceTextAutoformat);
+            }
+            if (functionElement.Name == "Down")
+            {
+                var sp = functionElement.GetStartPoint(vsCMPart.vsCMPartBody);
+                var editpoint = sp.CreateEditPoint();
+				var dropStartTag = "//Drop Stored Procedures, Views, Functions";
+				var dropEndTag = "//End Drop";
+				EditPoint startEp = null;
+				EditPoint endEp = null;
+				TextRanges ran = null;
+
+				var foundTag = editpoint.FindPattern(dropStartTag,
+					(int)vsFindOptions.vsFindOptionsFromStart, 
+					ref startEp,
+					ref ran);
+
+				if(!foundTag) startEp = editpoint;
+				
+				editpoint.FindPattern(dropEndTag,
+					(int)vsFindOptions.vsFindOptionsFromStart, 
+					ref endEp,
+					ref ran);
+
+				startEp.ReplaceText(endEp,
+					((foundTag)?string.Empty : dropStartTag) + Environment.NewLine + 
+					"Sql(Resources.GetString(\"DropFunctions\"));" + Environment.NewLine + 
+					dropEndTag + 	((foundTag)? string.Empty : Environment.NewLine),
+				(int)vsEPReplaceTextOptions.vsEPReplaceTextAutoformat);
+            }
+        }
+	}
+	projectItem.Save();
+#>
+<#+
+string ConvertFullName(CodeModel cm, string fullName)
+{
+    // Convert a .NET type name into a C++ type name.
+    if ((cm.Language == CodeModelLanguageConstants.vsCMLanguageVC) || 
+        (cm.Language == CodeModelLanguageConstants.vsCMLanguageMC))
+        return fullName.Replace(".", "::");
+    else
+        return fullName;
+}
+string GetName(string fullName)
+{
+	return fullName.Split('.').Last();
+}
+public  void UpdateResourceFile(Hashtable data, String path)
+{
+	Hashtable resourceEntries = new Hashtable();
+
+	//Get existing resources
+	ResXResourceReader reader = new ResXResourceReader(path);
+	if (reader != null)
+	{
+		IDictionaryEnumerator id = reader.GetEnumerator();
+		foreach (DictionaryEntry d in reader)
+		{
+			if (d.Value == null)
+				resourceEntries.Add(d.Key.ToString(), "");
+			else
+				resourceEntries.Add(d.Key.ToString(), d.Value.ToString());
+		}
+		reader.Close();
+	}
+
+	//Modify resources here...
+	foreach (String key in data.Keys)
+	{
+		String value = data[key].ToString();
+		if (!resourceEntries.ContainsKey(key))
+		{
+			if (value == null) value = "";
+			resourceEntries.Add(key, value);
+		}
+		else
+		{
+			resourceEntries[key] = value;
+        }
+	}
+
+	//Write the combined resource file
+	ResXResourceWriter resourceWriter = new ResXResourceWriter(path);
+
+	foreach (String key in resourceEntries.Keys)
+	{
+		resourceWriter.AddResource(key, resourceEntries[key]);
+	}
+	resourceWriter.Generate();
+	resourceWriter.Close();
+}
+#>

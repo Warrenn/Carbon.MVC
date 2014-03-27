@@ -1,0 +1,58 @@
+﻿<#@ template  debug="true" hostSpecific="true" #>
+<#@ output extension=".cs" #>
+<#@ Assembly Name="System.Core" #>
+<#@ Assembly Name="System.Configuration" #>
+<#@ Assembly Name="System.Data" #>
+<#@ Assembly Name="System" #>
+<#@ Assembly Name="System.Windows.Forms" #>
+<#@ Assembly name="EnvDte" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="System.Resources" #> 
+<#@ import namespace="System.Configuration" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="EnvDTE" #>
+<#@ include file="$(SolutionDir)\VisualStudioHelper.ttinclude" #>
+using System;
+<#
+	var visualStudio = (this.Host as IServiceProvider).GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+	var project = visualStudio.Solution.FindProjectItem(this.Host.TemplateFile).ContainingProject as EnvDTE.Project;
+	var codeFileName = Path.ChangeExtension(Host.TemplateFile, "cs");
+	var className = Path.GetFileNameWithoutExtension(codeFileName);
+	if (!File.Exists(codeFileName)) return string.Empty;
+	var projectItem = this.VisualStudioHelper.FindProjectItem(codeFileName);
+	if(projectItem == null) return string.Empty;
+    foreach (
+        EnvDTE.CodeClass classInFile in
+            this.VisualStudioHelper.CodeModel.GetAllCodeElementsOfType(projectItem.FileCodeModel.CodeElements,
+                                                                        EnvDTE.vsCMElement.vsCMElementClass,
+                                                                        false))
+    {
+#>
+namespace <#=classInFile.Namespace.FullName #>
+{
+    public static partial class <#= classInFile.Name #> 
+    {
+<#
+			foreach (
+				EnvDTE.CodeVariable property in
+				 this.VisualStudioHelper.CodeModel.GetAllCodeElementsOfType(classInFile.Children,
+                                                                            EnvDTE.vsCMElement.vsCMElementVariable , true))
+        {
+				if((property.Access == vsCMAccess.vsCMAccessPublic) && property.IsConstant && (property.Type.AsFullName  == typeof(string).FullName)){
+#>
+            public static readonly Guid <#= property.Name #>Id = new Guid(<#= property.FullName #>);
+<#
+                }
+        }
+		#>
+    }
+}
+<#
+    }
+	#>
