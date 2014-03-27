@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="CarbonKnown.Factors.Service.Factors" Factory=" CarbonKnown.Factors.Code.WcfServiceFactory" %>

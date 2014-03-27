@@ -1,0 +1,53 @@
+﻿<#@ template debug="true" hostSpecific="true" #>
+<#@ output extension=".cs" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ Assembly name="EnvDte" #>
+<#@ assembly name="$(SolutionDir)\CarbonKnown.Calculation\bin\Debug\CarbonKnown.DAL.Models.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="System.Reflection" #> 
+<#@ import namespace="EnvDTE" #>
+<#@ include file="$(SolutionDir)\VisualStudioHelper.ttinclude" #>
+using System;
+using System.Data.Entity.Migrations;
+using CarbonKnown.Factors.DAL;
+using CarbonKnown.Factors.Models;
+namespace CarbonKnown.Factors.Migrations
+{
+    internal  sealed partial class Configuration
+	{
+        private static void GeneratedSeed(DataContext context)
+        {
+<#
+			var factorType = typeof(CarbonKnown.DAL.Models.Constants.Factors);
+			var nestedClasses = factorType.GetNestedTypes();
+			foreach (var nestedClass in nestedClasses)
+            {
+				var nestedFields =  nestedClass
+					.GetFields(BindingFlags.Static | BindingFlags.Public)
+					.Where(fi=>fi.FieldType == typeof(Guid));
+                foreach (var field in nestedFields)
+                {
+					var factorValue = field.GetValue(null);
+#>
+            context.Factors.AddOrUpdate(
+				new Factor
+				{
+					FactorGroup = "<#=nestedClass.Name #>",
+					FactorId = new Guid("<#=factorValue  #>"),
+					FactorName = "<#=field.Name #>"
+				});
+<#
+                }
+            }
+#>
+        } 
+    }
+}
