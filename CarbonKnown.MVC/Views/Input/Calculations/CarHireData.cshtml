@@ -2,11 +2,12 @@
 @using CarbonKnown.DAL.Models.CarHire
 @using CarbonKnown.MVC.Controllers
 @using CarbonKnown.MVC.Models
+@using Calculation = CarbonKnown.DAL.Models.Constants.Calculation
 @model EnterDataModel
 @{
     Layout = "../_EnterDataLayout.cshtml";
     ViewBag.ConsumptionType = ConsumptionType.CarHire;
-    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.CarHireId;
+    ViewBag.CalculationId = Calculation.CarHireId;
     ViewBag.DisplayType = "Car Hire";
     ViewBag.InitialStep = 3;
     ViewBag.UnitsAside = "<label class=\"side-selection\"> kms</label>";

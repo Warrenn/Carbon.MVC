@@ -2,17 +2,18 @@
 @using CarbonKnown.DAL.Models.Commuting
 @using CarbonKnown.MVC.Controllers
 @using CarbonKnown.MVC.Models
+@using Calculation = CarbonKnown.DAL.Models.Constants.Calculation
 @model EnterDataModel
 @{
     Layout = "../_EnterDataLayout.cshtml";
     ViewBag.ConsumptionType = ConsumptionType.Other;
-    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.CommutingId;
+    ViewBag.CalculationId = Calculation.CommutingId;
     ViewBag.DisplayType = "Commuting";
     ViewBag.InitialStep = 4;
     ViewBag.UnitsAside = "<label class=\"side-selection\">kms</select></label>";
 
     var commutingModel = (Model.EntryData as CommutingData) ?? new CommutingData();
-    commutingModel.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.CommutingId;
+    commutingModel.CalculationId = Calculation.CommutingId;
 
     var calculationSettings = DataSelectionModel.CreateFromEnum(commutingModel, m => (Guid?)m.CalculationId, InputController.SelectableCalculations);
     calculationSettings.Label = "Calculation";

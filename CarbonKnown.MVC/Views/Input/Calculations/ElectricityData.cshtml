@@ -2,11 +2,12 @@
 @using CarbonKnown.DAL.Models.Electricity
 @using CarbonKnown.MVC.Controllers
 @using CarbonKnown.MVC.Models
+@using Calculation = CarbonKnown.DAL.Models.Constants.Calculation
 @model EnterDataModel
 @{
     Layout = "../_EnterDataLayout.cshtml";
     ViewBag.ConsumptionType = ConsumptionType.Electricity;
-    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.ElectricityId;
+    ViewBag.CalculationId = Calculation.ElectricityId;
     ViewBag.DisplayType = "Electricity";
     ViewBag.InitialStep = 3;
     ViewBag.UnitsAside = "<label class=\"side-selection\"> kWh</label>";

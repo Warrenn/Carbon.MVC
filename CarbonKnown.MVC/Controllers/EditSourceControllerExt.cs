@@ -4,6 +4,18 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using CarbonKnown.DAL.Models;
+using CarbonKnown.DAL.Models.Accommodation;
+using CarbonKnown.DAL.Models.AirTravel;
+using CarbonKnown.DAL.Models.CarHire;
+using CarbonKnown.DAL.Models.Commuting;
+using CarbonKnown.DAL.Models.Courier;
+using CarbonKnown.DAL.Models.Electricity;
+using CarbonKnown.DAL.Models.Fleet;
+using CarbonKnown.DAL.Models.Fuel;
+using CarbonKnown.DAL.Models.Paper;
+using CarbonKnown.DAL.Models.Refrigerant;
+using CarbonKnown.DAL.Models.Waste;
+using CarbonKnown.DAL.Models.Water;
 using CarbonKnown.MVC.Code;
 using CarbonKnown.MVC.Models;
 using CarbonKnown.FileReaders;
@@ -15,8 +27,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult AccommodationData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.Accommodation.AccommodationData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.Accommodation.AccommodationData>()
+            var builder = new DataTableResultModelBuilder<AccommodationData>();
+            builder.AddQueryable(context.Set<AccommodationData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -96,8 +108,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult AirTravelRouteData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.AirTravel.AirTravelRouteData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.AirTravel.AirTravelRouteData>()
+            var builder = new DataTableResultModelBuilder<AirTravelRouteData>();
+            builder.AddQueryable(context.Set<AirTravelRouteData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -147,12 +159,12 @@ namespace CarbonKnown.MVC.Controllers
                 searchSet = true;
                 builder.AddSearchFilter(data => data.Errors.Any());
 			}
-			var travelclass = TryParser.Nullable<CarbonKnown.DAL.Models.AirTravel.TravelClass>(request.sSearch);
+			var travelclass = TryParser.Nullable<TravelClass>(request.sSearch);
             if((!searchSet) && (travelclass !=null))
 			{
                 builder.AddSearchFilter(data => data.TravelClass == travelclass);
 			}
-			var reversal = TryParser.Nullable<System.Boolean>(request.sSearch);
+			var reversal = TryParser.Nullable<Boolean>(request.sSearch);
             if((!searchSet) && (reversal !=null))
 			{
                 builder.AddSearchFilter(data => data.Reversal == reversal);
@@ -207,8 +219,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult AirTravelData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.AirTravel.AirTravelData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.AirTravel.AirTravelData>()
+            var builder = new DataTableResultModelBuilder<AirTravelData>();
+            builder.AddQueryable(context.Set<AirTravelData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -252,7 +264,7 @@ namespace CarbonKnown.MVC.Controllers
                 searchSet = true;
                 builder.AddSearchFilter(data => data.Errors.Any());
 			}
-			var travelclass = TryParser.Nullable<CarbonKnown.DAL.Models.AirTravel.TravelClass>(request.sSearch);
+			var travelclass = TryParser.Nullable<TravelClass>(request.sSearch);
             if((!searchSet) && (travelclass !=null))
 			{
                 builder.AddSearchFilter(data => data.TravelClass == travelclass);
@@ -296,8 +308,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult CarHireData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.CarHire.CarHireData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.CarHire.CarHireData>()
+            var builder = new DataTableResultModelBuilder<CarHireData>();
+            builder.AddQueryable(context.Set<CarHireData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -341,7 +353,7 @@ namespace CarbonKnown.MVC.Controllers
                 searchSet = true;
                 builder.AddSearchFilter(data => data.Errors.Any());
 			}
-			var cargroupbill = TryParser.Nullable<CarbonKnown.DAL.Models.CarHire.CarGroupBill>(request.sSearch);
+			var cargroupbill = TryParser.Nullable<CarGroupBill>(request.sSearch);
             if((!searchSet) && (cargroupbill !=null))
 			{
                 builder.AddSearchFilter(data => data.CarGroupBill == cargroupbill);
@@ -385,8 +397,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult CommutingData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.Commuting.CommutingData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.Commuting.CommutingData>()
+            var builder = new DataTableResultModelBuilder<CommutingData>();
+            builder.AddQueryable(context.Set<CommutingData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -430,7 +442,7 @@ namespace CarbonKnown.MVC.Controllers
                 searchSet = true;
                 builder.AddSearchFilter(data => data.Errors.Any());
 			}
-			var commutingtype = TryParser.Nullable<CarbonKnown.DAL.Models.Commuting.CommutingType>(request.sSearch);
+			var commutingtype = TryParser.Nullable<CommutingType>(request.sSearch);
             if((!searchSet) && (commutingtype !=null))
 			{
                 builder.AddSearchFilter(data => data.CommutingType == commutingtype);
@@ -474,8 +486,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult CourierRouteData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.Courier.CourierRouteData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.Courier.CourierRouteData>()
+            var builder = new DataTableResultModelBuilder<CourierRouteData>();
+            builder.AddQueryable(context.Set<CourierRouteData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -527,12 +539,12 @@ namespace CarbonKnown.MVC.Controllers
                 searchSet = true;
                 builder.AddSearchFilter(data => data.Errors.Any());
 			}
-			var servicetype = TryParser.Nullable<CarbonKnown.DAL.Models.Courier.ServiceType>(request.sSearch);
+			var servicetype = TryParser.Nullable<ServiceType>(request.sSearch);
             if((!searchSet) && (servicetype !=null))
 			{
                 builder.AddSearchFilter(data => data.ServiceType == servicetype);
 			}
-			var chargemass = TryParser.Nullable<System.Decimal>(request.sSearch);
+			var chargemass = TryParser.Nullable<Decimal>(request.sSearch);
             if((!searchSet) && (chargemass !=null))
 			{
                 builder.AddSearchFilter(data => data.ChargeMass == chargemass);
@@ -545,7 +557,7 @@ namespace CarbonKnown.MVC.Controllers
             {
                 builder.AddSearchFilter(data =>data.ToCode.Contains(request.sSearch));
 			}
-			var reversal = TryParser.Nullable<System.Boolean>(request.sSearch);
+			var reversal = TryParser.Nullable<Boolean>(request.sSearch);
             if((!searchSet) && (reversal !=null))
 			{
                 builder.AddSearchFilter(data => data.Reversal == reversal);
@@ -593,8 +605,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult CourierData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.Courier.CourierData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.Courier.CourierData>()
+            var builder = new DataTableResultModelBuilder<CourierData>();
+            builder.AddQueryable(context.Set<CourierData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -640,12 +652,12 @@ namespace CarbonKnown.MVC.Controllers
                 searchSet = true;
                 builder.AddSearchFilter(data => data.Errors.Any());
 			}
-			var servicetype = TryParser.Nullable<CarbonKnown.DAL.Models.Courier.ServiceType>(request.sSearch);
+			var servicetype = TryParser.Nullable<ServiceType>(request.sSearch);
             if((!searchSet) && (servicetype !=null))
 			{
                 builder.AddSearchFilter(data => data.ServiceType == servicetype);
 			}
-			var chargemass = TryParser.Nullable<System.Decimal>(request.sSearch);
+			var chargemass = TryParser.Nullable<Decimal>(request.sSearch);
             if((!searchSet) && (chargemass !=null))
 			{
                 builder.AddSearchFilter(data => data.ChargeMass == chargemass);
@@ -690,8 +702,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult ElectricityData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.Electricity.ElectricityData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.Electricity.ElectricityData>()
+            var builder = new DataTableResultModelBuilder<ElectricityData>();
+            builder.AddQueryable(context.Set<ElectricityData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -735,7 +747,7 @@ namespace CarbonKnown.MVC.Controllers
                 searchSet = true;
                 builder.AddSearchFilter(data => data.Errors.Any());
 			}
-			var electricitytype = TryParser.Nullable<CarbonKnown.DAL.Models.Electricity.ElectricityType>(request.sSearch);
+			var electricitytype = TryParser.Nullable<ElectricityType>(request.sSearch);
             if((!searchSet) && (electricitytype !=null))
 			{
                 builder.AddSearchFilter(data => data.ElectricityType == electricitytype);
@@ -779,8 +791,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult FuelData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.Fuel.FuelData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.Fuel.FuelData>()
+            var builder = new DataTableResultModelBuilder<FuelData>();
+            builder.AddQueryable(context.Set<FuelData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -826,12 +838,12 @@ namespace CarbonKnown.MVC.Controllers
                 searchSet = true;
                 builder.AddSearchFilter(data => data.Errors.Any());
 			}
-			var fueltype = TryParser.Nullable<CarbonKnown.DAL.Models.FuelType>(request.sSearch);
+			var fueltype = TryParser.Nullable<FuelType>(request.sSearch);
             if((!searchSet) && (fueltype !=null))
 			{
                 builder.AddSearchFilter(data => data.FuelType == fueltype);
 			}
-			var uom = TryParser.Nullable<CarbonKnown.DAL.Models.Fuel.UnitOfMeasure>(request.sSearch);
+			var uom = TryParser.Nullable<UnitOfMeasure>(request.sSearch);
             if((!searchSet) && (uom !=null))
 			{
                 builder.AddSearchFilter(data => data.UOM == uom);
@@ -876,8 +888,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult PaperData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.Paper.PaperData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.Paper.PaperData>()
+            var builder = new DataTableResultModelBuilder<PaperData>();
+            builder.AddQueryable(context.Set<PaperData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -923,12 +935,12 @@ namespace CarbonKnown.MVC.Controllers
                 searchSet = true;
                 builder.AddSearchFilter(data => data.Errors.Any());
 			}
-			var papertype = TryParser.Nullable<CarbonKnown.DAL.Models.Paper.PaperType>(request.sSearch);
+			var papertype = TryParser.Nullable<PaperType>(request.sSearch);
             if((!searchSet) && (papertype !=null))
 			{
                 builder.AddSearchFilter(data => data.PaperType == papertype);
 			}
-			var paperuom = TryParser.Nullable<CarbonKnown.DAL.Models.Paper.PaperUom>(request.sSearch);
+			var paperuom = TryParser.Nullable<PaperUom>(request.sSearch);
             if((!searchSet) && (paperuom !=null))
 			{
                 builder.AddSearchFilter(data => data.PaperUom == paperuom);
@@ -973,8 +985,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult RefrigerantData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.Refrigerant.RefrigerantData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.Refrigerant.RefrigerantData>()
+            var builder = new DataTableResultModelBuilder<RefrigerantData>();
+            builder.AddQueryable(context.Set<RefrigerantData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -1018,7 +1030,7 @@ namespace CarbonKnown.MVC.Controllers
                 searchSet = true;
                 builder.AddSearchFilter(data => data.Errors.Any());
 			}
-			var refrigeranttype = TryParser.Nullable<CarbonKnown.DAL.Models.Refrigerant.RefrigerantType>(request.sSearch);
+			var refrigeranttype = TryParser.Nullable<RefrigerantType>(request.sSearch);
             if((!searchSet) && (refrigeranttype !=null))
 			{
                 builder.AddSearchFilter(data => data.RefrigerantType == refrigeranttype);
@@ -1062,8 +1074,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult FleetData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.Fleet.FleetData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.Fleet.FleetData>()
+            var builder = new DataTableResultModelBuilder<FleetData>();
+            builder.AddQueryable(context.Set<FleetData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -1109,12 +1121,12 @@ namespace CarbonKnown.MVC.Controllers
                 searchSet = true;
                 builder.AddSearchFilter(data => data.Errors.Any());
 			}
-			var scope = TryParser.Nullable<CarbonKnown.DAL.Models.Fleet.FleetScope>(request.sSearch);
+			var scope = TryParser.Nullable<FleetScope>(request.sSearch);
             if((!searchSet) && (scope !=null))
 			{
                 builder.AddSearchFilter(data => data.Scope == scope);
 			}
-			var fueltype = TryParser.Nullable<CarbonKnown.DAL.Models.FuelType>(request.sSearch);
+			var fueltype = TryParser.Nullable<FuelType>(request.sSearch);
             if((!searchSet) && (fueltype !=null))
 			{
                 builder.AddSearchFilter(data => data.FuelType == fueltype);
@@ -1159,8 +1171,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult WasteData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.Waste.WasteData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.Waste.WasteData>()
+            var builder = new DataTableResultModelBuilder<WasteData>();
+            builder.AddQueryable(context.Set<WasteData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {
@@ -1204,7 +1216,7 @@ namespace CarbonKnown.MVC.Controllers
                 searchSet = true;
                 builder.AddSearchFilter(data => data.Errors.Any());
 			}
-			var wastetype = TryParser.Nullable<CarbonKnown.DAL.Models.Waste.WasteType>(request.sSearch);
+			var wastetype = TryParser.Nullable<WasteType>(request.sSearch);
             if((!searchSet) && (wastetype !=null))
 			{
                 builder.AddSearchFilter(data => data.WasteType == wastetype);
@@ -1248,8 +1260,8 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult WaterData(DataTableParamModel request, Guid sourceId)
         {
-            var builder = new DataTableResultModelBuilder<CarbonKnown.DAL.Models.Water.WaterData>();
-            builder.AddQueryable(context.Set<CarbonKnown.DAL.Models.Water.WaterData>()
+            var builder = new DataTableResultModelBuilder<WaterData>();
+            builder.AddQueryable(context.Set<WaterData>()
 			.Where(data => data.SourceId == sourceId));
             var columnIndex = new List<string>
                 {

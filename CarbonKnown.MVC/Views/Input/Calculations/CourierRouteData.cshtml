@@ -2,11 +2,12 @@
 @using CarbonKnown.DAL.Models.Courier
 @using CarbonKnown.MVC.Controllers
 @using CarbonKnown.MVC.Models
+@using Calculation = CarbonKnown.DAL.Models.Constants.Calculation
 @model EnterDataModel
 @{
     Layout = "../_EnterDataLayout.cshtml";
     ViewBag.ConsumptionType = ConsumptionType.Courier;
-    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.CourierRouteId;
+    ViewBag.CalculationId = Calculation.CourierRouteId;
     ViewBag.DisplayType = "Courier";
     ViewBag.UnitsAside = "<label class=\"side-selection\">kms</label>";
     ViewBag.InitialStep = 4;

@@ -1,6 +1,8 @@
 using System.Web.Optimization;
+using CarbonKnown.MVC.App_Start;
+using WebActivatorEx;
 
-[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(CarbonKnown.MVC.App_Start.BootstrapBundleConfig), "RegisterBundles")]
+[assembly: PostApplicationStartMethod(typeof(BootstrapBundleConfig), "RegisterBundles")]
 
 namespace CarbonKnown.MVC.App_Start
 {

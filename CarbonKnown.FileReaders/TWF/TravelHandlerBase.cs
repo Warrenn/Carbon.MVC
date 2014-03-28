@@ -32,7 +32,7 @@ namespace CarbonKnown.FileReaders.TWF
                             RowNo = contract.RowNo,
                             StartDate = contract.StartDate,
                             ToCode = toCode,
-                            TravelClass = (CarbonKnown.WCF.AirTravelRoute.TravelClass)contract.ClassCategory,
+                            TravelClass = (TravelClass)contract.ClassCategory,
                             SourceId = contract.SourceId,
                             Reversal = reversal
                         };

@@ -2,15 +2,16 @@
 @using CarbonKnown.DAL.Models.Fuel
 @using CarbonKnown.MVC.Controllers
 @using CarbonKnown.MVC.Models
+@using Calculation = CarbonKnown.DAL.Models.Constants.Calculation
 @model EnterDataModel
 @{
     Layout = "../_EnterDataLayout.cshtml";
     ViewBag.ConsumptionType = ConsumptionType.Other;
-    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.FuelId;
+    ViewBag.CalculationId = Calculation.FuelId;
     ViewBag.DisplayType = "Fuel";
     ViewBag.InitialStep = 4;
     var fuelDataModel = (Model.EntryData as FuelData) ?? new FuelData();
-    fuelDataModel.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.FuelId;
+    fuelDataModel.CalculationId = Calculation.FuelId;
 
     var calculationSettings = DataSelectionModel.CreateFromEnum(fuelDataModel, m => (Guid?)m.CalculationId, InputController.SelectableCalculations);
     calculationSettings.Label = "Calculation";

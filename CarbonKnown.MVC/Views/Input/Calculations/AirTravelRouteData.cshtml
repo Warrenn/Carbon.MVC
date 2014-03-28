@@ -2,11 +2,12 @@
 @using CarbonKnown.DAL.Models.AirTravel
 @using CarbonKnown.MVC.Controllers
 @using CarbonKnown.MVC.Models
+@using Calculation = CarbonKnown.DAL.Models.Constants.Calculation
 @model EnterDataModel
 @{
     Layout = "../_EnterDataLayout.cshtml";
     ViewBag.ConsumptionType = ConsumptionType.AirTravel;
-    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.AirTravelId;
+    ViewBag.CalculationId = Calculation.AirTravelId;
     ViewBag.DisplayType = "Air Travel";
     ViewBag.DateLabel = "Travel Date";
     ViewBag.InitialStep = 3;

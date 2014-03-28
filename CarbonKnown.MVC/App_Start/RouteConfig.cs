@@ -22,6 +22,8 @@ namespace CarbonKnown.MVC.App_Start
                             new {controller = "EditSource", action = "Index"});
             routes.MapRoute("sourceentries", "source/entries/{action}",
                             new { controller = "EditSource" });
+            routes.MapRoute("selectsource", "input/selectSource/{sourceId}",
+                new { controller = "InputHistory", action = "SelectSource" });
             
             
             //Checklist

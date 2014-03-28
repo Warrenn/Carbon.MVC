@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Threading;
 using System;
@@ -63,7 +64,7 @@ namespace CarbonKnown.Print
                 return;
             }
 
-            System.Runtime.InteropServices.Marshal.Release(ieBrowser.Handle);
+            Marshal.Release(ieBrowser.Handle);
             ieBrowser.Dispose();
             base.Dispose(disposing);
         }

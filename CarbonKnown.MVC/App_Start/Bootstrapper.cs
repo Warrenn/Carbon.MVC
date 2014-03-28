@@ -20,6 +20,7 @@ using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using DataSourceService = CarbonKnown.MVC.Service.DataSourceService;
+using UnityDependencyResolver = Unity.Mvc4.UnityDependencyResolver;
 
 namespace CarbonKnown.MVC.App_Start
 {
@@ -36,10 +37,10 @@ namespace CarbonKnown.MVC.App_Start
         public static void Initialize(HttpConfiguration config)
         {
             var container = Container;
-            var mvc4Resolver = new Unity.Mvc4.UnityDependencyResolver(container);
+            var mvc4Resolver = new UnityDependencyResolver(container);
             DependencyResolver.SetResolver(mvc4Resolver);
             var previousResolver = DependencyResolver.Current;
-            var newResolver = new UnityDependencyResolver(container, previousResolver);
+            var newResolver = new Code.UnityDependencyResolver(container, previousResolver);
             DependencyResolver.SetResolver(newResolver);
             config.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
         }

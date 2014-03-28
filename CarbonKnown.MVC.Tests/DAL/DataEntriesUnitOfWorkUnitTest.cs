@@ -4,6 +4,7 @@ using System.Linq;
 using CarbonKnown.DAL;
 using CarbonKnown.DAL.Models;
 using CarbonKnown.DAL.Models.CarHire;
+using CarbonKnown.MVC.DAL;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -63,7 +64,7 @@ namespace CarbonKnown.MVC.Tests.DAL
                             Id = Guid.NewGuid(), 
                             SourceId = sourceId, 
                             CostCode = "testcode",
-                            CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.AvisCourierId
+                            CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.CarHireId
                         },
                     new CarHireData
                         {
@@ -71,7 +72,7 @@ namespace CarbonKnown.MVC.Tests.DAL
                             SourceId = sourceId,
                             CarGroupBill = CarGroupBill.E,
                             CostCode = "testcodeaf1",
-                            CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.AvisCourierId
+                            CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.CarHireId
                         },
                     new CarHireData
                         {
@@ -79,7 +80,7 @@ namespace CarbonKnown.MVC.Tests.DAL
                             SourceId = sourceId,
                             CarGroupBill = CarGroupBill.G,
                             CostCode = "testcodeaf",
-                            CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.AvisCourierId
+                            CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.CarHireId
                         },
                     new DataEntry
                         {

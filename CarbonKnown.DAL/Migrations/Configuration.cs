@@ -2,7 +2,7 @@ namespace CarbonKnown.DAL.Migrations
 {
     using System.Data.Entity.Migrations;
 
-    public partial class Configuration : DbMigrationsConfiguration<CarbonKnown.DAL.DataContext>
+    public partial class Configuration : DbMigrationsConfiguration<DataContext>
     {
         public Configuration()
         {
@@ -10,7 +10,7 @@ namespace CarbonKnown.DAL.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(CarbonKnown.DAL.DataContext context)
+        protected override void Seed(DataContext context)
         {
             //  This method will be called after migrating to the latest version.
 

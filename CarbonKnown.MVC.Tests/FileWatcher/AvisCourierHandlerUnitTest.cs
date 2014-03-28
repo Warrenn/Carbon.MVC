@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using CarbonKnown.DAL.Models.CarHire;
 using CarbonKnown.FileReaders.AvisCourier;
 using CarbonKnown.FileReaders.Readers;
+using CarbonKnown.WCF.CarHire;
 using CarbonKnown.WCF.DataSource;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using CarGroupBill = CarbonKnown.DAL.Models.CarHire.CarGroupBill;
 
 namespace CarbonKnown.MVC.Tests.FileWatcher
 {
@@ -18,7 +19,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> {{"TOTAL-KMS", 1234.12345}};
             //Act
             var result = sut.Convert(contract, values);
@@ -31,7 +32,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> { { "TOTAL KMS", 1234.12345 } };
             //Act
             var result = sut.Convert(contract, values);
@@ -44,7 +45,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> { { "COST-CENTRE", "123.345" } };
             //Act
             var result = sut.Convert(contract, values);
@@ -57,7 +58,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> { { "COST-CENTRE", "123.845" } };
             //Act
             var result = sut.Convert(contract, values);
@@ -70,7 +71,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> { { "COST CENTRE", "123.456" } };
             //Act
             var result = sut.Convert(contract, values);
@@ -83,7 +84,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> {{"CHECK-OUT-DATE", "2013-05-13"}};
             //Act
             var result = sut.Convert(contract, values);
@@ -96,7 +97,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> { { "CHECK OUT DATE", "2013-05-13" } };
             //Act
             var result = sut.Convert(contract, values);
@@ -109,7 +110,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> { { "CHECK-IN-DATE", "2013-05-13" } };
             //Act
             var result = sut.Convert(contract, values);
@@ -122,7 +123,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> { { "CHECK IN DATE", "2013-05-13" } };
             //Act
             var result = sut.Convert(contract, values);
@@ -135,7 +136,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> {{"TOTAL-CHARGE", 1234.12345}};
             //Act
             var result = sut.Convert(contract, values);
@@ -148,7 +149,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> { { "TOTAL CHARGE", 1234.12345 } };
             //Act
             var result = sut.Convert(contract, values);
@@ -161,7 +162,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> { { "CAR-GROUP-BILL", "D" } };
             //Act
             var result = sut.Convert(contract, values);
@@ -174,7 +175,7 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         {
             //Arrange
             var sut = new AvisCourierHandler("test");
-            var contract = new AvisCourierDataContract();
+            var contract = new CarHireDataContract();
             var values = new Dictionary<string, object> { { "CAR GROUP BILL", "D" } };
             //Act
             var result = sut.Convert(contract, values);
@@ -205,11 +206,11 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
                                 {"CAR-GROUP-BILL", "F"}
                             }
                     });
-            var mockService = new Mock<IAvisCourierService>();
+            var mockService = new Mock<ICarHireService>();
             var mockSourceService = new Mock<IDataSourceService>();
             var mockSut = new Mock<AvisCourierHandler>("test") {CallBase = true};
             mockSut
-                .Setup(handler => handler.GetService<IAvisCourierService>())
+                .Setup(handler => handler.GetService<ICarHireService>())
                 .Returns(mockService.Object);
             mockSut
                 .Setup(handler => handler.GetService<IDataSourceService>())
@@ -225,12 +226,12 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
             //Assert
             mockService
                 .Verify(service => service.UpsertDataEntry(
-                    It.Is<AvisCourierDataContract>(
+                    It.Is<CarHireDataContract>(
                         data => (data.SourceId == sourceId)
                                 && (
-                                       (data.CarGroupBill == CarGroupBill.D) ||
-                                       (data.CarGroupBill == CarGroupBill.E) ||
-                                       (data.CarGroupBill == CarGroupBill.F))
+                                       (data.CarGroupBill == WCF.CarHire.CarGroupBill.D) ||
+                                       (data.CarGroupBill == WCF.CarHire.CarGroupBill.E) ||
+                                       (data.CarGroupBill == WCF.CarHire.CarGroupBill.F))
                         )), Times.Exactly(3));
         }
     }

@@ -1,5 +1,8 @@
-﻿using CarbonKnown.DAL;
+﻿using System.Data.Entity;
+using System.Data.Entity.SqlServer;
+using CarbonKnown.DAL;
 using CarbonKnown.DAL.Models;
+using CarbonKnown.MVC.DAL;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -10,7 +13,7 @@ namespace CarbonKnown.MVC.Tests.DAL
     {
         public AccountServiceUnitTest()
         {
-            var type = typeof(System.Data.Entity.SqlServer.SqlProviderServices);
+            var type = typeof(SqlProviderServices);
         }
 
         [TestMethod]

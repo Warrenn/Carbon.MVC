@@ -1,8 +1,10 @@
+using CarbonKnown.Factors.DAL;
+
 namespace CarbonKnown.Factors.Migrations
 {
     using System.Data.Entity.Migrations;
 
-    internal sealed partial class Configuration : DbMigrationsConfiguration<DAL.DataContext>
+    internal sealed partial class Configuration : DbMigrationsConfiguration<DataContext>
     {
         public Configuration()
         {
@@ -10,7 +12,7 @@ namespace CarbonKnown.Factors.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(DAL.DataContext context)
+        protected override void Seed(DataContext context)
         {
             GeneratedSeed(context);
         }

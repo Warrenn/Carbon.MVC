@@ -1,3 +1,4 @@
+using CarbonKnown.MVC.App_Start;
 using Microsoft.Practices.Unity;
 using Unity.Wcf;
 
@@ -7,7 +8,7 @@ namespace CarbonKnown.MVC.Code
     {
         protected override void ConfigureContainer(IUnityContainer container)
         {
-			App_Start.Bootstrapper.RegisterTypes(container);
+			Bootstrapper.RegisterTypes(container);
         }
     }    
 }

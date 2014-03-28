@@ -14,7 +14,7 @@ namespace CarbonKnown.Calculation.Fuel
         CarbonKnown.DAL.Models.Constants.Calculation.Fuel,
         ConsumptionType = ConsumptionType.Other,
         Activities = typeof (FuelActivityId),
-        Factors = typeof (CarbonKnown.DAL.Models.Constants.Factors.Fuel))]
+        Factors = typeof (FactorIds.Fuel))]
     public class FuelCalculation : CalculationBase<FuelData>
     {
         public FuelCalculation(ICalculationDataContext context)

@@ -139,34 +139,34 @@ namespace CarbonKnown.MVC.BLL
         public IEnumerable<SliceTotal> TotalsByActivityGroup(DashboardRequest request)
         {
             var configuration = Configurations[request.Section];
-             if (request.ActivityGroupId == null)
-             {
-                 return configuration
-                     .ActivityIds
-                     .Select(activityId => new SliceTotal
-                         {
-                             ActivityGroupId = activityId,
-                             CostCode = request.CostCode,
-                             TotalUnits = context.TotalUnits(
-                                 request.StartDate,
-                                 request.EndDate,
-                                 activityId,
-                                 request.CostCode),
-                             TotalCarbonEmissions = context.TotalEmissions(
-                                 request.StartDate,
-                                 request.EndDate,
-                                 activityId,
-                                 request.CostCode)
-                         });
-             }
-             return context.TotalsByActivityGroup(
-                             request.StartDate,
-                             request.EndDate,
-                             request.ActivityGroupId,
-                             request.CostCode).ToArray();
-         }
+            if (request.ActivityGroupId == null)
+            {
+                return configuration
+                    .ActivityIds
+                    .Select(activityId => new SliceTotal
+                    {
+                        ActivityGroupId = activityId,
+                        CostCode = request.CostCode,
+                        TotalUnits = context.TotalUnits(
+                            request.StartDate,
+                            request.EndDate,
+                            activityId,
+                            request.CostCode),
+                        TotalCarbonEmissions = context.TotalEmissions(
+                            request.StartDate,
+                            request.EndDate,
+                            activityId,
+                            request.CostCode)
+                    });
+            }
+            return context.TotalsByActivityGroup(
+                request.StartDate,
+                request.EndDate,
+                request.ActivityGroupId,
+                request.CostCode).ToArray();
+        }
 
-        
+
         public DashboardSummary CostCentre(DashboardRequest request)
         {
             var totalAmount = 0M;
@@ -272,59 +272,58 @@ namespace CarbonKnown.MVC.BLL
             var slices = TotalsByActivityGroup(request)
                 .ToArray()
                 .Select(total =>
+                {
+                    var activity = context.ActivityGroups.Find(total.ActivityGroupId);
+                    decimal amount;
+                    string shortLabel;
+                    string longLabel;
+                    var showCo2 = (configuration.ShowCo2) ||
+                                  (activity == null) ||
+                                  (string.IsNullOrEmpty(activity.UOMShort)) ||
+                                  (string.IsNullOrEmpty(activity.UOMLong));
+                    if (showCo2)
                     {
-                        var activity = context.ActivityGroups.Find(total.ActivityGroupId);
-                        decimal amount;
-                        string shortLabel;
-                        string longLabel;
-                        var showCo2 = (configuration.ShowCo2) ||
-                                      (activity == null) ||
-                                      (string.IsNullOrEmpty(activity.UOMShort)) ||
-                                      (string.IsNullOrEmpty(activity.UOMLong));
-                        if (showCo2)
+                        amount = (total.TotalCarbonEmissions)/1000;
+                        shortLabel = Constants.Constants.Co2LabelShort;
+                        longLabel = Constants.Constants.Co2LabelLong;
+                        activity = activity ?? new ActivityGroup
                         {
-                            amount = (total.TotalCarbonEmissions)/1000;
-                            shortLabel = Constants.Constants.Co2LabelShort;
-                            longLabel = Constants.Constants.Co2LabelLong;
-                            activity = activity ?? new ActivityGroup
-                                {
-                                    OrderId = 0
-                                };
-                        }
-                        else
+                            OrderId = 0
+                        };
+                    }
+                    else
+                    {
+                        amount = total.TotalUnits;
+                        shortLabel = activity.UOMShort;
+                        longLabel = activity.UOMLong;
+                    }
+                    if (!string.IsNullOrEmpty(co2Label) && (!string.Equals(co2Label, longLabel)))
+                    {
+                        displayTotal = false;
+                    }
+                    co2Label = longLabel;
+                    totalAmount = totalAmount + amount;
+                    var sliceId = CreateSliceId(total.ActivityGroupId, total.CostCode);
+                    return new
+                    {
+                        activity.OrderId,
+                        slice = new SliceModel
                         {
-                            amount = total.TotalUnits;
-                            shortLabel = activity.UOMShort;
-                            longLabel = activity.UOMLong;
+                            activityGroupId = total.ActivityGroupId,
+                            costCode = total.CostCode,
+                            amount = amount,
+                            co2label = shortLabel,
+                            color = activity.Color,
+                            description = activity.Description,
+                            sliceId = sliceId,
+                            title = activity.Name,
+                            units = total.TotalUnits,
+                            uom = activity.UOMShort
                         }
-                        if (!string.IsNullOrEmpty(co2Label) && (!string.Equals(co2Label, longLabel)))
-                        {
-                            displayTotal = false;
-                        }
-                        co2Label = longLabel;
-                        totalAmount = totalAmount + amount;
-                        var sliceId = CreateSliceId(total.ActivityGroupId, total.CostCode);
-                        return new
-                            {
-                                activity.OrderId,
-                                slice = new SliceModel
-                                    {
-                                        activityGroupId = total.ActivityGroupId,
-                                        costCode = total.CostCode,
-                                        amount = amount,
-                                        co2label = shortLabel,
-                                        color = activity.Color,
-                                        description = activity.Description,
-                                        sliceId = sliceId,
-                                        title = activity.Name,
-                                        units = total.TotalUnits,
-                                        uom = activity.UOMShort
-                                    }
-                            };
-                    })
+                    };
+                })
                 .OrderBy(arg => arg.OrderId)
-                .Select(arg => arg.slice)
-                .ToArray();
+                .Select(arg => arg.slice);
             if (string.IsNullOrEmpty(co2Label) && displayTotal)
             {
                 co2Label = Constants.Constants.Co2LabelLong;
@@ -347,7 +346,7 @@ namespace CarbonKnown.MVC.BLL
             var activityName = (request.ActivityGroupId == null)
                                ? configuration.DisplayName
                                : context.ActivityGroups.Find(activityId).Name;
-            var costCentre = context.CostCentres.Find(request.CostCode);
+            var costCentre = context.CostCentres.Find(request.CostCode) ?? new CostCentre();
             var currencySummaries =
                 (from id in activityIds
                  from currency in context
@@ -367,16 +366,16 @@ namespace CarbonKnown.MVC.BLL
                     .ToArray();
             var currencies = currencySummaries.Select(CreateCurrency);
             var summary = new DashboardSummary
-                {
-                    activityGroup = activityName,
-                    co2label = co2Label,
-                    costCentre = costCentre.Name,
-                    currencies = currencies,
-                    displayTotal = displayTotal && !string.IsNullOrEmpty(co2Label),
-                    slices = slices,
-                    total = totalAmount,
-                    yoy = yoy
-                };
+            {
+                activityGroup = activityName,
+                co2label = co2Label,
+                costCentre = costCentre.Name,
+                currencies = currencies,
+                displayTotal = displayTotal && !string.IsNullOrEmpty(co2Label),
+                slices = slices,
+                total = totalAmount,
+                yoy = yoy
+            };
             return summary;
         }
     }

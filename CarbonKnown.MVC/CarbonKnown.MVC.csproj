@@ -281,6 +281,7 @@
     <Compile Include="Controllers\SliceController.cs" />
     <Compile Include="Controllers\TraceSourceController.cs" />
     <Compile Include="Controllers\TreeWalkController.cs" />
+    <Compile Include="Models\AuditHistoryModel.cs" />
     <Compile Include="Models\ChecklistTableSettings.cs" />
     <Compile Include="Models\ChecklistTableViewModel.cs" />
     <Compile Include="Models\ChecklistTableColumn.cs" />

@@ -2,16 +2,17 @@
 @using CarbonKnown.DAL.Models.Fleet
 @using CarbonKnown.MVC.Controllers
 @using CarbonKnown.MVC.Models
+@using Calculation = CarbonKnown.DAL.Models.Constants.Calculation
 @model EnterDataModel
 @{
     Layout = "../_EnterDataLayout.cshtml";
     ViewBag.ConsumptionType = ConsumptionType.Other;
-    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.FleetId;
+    ViewBag.CalculationId = Calculation.FleetId;
     ViewBag.DisplayType = "Fleet";
     ViewBag.InitialStep =5;
     ViewBag.UnitsAside = "<label class=\"side-selection\">litres</label>";
     var fleetData = (Model.EntryData as FleetData) ?? new FleetData();
-    fleetData.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.FleetId;
+    fleetData.CalculationId = Calculation.FleetId;
 
     var calculationSettings = DataSelectionModel.CreateFromEnum(fleetData, m => (Guid?)m.CalculationId, InputController.SelectableCalculations);
     calculationSettings.Label = "Calculation";

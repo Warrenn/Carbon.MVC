@@ -108,7 +108,7 @@ namespace CarbonKnown.Calculation
                      new {key = type, value = attribute})
                     .ToDictionary(
                         a => a.key,
-                        a => new CarbonKnown.DAL.Models.Calculation
+                        a => new Calc
                             {
                                 Id = a.value.CalculationId,
                                 ActivityGroups =

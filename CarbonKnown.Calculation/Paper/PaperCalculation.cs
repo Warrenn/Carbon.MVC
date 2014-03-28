@@ -14,7 +14,7 @@ namespace CarbonKnown.Calculation.Paper
         CarbonKnown.DAL.Models.Constants.Calculation.Paper,
         ConsumptionType = ConsumptionType.Paper,
         Activities = typeof (PaperActivityId),
-        Factors = typeof (CarbonKnown.DAL.Models.Constants.Factors.Paper))]
+        Factors = typeof (PaperFactors))]
     public class PaperCalculation : CalculationBase<PaperData>
     {
         public const int ReamsPerTonne = 400;

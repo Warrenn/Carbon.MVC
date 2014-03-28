@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using CarbonKnown.Calculation;
 using CarbonKnown.DAL.Models;
 using CarbonKnown.DAL.Models.Source;
 using CarbonKnown.FileReaders;
 using CarbonKnown.FileReaders.FileHandler;
+using CarbonKnown.MVC.Code;
+using CarbonKnown.MVC.DAL;
+using CarbonKnown.MVC.Service;
 using CarbonKnown.WCF.DataSource;
 using Microsoft.Practices.EnterpriseLibrary.ExceptionHandling;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using DataSourceService = CarbonKnown.MVC.BLL.DataSourceService;
+using DataSourceService = CarbonKnown.MVC.BLL.FileDataSourceService;
+using SourceErrorType = CarbonKnown.WCF.DataSource.SourceErrorType;
 
 namespace CarbonKnown.MVC.Tests.Service
 {
@@ -87,9 +92,6 @@ namespace CarbonKnown.MVC.Tests.Service
                 {
                     CallBase = true
                 };
-            mockService
-                .Setup(service => service.GetUserName())
-                .Returns("TestUserName");
             return mockService.Object;
         }
 
@@ -138,12 +140,11 @@ namespace CarbonKnown.MVC.Tests.Service
         public void UpsertFileDataSourceMustCallAddDatasourceWhenInserting()
         {
             //Arrange
-            var contract = new FileStreamDataContract
+            var contract = new FileDataContract
                 {
                     ReferenceNotes = "reference notes",
                     OriginalFileName = "Original name",
-                    HandlerName = "handler name",
-                    FileStream = new MemoryStream()
+                    HandlerName = "handler name"
                 };
             mockContext
                 .Setup(context => context.AddDataSource(It.Is<FileDataSource>(
@@ -157,7 +158,7 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Verifiable();
 
             //Act
-            CreateService().UpsertFileDataSource(contract);
+            CreateService().UpsertFileDataSource(contract, new MemoryStream());
 
             //Assert
             mockContext.Verify();
@@ -179,15 +180,14 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Setup(context => context.AddDataSource(It.IsAny<FileDataSource>()))
                 .Returns(source);
 
-            var uploadContract = new FileStreamDataContract
+            var uploadContract = new FileDataContract
                 {
                     SourceId = newSourceId,
-                    OriginalFileName = "Original Name",
-                    FileStream = new MemoryStream()
+                    OriginalFileName = "Original Name"
                 };
 
             //Act
-            CreateService().UpsertFileDataSource(uploadContract);
+            CreateService().UpsertFileDataSource(uploadContract,new MemoryStream());
 
             //Assert
             mockService.Verify();
@@ -209,15 +209,14 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Returns(source)
                 .Verifiable();
 
-            var uploadContract = new FileStreamDataContract
+            var uploadContract = new FileDataContract
             {
                 SourceId = newSourceId,
-                OriginalFileName = "Original Name",
-                FileStream = new MemoryStream()
+                OriginalFileName = "Original Name"
             };
 
             //Act
-            CreateService().UpsertFileDataSource(uploadContract);
+            CreateService().UpsertFileDataSource(uploadContract,new MemoryStream());
 
             //Assert
             mockContext.Verify();
@@ -235,15 +234,15 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Returns(source)
                 .Verifiable();
 
-            var uploadContract = new FileStreamDataContract
+            var uploadContract = new FileDataContract
             {
                 SourceId = newSourceId,
                 OriginalFileName = "Original Name",
-                FileStream = new MemoryStream(new byte[] { 100 })
             };
+            var fileStream = new MemoryStream(new byte[] {100});
 
             //Act
-            CreateService().UpsertFileDataSource(uploadContract);
+            CreateService().UpsertFileDataSource(uploadContract, fileStream);
 
             //Assert
              mockContext
@@ -268,15 +267,15 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Returns((FileDataSource)null)
                 .Verifiable();
 
-            var uploadContract = new FileStreamDataContract
+            var uploadContract = new FileDataContract
             {
                 SourceId = newSourceId,
-                OriginalFileName = "Original Name",
-                FileStream = new MemoryStream(new byte[] { 100 })
+                OriginalFileName = "Original Name"
             };
+            var fileStream = new MemoryStream(new byte[] { 100 });
 
             //Act
-            CreateService().UpsertFileDataSource(uploadContract);
+            CreateService().UpsertFileDataSource(uploadContract, fileStream);
 
             //Assert
             mockService
@@ -293,15 +292,15 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Returns(source)
                 .Verifiable();
 
-            var uploadContract = new FileStreamDataContract
+            var uploadContract = new FileDataContract
             {
                 SourceId = newSourceId,
-                OriginalFileName = "Original Name",
-                FileStream = new MemoryStream(new byte[] { 100 })
+                OriginalFileName = "Original Name"
             };
+            var fileStream = new MemoryStream(new byte[] { 100 });
 
             //Act
-            CreateService().UpsertFileDataSource(uploadContract);
+            CreateService().UpsertFileDataSource(uploadContract, fileStream);
 
             //Assert
             mockContext
@@ -318,15 +317,15 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Returns(source)
                 .Verifiable();
 
-            var uploadContract = new FileStreamDataContract
+            var uploadContract = new FileDataContract
             {
                 SourceId = newSourceId,
-                OriginalFileName = "Original Name",
-                FileStream = new MemoryStream(new byte[] { 100 })
+                OriginalFileName = "Original Name"
             };
+            var fileStream = new MemoryStream(new byte[] { 100 });
 
             //Act
-            CreateService().UpsertFileDataSource(uploadContract);
+            CreateService().UpsertFileDataSource(uploadContract, fileStream);
 
             //Assert
             mockService
@@ -344,7 +343,7 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Verifiable();
 
             //Act
-            var result = CreateService().CancelFileSourceExtraction(newSourceId);
+            var result = CreateService().CancelFileSourceExtraction(newSourceId).Result;
 
             //Assert
             mockContext.Verify(context => context.UpdateDataSource(It.IsAny<FileDataSource>()), Times.Never);
@@ -364,7 +363,7 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Setup(context => context.GetFileDataSource(It.IsAny<Guid>(), It.IsAny<string>()))
                 .Returns(source)
                 .Verifiable();
-            var contract = new FileStreamDataContract
+            var contract = new FileDataContract
                 {
                     SourceId = newSourceId,
                     HandlerName = "newHandlerName",
@@ -373,16 +372,12 @@ namespace CarbonKnown.MVC.Tests.Service
                 };
             CreateService();
             mockService
-                .Setup(service => service.GetUserName())
-                .Returns("testUserName")
-                .Verifiable();
-            mockService
                 .Setup(service => service.ValidateSource(It.IsAny<Guid>()))
                 .Returns((SourceResultDataContract)null)
                 .Verifiable();
 
             //Act
-            mockService.Object.UpsertFileDataSource(contract);
+            mockService.Object.UpsertFileDataSource(contract, new MemoryStream());
 
             //Assert
             mockService.Verify();
@@ -415,14 +410,10 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Verifiable();
             CreateService();
             mockService
-                .Setup(service => service.GetUserName())
-                .Returns("testUserName")
-                .Verifiable();
-            mockService
                 .Setup(service => service.ValidateSource(It.IsAny<Guid>()))
                 .Returns((SourceResultDataContract)null)
                 .Verifiable();
-            var contract = new FileStreamDataContract
+            var contract = new FileDataContract
             {
                 SourceId = newSourceId,
                 OriginalFileName = "newFileName",
@@ -430,7 +421,7 @@ namespace CarbonKnown.MVC.Tests.Service
             };            
 
             //Act
-            mockService.Object.UpsertFileDataSource(contract);
+            mockService.Object.UpsertFileDataSource(contract,new MemoryStream());
 
             //Assert
             mockService.Verify();
@@ -463,14 +454,10 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Verifiable();
             CreateService();
             mockService
-                .Setup(service => service.GetUserName())
-                .Returns("testUserName")
-                .Verifiable();
-            mockService
                 .Setup(service => service.ValidateSource(It.IsAny<Guid>()))
                 .Returns((SourceResultDataContract)null)
                 .Verifiable();
-            var contract = new FileStreamDataContract
+            var contract = new FileDataContract
             {
                 SourceId = newSourceId,
                 HandlerName = "newHandlerName",
@@ -478,7 +465,7 @@ namespace CarbonKnown.MVC.Tests.Service
             };            
 
             //Act
-            mockService.Object.UpsertFileDataSource(contract);
+            mockService.Object.UpsertFileDataSource(contract,new MemoryStream());
 
             //Assert
             mockService.Verify();
@@ -511,14 +498,10 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Verifiable();
             CreateService();
             mockService
-                .Setup(service => service.GetUserName())
-                .Returns("testUserName")
-                .Verifiable();
-            mockService
                 .Setup(service => service.ValidateSource(It.IsAny<Guid>()))
                 .Returns((SourceResultDataContract)null)
                 .Verifiable();
-            var contract = new FileStreamDataContract
+            var contract = new FileDataContract
             {
                 SourceId = newSourceId,
                 HandlerName = "newHandlerName",
@@ -526,7 +509,7 @@ namespace CarbonKnown.MVC.Tests.Service
             };            
 
             //Act
-            mockService.Object.UpsertFileDataSource(contract);
+            mockService.Object.UpsertFileDataSource(contract,new MemoryStream());
 
             //Assert
             mockService.Verify();
@@ -549,7 +532,7 @@ namespace CarbonKnown.MVC.Tests.Service
             SetupFileDataContextToReturnDataSource(source);
 
             //Act
-            var result = CreateService().CancelFileSourceExtraction(newSourceId);
+            var result = CreateService().CancelFileSourceExtraction(newSourceId).Result;
 
             //Assert
             mockContext.Verify(context => context.RemoveSource(It.IsAny<Guid>()), Times.Never);
@@ -567,7 +550,7 @@ namespace CarbonKnown.MVC.Tests.Service
             SetupFileDataContextToReturnDataSource(source);
 
             //Act
-            var result = CreateService().CancelFileSourceExtraction(newSourceId);
+            var result = CreateService().CancelFileSourceExtraction(newSourceId).Result;
 
             //Assert
             mockContext.Verify(context => context.RemoveSource(It.Is<Guid>(guid => guid == newSourceId)), Times.Once);
@@ -587,7 +570,7 @@ namespace CarbonKnown.MVC.Tests.Service
             SetupFileDataContextToReturnDataSource(source);
 
             //Act
-            var result = CreateService().CancelFileSourceExtraction(newSourceId);
+            var result = CreateService().CancelFileSourceExtraction(newSourceId).Result;
 
             //Assert
             mockContext.Verify(context => context.UpdateDataSource(It.IsAny<FileDataSource>()), Times.Never);
@@ -609,7 +592,7 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Returns(true);
 
             //Act
-            var result = CreateService().ExtractData(newSourceId);
+            var result = CreateService().ExtractData(newSourceId).Result;
 
             //Assert
             mockContext.Verify(context => context.UpdateDataSource(It.IsAny<FileDataSource>()), Times.Never);
@@ -629,7 +612,7 @@ namespace CarbonKnown.MVC.Tests.Service
             SetupFileDataContextToReturnDataSource(source);
 
             //Act
-            var result = CreateService().ExtractData(newSourceId);
+            var result = CreateService().ExtractData(newSourceId).Result;
 
             //Assert
             mockContext.Verify(context => context.UpdateDataSource(It.IsAny<FileDataSource>()), Times.Never);
@@ -659,7 +642,7 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Returns(false);
 
             //Act
-            var result = CreateService().ExtractData(newSourceId);
+            var result = CreateService().ExtractData(newSourceId).Result;
 
             //Assert
             mockContext.Verify(context => context.UpdateDataSource(It.IsAny<FileDataSource>()), Times.Once);
@@ -690,7 +673,7 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Returns(false);
 
             //Act
-            var result = CreateService().ExtractData(newSourceId);
+            var result = CreateService().ExtractData(newSourceId).Result;
 
             //Assert
             mockContext.Verify(context => context.UpdateDataSource(It.Is<FileDataSource>(
@@ -823,7 +806,7 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Verifiable();
             mockStreamManager
                 .Setup(manager => manager.RetrieveData(It.IsAny<Guid>(), It.IsAny<string>()))
-                .Returns(new MemoryStream())
+                .Returns(Task.FromResult(new MemoryStream()))
                 .Verifiable();
             mockHandlerFactory
                 .Setup(factory => factory.CreateHandler(It.Is<string>(s => s == "HandlerName")))

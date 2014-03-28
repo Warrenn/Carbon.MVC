@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using CarbonKnown.MVC.Constants;
 using Microsoft.Practices.EnterpriseLibrary.ExceptionHandling;
 using Newtonsoft.Json;
 
@@ -16,7 +17,7 @@ namespace CarbonKnown.MVC.Code
             if (ExceptionPolicy
                 .HandleException(
                     exception,
-                    Constants.Policy.ELExceptionHandlerAttribute,
+                    Policy.ELExceptionHandlerAttribute,
                     out responseException))
             {
                 filterContext.Exception = responseException;

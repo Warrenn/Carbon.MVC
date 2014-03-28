@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
 using CarbonKnown.DAL;
@@ -35,12 +36,12 @@ namespace CarbonKnown.MVC.Controllers
                 HttpUtility.HtmlEncode(arg.Name),
                 arg.DateEdit.ToString(Constants.Constants.DateFormat),
                 HttpUtility.HtmlEncode(arg.UserName),
-                arg.Units,
-                arg.Emissions,
-                arg.Cost,
+                arg.Units.ToString(Constants.Constants.NumberFormat, CultureInfo.CurrentCulture),
+                arg.Emissions.ToString(Constants.Constants.NumberFormat, CultureInfo.CurrentCulture),
+                arg.Cost.ToString(Constants.Constants.NumberFormat, CultureInfo.CurrentCulture),
                 arg.HandlerName,
                 Url.RouteUrl("editsource", new {arg.SourceId}),
-                Url.RouteUrl("SelectSource", new {arg.SourceId})
+                Url.RouteUrl("selectsource", new {arg.SourceId})
             });
 
             builder.AddSearchFilter(arg =>

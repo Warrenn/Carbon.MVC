@@ -2,11 +2,12 @@
 @using CarbonKnown.DAL.Models.Paper
 @using CarbonKnown.MVC.Controllers
 @using CarbonKnown.MVC.Models
+@using Calculation = CarbonKnown.DAL.Models.Constants.Calculation
 @model EnterDataModel
 @{
     Layout = "../_EnterDataLayout.cshtml";
     ViewBag.ConsumptionType = ConsumptionType.Paper;
-    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.PaperId;
+    ViewBag.CalculationId = Calculation.PaperId;
     ViewBag.DisplayType = "Paper";
     ViewBag.InitialStep =3;
     var paperData = (Model.EntryData as PaperData) ?? new PaperData();

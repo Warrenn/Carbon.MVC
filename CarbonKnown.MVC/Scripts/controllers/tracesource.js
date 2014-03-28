@@ -4,9 +4,9 @@
 }(function(window, document, angular, $, undefined) {
     'use strict';
 
-    controller.$inject = ['$scope', 'ResourceService', 'InitialRequest', '$window'];
+    controller.$inject = ['$scope', 'ResourceService', 'InitialRequest', '$window', 'ApiUrl'];
 
-    function controller($scope, resourceService, initialRequest, $window) {
+    function controller($scope, resourceService, initialRequest, $window, apiUrl) {
         var dateOptions = {
             changeYear: true,
             changeMonth: true,
@@ -42,9 +42,39 @@
             $window.location.href = $window.location.pathname + '?' + $.param(search);
         }
 
+        $scope.dataTableSettings = {
+            sDom: "frtiS",
+            bServerSide: true,
+            bProcessing: true,
+            sScrollY: "400px",
+            sAjaxSource: apiUrl.traceSourceUrl,
+            aaSorting: [[1, "desc"]],
+            aoColumns: [
+                {
+                    sName: "NAME",
+                    bSortable: true,
+                    mRender: function(data, type, full) {
+                        return '<a href="' + full[8] + '">' + full[0] + '</a>';
+                    }
+                },
+                { sName: "EDIT_DATE", bSortable: true },
+                { sName: "USER_NAME", bSortable: true },
+                { sName: "UNITS", bSortable: true },
+                { sName: "EMISSIONS", bSortable: true },
+                { sName: "COST", bSortable: true },
+                {
+                    sName: "HANDLER_NAME",
+                    bSortable: true,
+                    mRender: function(data, type, full) {
+                        return '<a href="' + full[7] + '">' + full[6] + '</a>';
+                    }
+                }
+            ]
+        };
+
         $scope.startDateOptions = angular.extend({}, dateOptions, {
             maxDate: $scope.endDate,
-            onClose: function (newdate) {
+            onClose: function(newdate) {
                 $scope.endDateOptions.minDate = newdate;
                 redirect({ endDate: setDate($scope.endDate, $scope.startDate, 1) });
             }
@@ -52,7 +82,7 @@
 
         $scope.endDateOptions = angular.extend({}, dateOptions, {
             minDate: $scope.startDate,
-            onClose: function (newdate) {
+            onClose: function(newdate) {
                 $scope.startDateOptions.maxDate = newdate;
                 redirect({ startDate: setDate($scope.startDate, $scope.endDate, -1) });
             }
@@ -67,20 +97,20 @@
         resourceService.activityTreeWalk(currentRequest, function(walkData) {
             $scope.activityTreeWalkData = walkData;
         });
-        resourceService.costCentreTreeWalk(currentRequest,function(walkData) {
+        resourceService.costCentreTreeWalk(currentRequest, function(walkData) {
             $scope.costCentreTreeWalkData = walkData;
         });
 
-        $scope.loadActivityChildren = function (request, response) {
+        $scope.loadActivityChildren = function(request, response) {
             var walkRequest = extendScope({ activityGroupId: request.data.activityGroupId });
-            resourceService.activityChildren(walkRequest, function (childData) {
+            resourceService.activityChildren(walkRequest, function(childData) {
                 response(childData);
             });
         };
 
-        $scope.loadCostCentreChildren = function (request, response) {
+        $scope.loadCostCentreChildren = function(request, response) {
             var walkRequest = extendScope({ costCode: request.data.costCode });
-            resourceService.costCentreChildren(walkRequest, function (childData) {
+            resourceService.costCentreChildren(walkRequest, function(childData) {
                 response(childData);
             });
         };
@@ -96,34 +126,48 @@
 
     angular
         .module('TraceSource', ['CrumbSelector', 'ngResource', 'ui', 'ng'])
-        .factory('ResourceService', ['$resource', 'ApiUrl', function ($resource, apiUrl) {
-            return $resource(apiUrl + '/treewalk', {}, {
-                'activityTreeWalk': {
-                    method: 'GET',
-                    cache: true,
-                    isArray: true,
-                    url: apiUrl + '/treewalk/activitygroup'
+        .factory('ResourceService', [
+            '$resource', 'ApiUrl', function($resource, apiUrl) {
+                return $resource(apiUrl + '/treewalk', {}, {
+                    'activityTreeWalk': {
+                        method: 'GET',
+                        cache: true,
+                        isArray: true,
+                        url: apiUrl.activityTreeWalk
+                    },
+                    'activityChildren': {
+                        method: 'GET',
+                        cache: true,
+                        isArray: true,
+                        url: apiUrl.activityChildren
+                    },
+                    'costCentreTreeWalk': {
+                        method: 'GET',
+                        cache: true,
+                        isArray: true,
+                        url: apiUrl.costCentreTreeWalk
+                    },
+                    'costCentreChildren': {
+                        method: 'GET',
+                        cache: true,
+                        isArray: true,
+                        url: apiUrl.costCentreChildren
+                    }
+                });
+            }
+        ])
+        .directive('dataTable', function() {
+            return {
+                restrict: 'A',
+                scope: {
+                    dataTable: '='
                 },
-                'activityChildren': {
-                    method: 'GET',
-                    cache: true,
-                    isArray: true,
-                    url: apiUrl + '/treewalk/children/activitygroup'
-                },
-                'costCentreTreeWalk': {
-                    method: 'GET',
-                    cache: true,
-                    isArray: true,
-                    url: apiUrl + '/treewalk/costcentre'
-                },
-                'costCentreChildren': {
-                    method: 'GET',
-                    cache: true,
-                    isArray: true,
-                    url: apiUrl + '/treewalk/children/costcentre'
+                link: function(scope, element) {
+                    var options = angular.copy(scope.dataTable);
+                    element.dataTable(options);
                 }
-            });
-        }])
+            };
+        })
         .controller('Controller', controller);
 }));
 

@@ -1,10 +1,11 @@
 ﻿@using CarbonKnown.DAL.Models
 @using CarbonKnown.MVC.Models
+@using Calculation = CarbonKnown.DAL.Models.Constants.Calculation
 @model EnterDataModel
 @{
     Layout = "../_EnterDataLayout.cshtml";
     ViewBag.ConsumptionType = ConsumptionType.HotelNights;
-    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.HotelNightsId;
+    ViewBag.CalculationId = Calculation.HotelNightsId;
     ViewBag.DisplayType = "Hotel Nights";
     ViewBag.DateLabel = "Travel Date";
     ViewBag.UnitsAside = "<label class=\"side-selection\">nights</label>";

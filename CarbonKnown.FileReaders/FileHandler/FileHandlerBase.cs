@@ -192,7 +192,7 @@ namespace CarbonKnown.FileReaders.FileHandler
             CallService<IDataSourceService>(service => service.ExtractCompleted(sourceId));
         }
 
-        public virtual void ReportError(Guid sourceId, CarbonKnown.WCF.DataSource.SourceErrorType errorType, string errorMessage)
+        public virtual void ReportError(Guid sourceId, SourceErrorType errorType, string errorMessage)
         {
             CallService<IDataSourceService>(service => service.ReportSourceError(sourceId, errorType, errorMessage));
         }
@@ -214,7 +214,7 @@ namespace CarbonKnown.FileReaders.FileHandler
         public virtual void ReportError(string fullPath, Exception exception)
         {
             var sourceId = GetSourceId(fullPath);
-            ReportError(sourceId, CarbonKnown.WCF.DataSource.SourceErrorType.ExceptionOccured, exception.Message);
+            ReportError(sourceId, SourceErrorType.ExceptionOccured, exception.Message);
         }
 
         public abstract void UpsertDataEntry(TDataContract contract);
@@ -248,7 +248,7 @@ namespace CarbonKnown.FileReaders.FileHandler
             if ((!FileReaders.ContainsKey(extension)) || (FileReaders[extension] == null))
             {
                 var message = string.Format(Resources.ExtensionNotFoundErrorMessage, extension);
-                ReportError(sourceId, CarbonKnown.WCF.DataSource.SourceErrorType.FileTypeNotFound, message);
+                ReportError(sourceId, SourceErrorType.FileTypeNotFound, message);
                 ProcessComplete(fullPath);
                 return null;
             }

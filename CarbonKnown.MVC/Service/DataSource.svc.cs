@@ -3,10 +3,12 @@ using System.Runtime.ExceptionServices;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using CarbonKnown.Calculation;
+using CarbonKnown.Calculation.Properties;
 using CarbonKnown.DAL.Models;
 using CarbonKnown.DAL.Models.Source;
 using CarbonKnown.MVC.App_Start;
 using CarbonKnown.MVC.Code;
+using CarbonKnown.MVC.Constants;
 using CarbonKnown.MVC.DAL;
 using CarbonKnown.WCF.DataSource;
 using Microsoft.Practices.EnterpriseLibrary.ExceptionHandling;
@@ -107,7 +109,7 @@ namespace CarbonKnown.MVC.Service
                                         DataEntryId = entry.Id,
                                         ErrorType = DataErrorType.CalculationError,
                                         Message =
-                                            string.Format(Calculation.Properties.Resources.CalculationError,
+                                            string.Format(Resources.CalculationError,
                                                           correlationId)
                                     };
                                 Context.AddDataError(entryError);
@@ -148,14 +150,14 @@ namespace CarbonKnown.MVC.Service
             }
             else
             {
-                emailManager.SendMail(source, Constants.EmailTemplate.CalculationComplete, profile.Email);
+                emailManager.SendMail(source, EmailTemplate.CalculationComplete, profile.Email);
             }
             return returnResult;
         }
 
         public virtual void HandleException(Exception ex)
         {
-            ExceptionPolicy.HandleException(ex, Constants.Policy.DataEntry);
+            ExceptionPolicy.HandleException(ex, Policy.DataEntry);
         }
 
         public virtual SourceResultDataContract RevertCalculation(Guid sourceId)
@@ -198,7 +200,7 @@ namespace CarbonKnown.MVC.Service
             var profile = Context.GetUserProfile(source.UserName);
             if (profile == null)
                 return DataContractError(sourceId, DataSourceServiceResources.UserNameNotFound, source.UserName);
-            emailManager.SendMail(source, Constants.EmailTemplate.ExtractComplete, profile.Email);
+            emailManager.SendMail(source, EmailTemplate.ExtractComplete, profile.Email);
             return DataContractSuccess(sourceId);
         }
 

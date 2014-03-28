@@ -1,4 +1,18 @@
-﻿using Microsoft.Practices.Unity;
+﻿using CarbonKnown.WCF.Accommodation;
+using CarbonKnown.WCF.AirTravel;
+using CarbonKnown.WCF.AirTravelRoute;
+using CarbonKnown.WCF.CarHire;
+using CarbonKnown.WCF.Commuting;
+using CarbonKnown.WCF.Courier;
+using CarbonKnown.WCF.CourierRoute;
+using CarbonKnown.WCF.Electricity;
+using CarbonKnown.WCF.Fleet;
+using CarbonKnown.WCF.Fuel;
+using CarbonKnown.WCF.Paper;
+using CarbonKnown.WCF.Refrigerant;
+using CarbonKnown.WCF.Waste;
+using CarbonKnown.WCF.Water;
+using Microsoft.Practices.Unity;
 using CarbonKnown.MVC.Service;
 using Microsoft.Practices.Unity.InterceptionExtension;
 
@@ -8,46 +22,46 @@ namespace CarbonKnown.MVC.App_Start
     {
 		public static void RegisterDataEntryServices(IUnityContainer container)
 		{
-            container.RegisterType<CarbonKnown.WCF.Accommodation.IAccommodationService, Accommodation>(
+            container.RegisterType<IAccommodationService, Accommodation>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.AirTravelRoute.IAirTravelRouteService, AirTravelRoute>(
+            container.RegisterType<IAirTravelRouteService, AirTravelRoute>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.AirTravel.IAirTravelService, AirTravel>(
+            container.RegisterType<IAirTravelService, AirTravel>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.CarHire.ICarHireService, CarHire>(
+            container.RegisterType<ICarHireService, CarHire>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.Commuting.ICommutingService, Commuting>(
+            container.RegisterType<ICommutingService, Commuting>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.CourierRoute.ICourierRouteService, CourierRoute>(
+            container.RegisterType<ICourierRouteService, CourierRoute>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.Courier.ICourierService, Courier>(
+            container.RegisterType<ICourierService, Courier>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.Electricity.IElectricityService, Electricity>(
+            container.RegisterType<IElectricityService, Electricity>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.Fuel.IFuelService, Fuel>(
+            container.RegisterType<IFuelService, Fuel>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.Paper.IPaperService, Paper>(
+            container.RegisterType<IPaperService, Paper>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.Refrigerant.IRefrigerantService, Refrigerant>(
+            container.RegisterType<IRefrigerantService, Refrigerant>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.Fleet.IFleetService, Fleet>(
+            container.RegisterType<IFleetService, Fleet>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.Waste.IWasteService, Waste>(
+            container.RegisterType<IWasteService, Waste>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
-            container.RegisterType<CarbonKnown.WCF.Water.IWaterService, Water>(
+            container.RegisterType<IWaterService, Water>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
                 new Interceptor<InterfaceInterceptor>());
 		}

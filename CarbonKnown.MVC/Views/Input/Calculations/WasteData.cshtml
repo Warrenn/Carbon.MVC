@@ -2,11 +2,12 @@
 @using CarbonKnown.DAL.Models.Waste
 @using CarbonKnown.MVC.Controllers
 @using CarbonKnown.MVC.Models
+@using Calculation = CarbonKnown.DAL.Models.Constants.Calculation
 @model EnterDataModel
 @{
     Layout = "../_EnterDataLayout.cshtml";
     ViewBag.ConsumptionType = ConsumptionType.Waste;
-    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.WasteId;
+    ViewBag.CalculationId = Calculation.WasteId;
     ViewBag.DisplayType = "Waste";
     ViewBag.InitialStep =3;
     var wasteData = (Model.EntryData as WasteData) ?? new WasteData();

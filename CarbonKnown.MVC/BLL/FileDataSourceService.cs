@@ -12,6 +12,7 @@ using CarbonKnown.MVC.DAL;
 using CarbonKnown.MVC.Service;
 using CarbonKnown.WCF.DataSource;
 using Microsoft.Practices.EnterpriseLibrary.ExceptionHandling;
+using SourceErrorType = CarbonKnown.WCF.DataSource.SourceErrorType;
 
 namespace CarbonKnown.MVC.BLL
 {
@@ -75,7 +76,7 @@ namespace CarbonKnown.MVC.BLL
             if (Context.FileIsDuplicate(fileSource))
             {
                 var message = DataSourceServiceResources.DuplicateFile;
-                ReportSourceError(sourceId, WCF.DataSource.SourceErrorType.DuplicateFile, message);
+                ReportSourceError(sourceId, SourceErrorType.DuplicateFile, message);
                 returnResult.Succeeded = false;
                 returnResult.ErrorMessages.Add(message);
                 return returnResult;
@@ -83,7 +84,7 @@ namespace CarbonKnown.MVC.BLL
             if (handler == null)
             {
                 var message = string.Format(DataSourceServiceResources.InvalidHandlerMessage, fileSource.HandlerName);
-                ReportSourceError(sourceId, WCF.DataSource.SourceErrorType.FileTypeNotFound, message);
+                ReportSourceError(sourceId, SourceErrorType.FileTypeNotFound, message);
                 returnResult.Succeeded = false;
                 returnResult.ErrorMessages.Add(message);
                 return returnResult;
@@ -97,7 +98,7 @@ namespace CarbonKnown.MVC.BLL
                         var message = DataSourceServiceResources.MissingRowsMessage;
                         var columns = string.Join(",", missingColumn.Value);
                         message = string.Format(message, missingColumn.Key, columns);
-                        ReportSourceError(sourceId, WCF.DataSource.SourceErrorType.MissingFields, message);
+                        ReportSourceError(sourceId, SourceErrorType.MissingFields, message);
                         returnResult.Succeeded = false;
                         returnResult.ErrorMessages.Add(message);
                     }
@@ -109,7 +110,7 @@ namespace CarbonKnown.MVC.BLL
                 var message = DataSourceServiceResources.UnReadableFile;
                 returnResult.Succeeded = false;
                 returnResult.ErrorMessages.Add(message);
-                ReportSourceError(sourceId, WCF.DataSource.SourceErrorType.UnReadableFile, message);
+                ReportSourceError(sourceId, SourceErrorType.UnReadableFile, message);
             }
             return returnResult;
         }

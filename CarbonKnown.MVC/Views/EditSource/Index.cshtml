@@ -1,4 +1,4 @@
-﻿@using CarbonKnown.Calculation
+﻿@using System.Text.RegularExpressions
 @using CarbonKnown.DAL.Models
 @using CarbonKnown.MVC.Constants
 @model CarbonKnown.MVC.Models.EditSourceModel
@@ -18,7 +18,7 @@
 
     public static string SplitByCaps(string name)
     {
-        return System.Text.RegularExpressions.Regex.Replace(name, "([A-Z])", " $1").Trim();
+        return Regex.Replace(name, "([A-Z])", " $1").Trim();
     }
 
 }

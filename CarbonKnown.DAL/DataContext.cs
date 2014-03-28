@@ -329,8 +329,9 @@ namespace CarbonKnown.DAL
                      (e.ActivityGroupNode == a.Node)) &&
                     (e.CostCentreNode.IsDescendantOf(c.Node) ||
                      (e.CostCentreNode == c.Node))
-                select e.Units;
-            return query.Sum(arg => arg);
+                select (decimal?)e.Units;
+            var total = query.Sum(arg => arg);
+            return total ?? 0M;
         }
 
         public virtual decimal TotalEmissions(
@@ -352,8 +353,9 @@ namespace CarbonKnown.DAL
                      (e.ActivityGroupNode == a.Node)) &&
                     (e.CostCentreNode.IsDescendantOf(c.Node) ||
                      (e.CostCentreNode == c.Node))
-                select e.CarbonEmissions;
-            return query.Sum(arg => arg);
+                select (decimal?)e.CarbonEmissions;
+            var total = query.Sum(arg => arg);
+            return total ?? 0M;
         }
 
         public virtual void SetState<T>(T entity, EntityState state) where T : class

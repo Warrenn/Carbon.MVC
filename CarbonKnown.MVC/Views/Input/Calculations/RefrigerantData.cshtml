@@ -2,16 +2,17 @@
 @using CarbonKnown.DAL.Models.Refrigerant
 @using CarbonKnown.MVC.Controllers
 @using CarbonKnown.MVC.Models
+@using Calculation = CarbonKnown.DAL.Models.Constants.Calculation
 @model EnterDataModel
 @{
     Layout = "../_EnterDataLayout.cshtml";
     ViewBag.ConsumptionType = ConsumptionType.Other;
-    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.RefrigerantId;
+    ViewBag.CalculationId = Calculation.RefrigerantId;
     ViewBag.DisplayType = "Refrigerant";
     ViewBag.UnitsAside = "<label class=\"side-selection\">kg</label>";
     ViewBag.InitialStep = 4;
     var fuelDataModel = (Model.EntryData as RefrigerantData) ?? new RefrigerantData();
-    fuelDataModel.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.RefrigerantId;
+    fuelDataModel.CalculationId = Calculation.RefrigerantId;
 
     var calculationSettings = DataSelectionModel.CreateFromEnum(fuelDataModel, m => (Guid?)m.CalculationId, InputController.SelectableCalculations);
     calculationSettings.Label = "Calculation";

@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using CarbonKnown.Factors.Constants;
 using CarbonKnown.Factors.Models;
 
 namespace CarbonKnown.Factors.DAL
@@ -6,7 +7,7 @@ namespace CarbonKnown.Factors.DAL
     public class DataContext : DbContext
     {
         public DataContext()
-            : base(Constants.Constant.ConnectionStringName)
+            : base(Constant.ConnectionStringName)
         {
         }
 

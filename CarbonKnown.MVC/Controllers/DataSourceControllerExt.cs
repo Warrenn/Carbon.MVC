@@ -3,7 +3,21 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using CarbonKnown.MVC.App_Start;
 using CarbonKnown.MVC.Code;
+using CarbonKnown.WCF.Accommodation;
+using CarbonKnown.WCF.AirTravel;
+using CarbonKnown.WCF.AirTravelRoute;
+using CarbonKnown.WCF.CarHire;
+using CarbonKnown.WCF.Commuting;
+using CarbonKnown.WCF.Courier;
+using CarbonKnown.WCF.CourierRoute;
 using CarbonKnown.WCF.DataEntry;
+using CarbonKnown.WCF.Electricity;
+using CarbonKnown.WCF.Fleet;
+using CarbonKnown.WCF.Fuel;
+using CarbonKnown.WCF.Paper;
+using CarbonKnown.WCF.Refrigerant;
+using CarbonKnown.WCF.Waste;
+using CarbonKnown.WCF.Water;
 using Microsoft.Practices.Unity;
 
 namespace CarbonKnown.MVC.Controllers
@@ -14,10 +28,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/accommodation", Name = "UpsertAccommodationData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertAccommodationData(CarbonKnown.WCF.Accommodation.AccommodationDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertAccommodationData(AccommodationDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.Accommodation.IAccommodationService>();
+            var service = Bootstrapper.Container.Resolve<IAccommodationService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -25,10 +39,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/airtravelroute", Name = "UpsertAirTravelRouteData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertAirTravelRouteData(CarbonKnown.WCF.AirTravelRoute.AirTravelRouteDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertAirTravelRouteData(AirTravelRouteDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.AirTravelRoute.IAirTravelRouteService>();
+            var service = Bootstrapper.Container.Resolve<IAirTravelRouteService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -36,10 +50,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/airtravel", Name = "UpsertAirTravelData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertAirTravelData(CarbonKnown.WCF.AirTravel.AirTravelDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertAirTravelData(AirTravelDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.AirTravel.IAirTravelService>();
+            var service = Bootstrapper.Container.Resolve<IAirTravelService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -47,10 +61,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/carhire", Name = "UpsertCarHireData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertCarHireData(CarbonKnown.WCF.CarHire.CarHireDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertCarHireData(CarHireDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.CarHire.ICarHireService>();
+            var service = Bootstrapper.Container.Resolve<ICarHireService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -58,10 +72,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/commuting", Name = "UpsertCommutingData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertCommutingData(CarbonKnown.WCF.Commuting.CommutingDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertCommutingData(CommutingDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.Commuting.ICommutingService>();
+            var service = Bootstrapper.Container.Resolve<ICommutingService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -69,10 +83,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/courierroute", Name = "UpsertCourierRouteData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertCourierRouteData(CarbonKnown.WCF.CourierRoute.CourierRouteDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertCourierRouteData(CourierRouteDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.CourierRoute.ICourierRouteService>();
+            var service = Bootstrapper.Container.Resolve<ICourierRouteService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -80,10 +94,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/courier", Name = "UpsertCourierData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertCourierData(CarbonKnown.WCF.Courier.CourierDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertCourierData(CourierDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.Courier.ICourierService>();
+            var service = Bootstrapper.Container.Resolve<ICourierService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -91,10 +105,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/electricity", Name = "UpsertElectricityData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertElectricityData(CarbonKnown.WCF.Electricity.ElectricityDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertElectricityData(ElectricityDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.Electricity.IElectricityService>();
+            var service = Bootstrapper.Container.Resolve<IElectricityService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -102,10 +116,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/fuel", Name = "UpsertFuelData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertFuelData(CarbonKnown.WCF.Fuel.FuelDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertFuelData(FuelDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.Fuel.IFuelService>();
+            var service = Bootstrapper.Container.Resolve<IFuelService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -113,10 +127,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/paper", Name = "UpsertPaperData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertPaperData(CarbonKnown.WCF.Paper.PaperDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertPaperData(PaperDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.Paper.IPaperService>();
+            var service = Bootstrapper.Container.Resolve<IPaperService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -124,10 +138,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/refrigerant", Name = "UpsertRefrigerantData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertRefrigerantData(CarbonKnown.WCF.Refrigerant.RefrigerantDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertRefrigerantData(RefrigerantDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.Refrigerant.IRefrigerantService>();
+            var service = Bootstrapper.Container.Resolve<IRefrigerantService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -135,10 +149,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/fleet", Name = "UpsertFleetData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertFleetData(CarbonKnown.WCF.Fleet.FleetDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertFleetData(FleetDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.Fleet.IFleetService>();
+            var service = Bootstrapper.Container.Resolve<IFleetService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -146,10 +160,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/waste", Name = "UpsertWasteData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertWasteData(CarbonKnown.WCF.Waste.WasteDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertWasteData(WasteDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.Waste.IWasteService>();
+            var service = Bootstrapper.Container.Resolve<IWasteService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }
@@ -157,10 +171,10 @@ namespace CarbonKnown.MVC.Controllers
         [XSRFTokenValidation]
         [Route("upsert/water", Name = "UpsertWaterData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
-        public virtual async Task<IHttpActionResult> UpsertWaterData(CarbonKnown.WCF.Water.WaterDataContract data)
+        public virtual async Task<IHttpActionResult> UpsertWaterData(WaterDataContract data)
         {
             data.UserName = User.Identity.Name;
-            var service = Bootstrapper.Container.Resolve<CarbonKnown.WCF.Water.IWaterService>();
+            var service = Bootstrapper.Container.Resolve<IWaterService>();
             var result = await Task.Run(() => service.UpsertDataEntry(data));
             return Ok(result);
         }

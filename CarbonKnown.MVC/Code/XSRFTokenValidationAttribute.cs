@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Helpers;
 using System.Web.Http.Controllers;
 using System.Web.Mvc;
+using CarbonKnown.MVC.Constants;
 using Microsoft.Practices.EnterpriseLibrary.ExceptionHandling;
 using FilterAttribute = System.Web.Http.Filters.FilterAttribute;
 using IAuthorizationFilter = System.Web.Http.Filters.IAuthorizationFilter;
@@ -46,7 +47,7 @@ namespace CarbonKnown.MVC.Code
             }
             catch (HttpAntiForgeryException ex)
             {
-                ExceptionPolicy.HandleException(ex, Constants.Policy.XSRFTokenValidation);
+                ExceptionPolicy.HandleException(ex, Policy.XSRFTokenValidation);
                 actionContext.Response = new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.Forbidden,

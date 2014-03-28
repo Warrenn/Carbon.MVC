@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using CarbonKnown.Calculation;
+using CarbonKnown.Calculation.DAL;
 using CarbonKnown.Calculation.Properties;
 using CarbonKnown.DAL.Models;
+using CarbonKnown.MVC.DAL;
+using CarbonKnown.MVC.Service;
 using CarbonKnown.WCF.DataEntry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -16,7 +20,7 @@ namespace CarbonKnown.MVC.Tests.Service
         private Guid newSourceId;
         private Guid newCalculationId;
         private Guid newEntryId;
-        private Mock<CarbonKnown.Calculation.DAL.ICalculationDataContext> mockCalcDataContext;
+        private Mock<ICalculationDataContext> mockCalcDataContext;
         private Mock<ISourceDataContext> mockContext;
         private Mock<CalculationBase<DataEntryTest>> mockCalculation;
         private Mock<DataEntryServiceBase<DataEntryTest,DataEntryDataContract>> mockService;
@@ -29,7 +33,7 @@ namespace CarbonKnown.MVC.Tests.Service
             newEntryId = Guid.NewGuid();
             newCalculationId = Guid.NewGuid();
 
-            mockCalcDataContext = new Mock<CarbonKnown.Calculation.DAL.ICalculationDataContext>();
+            mockCalcDataContext = new Mock<ICalculationDataContext>();
             mockCalcDataContext
                 .Setup(context => context.CostCodeValid(It.IsAny<string>()))
                 .Returns(true);
@@ -84,7 +88,7 @@ namespace CarbonKnown.MVC.Tests.Service
                     Money = 123.9M,
                     StartDate = DateTime.Now,
                     SourceId = newSourceId,
-                    RowNo = "1",
+                    RowNo = 1,
                     Units = 123.0M,
                     EntryId = newEntryId
                 };
@@ -100,9 +104,6 @@ namespace CarbonKnown.MVC.Tests.Service
                 {
                     CallBase = true
                 };
-            mockService
-                .Setup(@base => @base.GetUserName())
-                .Returns("TestUserName");
             mockService
                 .Setup(@base => @base.GetCalculationId())
                 .Returns(newCalculationId);
@@ -126,7 +127,7 @@ namespace CarbonKnown.MVC.Tests.Service
             mockContext.Verify();
             mockContext
                 .Verify(context => context.GetDataEntry<DataEntryTest>(It.IsAny<Guid>()), Times.Never);
-            Assert.AreEqual(DataErrorType.SourceNotFound, result.Errors.First().ErrorType);
+            Assert.AreEqual(CarbonKnown.WCF.DataEntry.DataErrorType.SourceNotFound, result.Errors.First().ErrorType);
             Assert.AreEqual(DataSourceServiceResources.SourceNotFound, result.Errors.First().ErrorMessage);
         }
 
@@ -147,7 +148,7 @@ namespace CarbonKnown.MVC.Tests.Service
             mockContext.Verify();
             mockContext
                 .Verify(context => context.GetDataEntry<DataEntryTest>(It.IsAny<Guid>()), Times.Never);
-            Assert.AreEqual(DataErrorType.InvalidState, result.Errors.First().ErrorType);
+            Assert.AreEqual(CarbonKnown.WCF.DataEntry.DataErrorType.InvalidState, result.Errors.First().ErrorType);
             Assert.AreEqual(DataSourceServiceResources.FileSourceIsNotPendingCalculation, result.Errors.First().ErrorMessage);
         }
 
@@ -292,9 +293,9 @@ namespace CarbonKnown.MVC.Tests.Service
                 .Verify(context => context.AddDataError(It.Is<DataError>(
                     error =>
                     (error.DataEntryId == newEntryId) &&
-                    (error.ErrorType == DataErrorType.CalculationNotFound) &&
+                    (error.ErrorType == CarbonKnown.DAL.Models.DataErrorType.CalculationNotFound) &&
                     (error.Message == DataSourceServiceResources.CalculationNotFound))));
-            Assert.AreEqual(DataErrorType.CalculationNotFound, result.Errors.First().ErrorType);
+            Assert.AreEqual(CarbonKnown.WCF.DataEntry.DataErrorType.CalculationNotFound, result.Errors.First().ErrorType);
             Assert.AreEqual(DataSourceServiceResources.CalculationNotFound, result.Errors.First().ErrorMessage);
             Assert.AreEqual(newEntryId, result.EntryId);
         }
@@ -315,7 +316,7 @@ namespace CarbonKnown.MVC.Tests.Service
                             It.Is<DataError>(
                                 error => (
                                              (error.Column == "Money") &&
-                                             (error.ErrorType == DataErrorType.MissingValue) &&
+                                             (error.ErrorType == CarbonKnown.DAL.Models.DataErrorType.MissingValue) &&
                                              (error.Message == string.Format(Resources.MissingValueMessage, "Money")) &&
                                              (error.DataEntryId == newEntryId))
                                          )), Times.Once);
@@ -325,7 +326,7 @@ namespace CarbonKnown.MVC.Tests.Service
                             It.Is<DataError>(
                                 error => (
                                              (error.Column == "CostCode") &&
-                                             (error.ErrorType == DataErrorType.MissingValue) &&
+                                             (error.ErrorType == CarbonKnown.DAL.Models.DataErrorType.MissingValue) &&
                                              (error.Message == string.Format(Resources.MissingValueMessage, "CostCode")) &&
                                              (error.DataEntryId == newEntryId))
                                          )), Times.Once);
@@ -335,7 +336,7 @@ namespace CarbonKnown.MVC.Tests.Service
                             It.Is<DataError>(
                                 error => (
                                              (error.Column == "EndDate") &&
-                                             (error.ErrorType == DataErrorType.MissingValue) &&
+                                             (error.ErrorType == CarbonKnown.DAL.Models.DataErrorType.MissingValue) &&
                                              (error.Message == string.Format(Resources.MissingValueMessage, "EndDate")) &&
                                              (error.DataEntryId == newEntryId))
                                          )), Times.Once);
@@ -345,7 +346,7 @@ namespace CarbonKnown.MVC.Tests.Service
                             It.Is<DataError>(
                                 error => (
                                              (error.Column == "StartDate") &&
-                                             (error.ErrorType == DataErrorType.MissingValue) &&
+                                             (error.ErrorType == CarbonKnown.DAL.Models.DataErrorType.MissingValue) &&
                                              (error.Message == string.Format(Resources.MissingValueMessage, "StartDate")) &&
                                              (error.DataEntryId == newEntryId))
                                          )), Times.Once);
@@ -364,16 +365,16 @@ namespace CarbonKnown.MVC.Tests.Service
             var errors = result.Errors.ToArray();
             Assert.AreEqual(4, errors.Length);
             var actualError = errors[0];
-            Assert.AreEqual(DataErrorType.MissingValue, actualError.ErrorType);
+            Assert.AreEqual(CarbonKnown.WCF.DataEntry.DataErrorType.MissingValue, actualError.ErrorType);
             Assert.AreEqual(string.Format(Resources.MissingValueMessage, "StartDate"), actualError.ErrorMessage);
             actualError = errors[1];
-            Assert.AreEqual(DataErrorType.MissingValue, actualError.ErrorType);
+            Assert.AreEqual(CarbonKnown.WCF.DataEntry.DataErrorType.MissingValue, actualError.ErrorType);
             Assert.AreEqual(string.Format(Resources.MissingValueMessage, "EndDate"), actualError.ErrorMessage);
             actualError = errors[2];
-            Assert.AreEqual(DataErrorType.MissingValue, actualError.ErrorType);
+            Assert.AreEqual(CarbonKnown.WCF.DataEntry.DataErrorType.MissingValue, actualError.ErrorType);
             Assert.AreEqual(string.Format(Resources.MissingValueMessage, "CostCode"), actualError.ErrorMessage);
             actualError = errors[3];
-            Assert.AreEqual( DataErrorType.MissingValue, actualError.ErrorType);
+            Assert.AreEqual(CarbonKnown.WCF.DataEntry.DataErrorType.MissingValue, actualError.ErrorType);
             Assert.AreEqual(string.Format(Resources.MissingValueMessage, "Money"), actualError.ErrorMessage);
         }
 

@@ -1,10 +1,11 @@
 ﻿@using CarbonKnown.DAL.Models
 @using CarbonKnown.MVC.Models
+@using Calculation = CarbonKnown.DAL.Models.Constants.Calculation
 @model EnterDataModel
 @{
     Layout = "../_EnterDataLayout.cshtml";
     ViewBag.ConsumptionType = ConsumptionType.Water;
-    ViewBag.CalculationId = CarbonKnown.DAL.Models.Constants.Calculation.WaterId;
+    ViewBag.CalculationId = Calculation.WaterId;
     ViewBag.DisplayType = "Water";
     ViewBag.InitialStep = 2;
     ViewBag.UnitsAside = "<label class=\"side-selection\" >litres</label>";

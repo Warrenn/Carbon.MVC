@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using CarbonKnown.FileReaders.FileHandler;
 using CarbonKnown.WCF.Accommodation;
@@ -13,6 +14,7 @@ using CarbonKnown.WCF.Paper;
 using CarbonKnown.WCF.Refrigerant;
 using CarbonKnown.WCF.Waste;
 using CarbonKnown.WCF.Water;
+using FuelType = CarbonKnown.WCF.Fleet.FuelType;
 
 namespace CarbonKnown.FileReaders.Generic
 {
@@ -208,7 +210,7 @@ namespace CarbonKnown.FileReaders.Generic
                     SourceId = obj.SourceId,
                     StartDate = obj.StartDate,
                     Units = obj.Units,
-                    FuelType = CarbonKnown.WCF.Fleet.FuelType.Diesel,
+                    FuelType = FuelType.Diesel,
                     Scope = FleetScope.ThirdParty
                 };
             handler.CallService<IFleetService>(service => service.UpsertDataEntry(data));
@@ -225,7 +227,7 @@ namespace CarbonKnown.FileReaders.Generic
                     SourceId = obj.SourceId,
                     StartDate = obj.StartDate,
                     Units = obj.Units,
-                    FuelType = CarbonKnown.WCF.Fuel.FuelType.AviationFuel,
+                    FuelType = WCF.Fuel.FuelType.AviationFuel,
                     UOM = UnitOfMeasure.Litres
                 };
             handler.CallService<IFuelService>(service => service.UpsertDataEntry(data));
@@ -339,7 +341,7 @@ namespace CarbonKnown.FileReaders.Generic
                 SourceId = obj.SourceId,
                 StartDate = obj.StartDate,
                 Units = obj.Units,
-                FuelType = CarbonKnown.WCF.Fuel.FuelType.AviationFuel,
+                FuelType = WCF.Fuel.FuelType.AviationFuel,
                 UOM = UnitOfMeasure.Tonnes
             };
             handler.CallService<IFuelService>(service => service.UpsertDataEntry(data));
@@ -468,7 +470,7 @@ namespace CarbonKnown.FileReaders.Generic
                 SourceId = obj.SourceId,
                 StartDate = obj.StartDate,
                 Units = obj.Units,
-                FuelType = CarbonKnown.WCF.Fuel.FuelType.Diesel,
+                FuelType = WCF.Fuel.FuelType.Diesel,
                 UOM = UnitOfMeasure.Litres
             };
             handler.CallService<IFuelService>(service => service.UpsertDataEntry(data));
@@ -565,7 +567,7 @@ namespace CarbonKnown.FileReaders.Generic
                 SourceId = obj.SourceId,
                 StartDate = obj.StartDate,
                 Units = obj.Units,
-                FuelType = CarbonKnown.WCF.Fleet.FuelType.Petrol,
+                FuelType = FuelType.Petrol,
                 Scope = FleetScope.ThirdParty
             };
             handler.CallService<IFleetService>(service => service.UpsertDataEntry(data));
@@ -599,7 +601,7 @@ namespace CarbonKnown.FileReaders.Generic
                 SourceId = obj.SourceId,
                 StartDate = obj.StartDate,
                 Units = obj.Units,
-                FuelType = CarbonKnown.WCF.Fleet.FuelType.Diesel,
+                FuelType = FuelType.Diesel,
                 Scope = FleetScope.CompanyOwned
             };
             handler.CallService<IFleetService>(service => service.UpsertDataEntry(data));
@@ -648,7 +650,7 @@ namespace CarbonKnown.FileReaders.Generic
                 SourceId = obj.SourceId,
                 StartDate = obj.StartDate,
                 Units = obj.Units,
-                FuelType = CarbonKnown.WCF.Fuel.FuelType.LPG,
+                FuelType = WCF.Fuel.FuelType.LPG,
                 UOM = UnitOfMeasure.Litres
             };
             handler.CallService<IFuelService>(service => service.UpsertDataEntry(data));
@@ -715,7 +717,7 @@ namespace CarbonKnown.FileReaders.Generic
                 SourceId = obj.SourceId,
                 StartDate = obj.StartDate,
                 Units = obj.Units,
-                FuelType = CarbonKnown.WCF.Fleet.FuelType.Petrol,
+                FuelType = FuelType.Petrol,
                 Scope = FleetScope.CompanyOwned
             };
             handler.CallService<IFleetService>(service => service.UpsertDataEntry(data));
@@ -764,7 +766,7 @@ namespace CarbonKnown.FileReaders.Generic
                 SourceId = obj.SourceId,
                 StartDate = obj.StartDate,
                 Units = obj.Units,
-                FuelType = CarbonKnown.WCF.Fuel.FuelType.Petrol,
+                FuelType = WCF.Fuel.FuelType.Petrol,
                 UOM = UnitOfMeasure.Litres
             };
             handler.CallService<IFuelService>(service => service.UpsertDataEntry(data));
@@ -958,7 +960,7 @@ namespace CarbonKnown.FileReaders.Generic
                 SourceId = obj.SourceId,
                 StartDate = obj.StartDate,
                 Units = obj.Units,
-                FuelType = CarbonKnown.WCF.Fuel.FuelType.CoalDomestic,
+                FuelType = WCF.Fuel.FuelType.CoalDomestic,
                 UOM = UnitOfMeasure.Tonnes
             };
             handler.CallService<IFuelService>(service => service.UpsertDataEntry(data));
@@ -1009,7 +1011,7 @@ namespace CarbonKnown.FileReaders.Generic
                 SourceId = obj.SourceId,
                 StartDate = obj.StartDate,
                 Units = obj.Units,
-                FuelType = CarbonKnown.WCF.Fuel.FuelType.CoalIndustrial,
+                FuelType = WCF.Fuel.FuelType.CoalIndustrial,
                 UOM = UnitOfMeasure.Tonnes
             };
             handler.CallService<IFuelService>(service => service.UpsertDataEntry(data));
@@ -1040,7 +1042,7 @@ namespace CarbonKnown.FileReaders.Generic
         }
 
         public override IDictionary<string, IEnumerable<string>> MissingColumns(string fullPath,
-                                                                                System.IO.Stream fileStream)
+                                                                                Stream fileStream)
         {
             var sourceId = GetSourceId(fullPath);
             FileReader = GetReader(fullPath, sourceId);

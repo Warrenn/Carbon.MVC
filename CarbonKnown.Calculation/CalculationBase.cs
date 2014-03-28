@@ -92,6 +92,7 @@ namespace CarbonKnown.Calculation
 
             foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(extractType))
             {
+                //todo: use an static check like th one used in the controller for all numeric types
                 if ((descriptor.PropertyType != typeof (decimal?)) && 
                     (descriptor.PropertyType != typeof (decimal)))
                     continue;

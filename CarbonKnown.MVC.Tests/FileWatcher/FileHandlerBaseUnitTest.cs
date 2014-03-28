@@ -6,6 +6,7 @@ using System.Linq;
 using CarbonKnown.FileReaders;
 using CarbonKnown.FileReaders.FileHandler;
 using CarbonKnown.FileReaders.Readers;
+using CarbonKnown.WCF.CarHire;
 using CarbonKnown.WCF.DataEntry;
 using CarbonKnown.WCF.DataSource;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -71,26 +72,26 @@ namespace CarbonKnown.MVC.Tests.FileWatcher
         public void ServiceCanBeFoundViaType()
         {
             //Arrange
-            var wrapper = new ClientServiceWrapper<IAvisCourierService>("baseurl/manage");
+            var wrapper = new ClientServiceWrapper<ICarHireService>("baseurl/manage");
 
             //Act
             var service = wrapper.Service;
             
             //Assert;
-            Assert.IsInstanceOfType(service, typeof (IAvisCourierService));
+            Assert.IsInstanceOfType(service, typeof(ICarHireService));
         }
 
         [TestMethod]
         public void ServiceCanUsePort()
         {
             //Arrange
-            var wrapper = new ClientServiceWrapper<IAvisCourierService>("baseurl:1669/manage");
+            var wrapper = new ClientServiceWrapper<ICarHireService>("baseurl:1669/manage");
 
             //Act
             var service = wrapper.Service;
             
             //Assert;
-            Assert.IsInstanceOfType(service, typeof (IAvisCourierService));
+            Assert.IsInstanceOfType(service, typeof(ICarHireService));
         }
 
         [TestMethod]
