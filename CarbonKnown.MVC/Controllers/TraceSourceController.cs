@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
-using CarbonKnown.DAL;
 using CarbonKnown.DAL.Models;
 using CarbonKnown.MVC.Code;
+using CarbonKnown.MVC.DAL;
 using CarbonKnown.MVC.Models;
 using CarbonKnown.MVC.Properties;
 
@@ -13,9 +13,9 @@ namespace CarbonKnown.MVC.Controllers
     [Authorize(Roles = "Admin,Capturer")]
     public class TraceSourceController : Controller
     {
-        private readonly DataContext context;
+        private readonly ISummaryDataContext context;
 
-        public TraceSourceController(DataContext context)
+        public TraceSourceController(ISummaryDataContext context)
         {
             this.context = context;
         }

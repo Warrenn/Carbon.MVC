@@ -22,7 +22,7 @@ namespace CarbonKnown.GenericFile
 
         public IEnumerable<string> CreateCostCodes()
         {
-            using (var context  = new DataContext())
+            using (var context = new DataContext())
             {
                 foreach (var centre in context.CostCentres)
                 {

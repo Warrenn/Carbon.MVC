@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using CarbonKnown.DAL;
 using CarbonKnown.DAL.Models;
 using CarbonKnown.DAL.Models.Constants;
+using CarbonKnown.MVC.DAL;
 using CarbonKnown.MVC.Models;
 
 namespace CarbonKnown.MVC.BLL
@@ -118,10 +119,12 @@ namespace CarbonKnown.MVC.BLL
                     }
                 };
 
+        private readonly ISummaryDataContext summaryContext;
         private readonly DataContext context;
 
-        public SliceService(DataContext context)
+        public SliceService(ISummaryDataContext summaryContext,DataContext context)
         {
+            this.summaryContext = summaryContext;
             this.context = context;
         }
 
@@ -147,19 +150,19 @@ namespace CarbonKnown.MVC.BLL
                     {
                         ActivityGroupId = activityId,
                         CostCode = request.CostCode,
-                        TotalUnits = context.TotalUnits(
+                        TotalUnits = summaryContext.TotalUnits(
                             request.StartDate,
                             request.EndDate,
                             activityId,
                             request.CostCode),
-                        TotalCarbonEmissions = context.TotalEmissions(
+                        TotalCarbonEmissions = summaryContext.TotalEmissions(
                             request.StartDate,
                             request.EndDate,
                             activityId,
                             request.CostCode)
                     });
             }
-            return context.TotalsByActivityGroup(
+            return summaryContext.TotalsByActivityGroup(
                 request.StartDate,
                 request.EndDate,
                 request.ActivityGroupId,
@@ -198,7 +201,7 @@ namespace CarbonKnown.MVC.BLL
                 longLabel = activity.UOMLong;
             }
 
-            var slices = context
+            var slices = summaryContext
                 .TotalsByCostCentre(
                     request.StartDate,
                     request.EndDate,
@@ -234,13 +237,13 @@ namespace CarbonKnown.MVC.BLL
             var lastYearStart = request.StartDate.AddYears(-1);
             var lastYearEnd = request.EndDate.AddYears(-1);
             var lastYearTotal = (showCo2)
-                ? context.TotalEmissions(lastYearStart, lastYearEnd, request.ActivityGroupId, request.CostCode)
-                : context.TotalUnits(lastYearStart, lastYearEnd, request.ActivityGroupId, request.CostCode);
+                ? summaryContext.TotalEmissions(lastYearStart, lastYearEnd, request.ActivityGroupId, request.CostCode)
+                : summaryContext.TotalUnits(lastYearStart, lastYearEnd, request.ActivityGroupId, request.CostCode);
             var yoy = (lastYearTotal == 0)
                 ? 0
                 : ((totalAmount - lastYearTotal)/lastYearTotal)*100;
             var selectedCostCentre = context.CostCentres.Find(request.CostCode);
-            var currencies = context
+            var currencies = summaryContext
                 .CurrenciesSummary(
                     request.StartDate,
                     request.EndDate,
@@ -337,8 +340,8 @@ namespace CarbonKnown.MVC.BLL
                 var lastYearStart = request.StartDate.AddYears(-1);
                 var lastYearEnd = request.EndDate.AddYears(-1);
                 var lastYearTotal =configuration.ShowCo2
-                        ? activityIds.Sum(id => context.TotalEmissions(lastYearStart, lastYearEnd, id, request.CostCode))
-                        : activityIds.Sum(id => context.TotalUnits(lastYearStart, lastYearEnd, id, request.CostCode));
+                        ? activityIds.Sum(id => summaryContext.TotalEmissions(lastYearStart, lastYearEnd, id, request.CostCode))
+                        : activityIds.Sum(id => summaryContext.TotalUnits(lastYearStart, lastYearEnd, id, request.CostCode));
                 yoy = (lastYearTotal == 0)
                     ? 0
                     : ((totalAmount - lastYearTotal)/lastYearTotal)*100;
@@ -349,7 +352,7 @@ namespace CarbonKnown.MVC.BLL
             var costCentre = context.CostCentres.Find(request.CostCode) ?? new CostCentre();
             var currencySummaries =
                 (from id in activityIds
-                 from currency in context
+                 from currency in summaryContext
                      .CurrenciesSummary(
                          request.StartDate,
                          request.EndDate,

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using CarbonKnown.DAL;
+using CarbonKnown.MVC.DAL;
 using CarbonKnown.MVC.Models;
 
 namespace CarbonKnown.MVC.Controllers
@@ -9,11 +10,13 @@ namespace CarbonKnown.MVC.Controllers
     [Authorize(Roles = "Admin,Capturer")]
     public class ChecklistController : Controller
     {
-        private readonly DataContext context;
+        private readonly ISummaryDataContext context;
+        private readonly DataContext dataContext;
 
-        public ChecklistController(DataContext context)
+        public ChecklistController(ISummaryDataContext summaryContext,DataContext dataContext)
         {
-            this.context = context;
+            this.context = summaryContext;
+            this.dataContext = dataContext;
         }
 
         [ChildActionOnly]
@@ -53,7 +56,7 @@ namespace CarbonKnown.MVC.Controllers
         {
             var startDate = new DateTime(settings.Year, settings.Month + 1, 1);
             var endDate = startDate.AddMonths(1).AddDays(-1);
-            var costCentre = context.CostCentres.Find(settings.CostCode);
+            var costCentre = dataContext.CostCentres.Find(settings.CostCode);
             var model = new ChecklistTableViewModel
                 {
                     EndDate = endDate,
@@ -85,7 +88,7 @@ namespace CarbonKnown.MVC.Controllers
         {
             var today = DateTime.Today;
             var dates =
-                from e in context.CarbonEmissionEntries
+                from e in dataContext.CarbonEmissionEntries
                 select e.EntryDate;
             if (!dates.Any())
             {

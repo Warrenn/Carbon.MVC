@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using CarbonKnown.DAL;
+using CarbonKnown.MVC.DAL;
 using CarbonKnown.MVC.Models;
 using CarbonKnown.Print;
 
@@ -11,10 +12,12 @@ namespace CarbonKnown.MVC.Controllers
     public class OverviewReportController : Controller
     {
         private readonly DataContext context;
+        private readonly ISummaryDataContext summaryContext;
 
-        public OverviewReportController(DataContext context)
+        public OverviewReportController(DataContext context, ISummaryDataContext summaryContext)
         {
             this.context = context;
+            this.summaryContext = summaryContext;
         }
 
         [HttpGet]
@@ -59,7 +62,7 @@ namespace CarbonKnown.MVC.Controllers
         [NonAction]
         public decimal CalculateTotal(DateTime startDate,DateTime endDate, Guid? activityId, string costCode)
         {
-            return context.TotalEmissions(startDate, endDate, activityId, costCode);
+            return summaryContext.TotalEmissions(startDate, endDate, activityId, costCode);
         }
 
         [HttpGet]

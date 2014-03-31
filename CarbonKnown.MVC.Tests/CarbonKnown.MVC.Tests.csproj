@@ -208,6 +208,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DAL\SourceDataContextUnitTest.cs" />
+    <Compile Include="DAL\DataContextUnitTest.cs" />
     <Compile Include="Factors\CachingUnitTest.cs" />
     <Compile Include="Factors\FactorsUnitTest.cs" />
     <Compile Include="FakeDbSet.cs" />

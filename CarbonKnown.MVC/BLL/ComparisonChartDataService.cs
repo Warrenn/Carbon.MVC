@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CarbonKnown.DAL;
 using CarbonKnown.DAL.Models;
+using CarbonKnown.MVC.DAL;
 using CarbonKnown.MVC.Models;
 
 namespace CarbonKnown.MVC.BLL
@@ -10,11 +11,13 @@ namespace CarbonKnown.MVC.BLL
     public class ComparisonChartDataService
     {
         private readonly DataContext context;
+        private readonly ISummaryDataContext summaryContext;
         public static Random Rnd = new Random();
 
-        public ComparisonChartDataService(DataContext context)
+        public ComparisonChartDataService(DataContext context, ISummaryDataContext summaryContext)
         {
             this.context = context;
+            this.summaryContext = summaryContext;
         }
 
         public static IEnumerable<string> Categories(DateTime startDate, DateTime endDate)
@@ -114,21 +117,21 @@ namespace CarbonKnown.MVC.BLL
             switch (request.targetType)
             {
                 case TargetType.CarbonEmissions:
-                    averages = context.AverageCo2(
+                    averages = summaryContext.AverageCo2(
                         request.startDate,
                         request.endDate,
                         request.activityId,
                         request.costCode);
                     break;
                 case TargetType.Money:
-                    averages = context.AverageMoney(
+                    averages = summaryContext.AverageMoney(
                         request.startDate,
                         request.endDate,
                         request.activityId,
                         request.costCode);
                     break;
                 case TargetType.Units:
-                    averages = context.AverageUnits(
+                    averages = summaryContext.AverageUnits(
                         request.startDate,
                         request.endDate,
                         request.activityId,
