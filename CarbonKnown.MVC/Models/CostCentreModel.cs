@@ -13,6 +13,7 @@ namespace CarbonKnown.MVC.Models
         public string description { get; set; }
         public int orderId { get; set; }
         public string parentCostCode { get; set; }
+        public string node { get; set; }
     }
 // ReSharper restore InconsistentNaming
 }

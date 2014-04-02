@@ -1,12 +1,4 @@
-﻿using System;
-using CarbonKnown.DAL.Models.Constants;
-using CarbonKnown.MVC.Controllers;
-using CarbonKnown.MVC.Models;
-using CarbonKnown.Print;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-
-namespace CarbonKnown.MVC.Tests.Controllers
+﻿namespace CarbonKnown.MVC.Tests.Controllers
 {
     //todo: needs refactoring
     //[TestClass]
