@@ -202,6 +202,7 @@
     <Compile Include="Controllers\AccountControllerUnitTest.cs" />
     <Compile Include="Controllers\DashboardControllerUnitTest.cs" />
     <Compile Include="Controllers\FileUploadControllerUnitTest.cs" />
+    <Compile Include="Controllers\CostCentreControllerUnitTest.cs" />
     <Compile Include="DAL\AccountServiceUnitTest.cs" />
     <Compile Include="DAL\CalculationDataContextUnitTest.cs" />
     <Compile Include="DAL\DataEntriesUnitOfWorkUnitTest.cs">
