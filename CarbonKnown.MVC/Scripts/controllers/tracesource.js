@@ -156,14 +156,16 @@
                 });
             }
         ])
-        .directive('dataTable', function() {
+        .directive('datatable', function() {
             return {
                 restrict: 'A',
                 scope: {
-                    dataTable: '='
+                    datatable: '='
                 },
                 link: function(scope, element) {
-                    var options = angular.copy(scope.dataTable);
+                    if (scope.datatable === 'undefinded') return;
+                    var options = {};
+                    angular.extend(options, scope.datatable);
                     element.dataTable(options);
                 }
             };

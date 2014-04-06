@@ -11,12 +11,12 @@ namespace CarbonKnown.DAL.Models
 
         public string DisplayName { get; set; }
         public string CompanyName { get; set; }
-        public virtual ICollection<CostCentre> CostCentres { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int EmployeesCovered { get; set; }
         public int TotalEmployees { get; set; }
         public decimal SquareMeters { get; set; }
         public string ScopeBoundries { get; set; }
+        public virtual ICollection<CostCentre> CostCentres { get; set; }
     }
 }

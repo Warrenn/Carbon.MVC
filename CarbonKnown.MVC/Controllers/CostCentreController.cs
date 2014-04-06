@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core;
 using System.Data.Entity.Hierarchy;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Web.Mvc;
 using CarbonKnown.DAL;
 using CarbonKnown.DAL.Models;
@@ -53,14 +51,14 @@ namespace CarbonKnown.MVC.Controllers
             return returnType;
         }
 
-        private Select2Model GetCurrency(string currencyCode)
+        private static Select2Model GetCurrency(string currencyCode)
         {
-            var currency = context.Currencies.Find(currencyCode);
+            var currency = CurrenciesContext.Regions[currencyCode];
             if (currency == null) return new Select2Model();
             return new Select2Model
             {
                 id = currencyCode,
-                text = currency.Name
+                text = currency.CurrencyEnglishName
             };
         }
 
@@ -90,9 +88,9 @@ namespace CarbonKnown.MVC.Controllers
         [HttpGet]
         public ActionResult Currency()
         {
-            var currencies = context
-                .Currencies
-                .Select(currency => new Select2Model {id = currency.Code, text = currency.Name});
+            var currencies = CurrenciesContext
+                .Regions
+                .Select(pair => new Select2Model {id = pair.Key, text = pair.Value.CurrencyEnglishName});
 
             return Json(currencies, JsonRequestBehavior.AllowGet);
         }

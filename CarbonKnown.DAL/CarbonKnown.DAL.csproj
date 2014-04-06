@@ -121,9 +121,9 @@
     <Compile Include="Constant.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="BootStrapper.cs" />
-    <Compile Include="Migrations\201403211056439_InitialMigration.cs" />
-    <Compile Include="Migrations\201403211056439_InitialMigration.Designer.cs">
-      <DependentUpon>201403211056439_InitialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201404061302407_InitialMigration.cs" />
+    <Compile Include="Migrations\201404061302407_InitialMigration.Designer.cs">
+      <DependentUpon>201404061302407_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Configuration1.cs">
@@ -169,8 +169,6 @@
     <Compile Include="Models\Courier\CourierData.cs" />
     <Compile Include="Models\Courier\CourierRouteData.cs" />
     <Compile Include="Models\Courier\ServiceType.cs" />
-    <Compile Include="Models\Currency.cs" />
-    <Compile Include="Models\CurrencySummary.cs" />
     <Compile Include="Models\DataEntry.cs" />
     <Compile Include="Models\DataError.cs" />
     <Compile Include="Models\DataErrorType.cs" />
@@ -192,7 +190,6 @@
     <Compile Include="Models\Paper\PaperUom.cs" />
     <Compile Include="Models\Refrigerant\RefrigerantData.cs" />
     <Compile Include="Models\Refrigerant\RefrigerantType.cs" />
-    <Compile Include="Models\SliceTotal.cs" />
     <Compile Include="Models\SourceError.cs" />
     <Compile Include="Models\SourceErrorType.cs" />
     <Compile Include="Models\SourceStatus.cs" />
@@ -207,7 +204,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Migrations\Configuration1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Configuration1.cs</LastGenOutput>
@@ -247,8 +246,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201403211056439_InitialMigration.resx">
-      <DependentUpon>201403211056439_InitialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201404061302407_InitialMigration.resx">
+      <DependentUpon>201404061302407_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

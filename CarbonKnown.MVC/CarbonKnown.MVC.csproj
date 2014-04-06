@@ -246,6 +246,8 @@
       <DependentUpon>Services.txt4</DependentUpon>
     </Compile>
     <Compile Include="BLL\ComparisonChartDataService.cs" />
+    <Compile Include="Models\SliceDataModel.cs" />
+    <Compile Include="Code\CurrenciesContext.cs" />
     <Compile Include="Code\DataTableParamModelBinderAttribute.cs" />
     <Compile Include="Code\DataTableResultModelBuilder.cs" />
     <Compile Include="Code\FileActionResult.cs" />
@@ -281,8 +283,6 @@
     <Compile Include="Controllers\SliceController.cs" />
     <Compile Include="Controllers\TraceSourceController.cs" />
     <Compile Include="Controllers\TreeWalkController.cs" />
-    <Compile Include="DAL\ISummaryDataContext.cs" />
-    <Compile Include="DAL\SummaryDataContext.cs" />
     <Compile Include="Models\AuditHistoryModel.cs" />
     <Compile Include="Models\ChecklistTableSettings.cs" />
     <Compile Include="Models\ChecklistTableViewModel.cs" />
@@ -296,7 +296,6 @@
     <Compile Include="Models\ComparisonSeriesRequestModel.cs" />
     <Compile Include="Models\ComparisonSeriesViewModel.cs" />
     <Compile Include="Models\CostCentreModel.cs" />
-    <Compile Include="Models\EmissionSummaryModel.cs" />
     <Compile Include="Models\Select2Model.cs" />
     <Compile Include="Models\TargetModel.cs" />
     <Compile Include="Models\UrlSelectionModel.cs" />

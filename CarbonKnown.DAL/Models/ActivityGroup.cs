@@ -24,5 +24,6 @@ namespace CarbonKnown.DAL.Models
         public virtual ActivityGroup ParentGroup { get; set; }
         public virtual ICollection<ActivityGroup> ChildGroups { get; set; }
         public virtual ICollection<Calculation> Calculations { get; set; }
+        public virtual ICollection<CarbonEmissionEntry> Entries { get; set; }
     }
 }

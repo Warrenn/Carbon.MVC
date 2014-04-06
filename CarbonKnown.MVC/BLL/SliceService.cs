@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Data.Entity.Hierarchy;
 using System.Linq;
 using System.Text.RegularExpressions;
 using CarbonKnown.DAL;
 using CarbonKnown.DAL.Models;
 using CarbonKnown.DAL.Models.Constants;
-using CarbonKnown.MVC.DAL;
+using CarbonKnown.MVC.Code;
 using CarbonKnown.MVC.Models;
 
 namespace CarbonKnown.MVC.BLL
@@ -15,116 +15,114 @@ namespace CarbonKnown.MVC.BLL
     {
         public static IDictionary<Section, DashboardConfiguration> Configurations
             = new SortedDictionary<Section, DashboardConfiguration>
+            {
                 {
+                    Section.Overview,
+                    new DashboardConfiguration
                     {
-                        Section.Overview,
-                        new DashboardConfiguration
-                            {
-                                DisplayName = "Overview",
-                                ShowCo2 = true,
-                                ActivityIds = new[]
-                                    {
-                                        Activity.Scope1Id,
-                                        Activity.Scope2Id,
-                                        Activity.Scope3Id,
-                                        Activity.NonKyotoId
-                                    }
-                            }
-                    },
-                    {
-                        Section.Water,
-                        new DashboardConfiguration
-                            {
-                                DisplayName = "Water",
-                                ShowCo2 = false,
-                                ActivityIds = new[]
-                                    {
-                                        Activity.WaterId
-                                    }
-                            }
-                    },
-                    {
-                        Section.Electricity,
-                        new DashboardConfiguration
-                            {
-                                DisplayName = "Electricity",
-                                ShowCo2 = false,
-                                ActivityIds = new[]
-                                    {
-                                        Activity.Scope2Id
-                                    }
-                            }
-                    },
-                    {
-                        Section.Paper,
-                        new DashboardConfiguration
-                            {
-                                DisplayName = "Paper",
-                                ShowCo2 = false,
-                                ActivityIds = new[]
-                                    {
-                                        Activity.PaperId
-                                    }
-                            }
-                    },
-                    {
-                        Section.Waste,
-                        new DashboardConfiguration
-                            {
-                                DisplayName = "Waste",
-                                ShowCo2 = false,
-                                ActivityIds = new[]
-                                    {
-                                        WasteActivityId.WasteToLandfillId,
-                                        WasteActivityId.RecylcedWasteId
-                                    }
-                            }
-                    },
-                    {
-                        Section.Travel,
-                        new DashboardConfiguration
-                            {
-                                DisplayName = "Travel",
-                                ShowCo2 = false,
-                                ActivityIds = new[]
-                                    {
-                                        Activity.BusinessTravelId
-                                    }
-                            }
-                    },
-                    {
-                        Section.Fleet,
-                        new DashboardConfiguration
-                            {
-                                DisplayName = "Fleet",
-                                ShowCo2 = false,
-                                ActivityIds = new[]
-                                    {
-                                        Activity.ThirdPartyVehicleFleetId,
-                                        Activity.CompanyOwnedVehicleFleetId
-                                    }
-                            }
-                    },
-                    {
-                        Section.Courier,
-                        new DashboardConfiguration
-                            {
-                                DisplayName = "Courier",
-                                ShowCo2 = false,
-                                ActivityIds = new[]
-                                    {
-                                        Activity.CourierId
-                                    }
-                            }
+                        DisplayName = "Overview",
+                        ShowCo2 = true,
+                        ActivityIds = new[]
+                        {
+                            Activity.Scope1Id,
+                            Activity.Scope2Id,
+                            Activity.Scope3Id,
+                            Activity.NonKyotoId
+                        }
                     }
-                };
+                },
+                {
+                    Section.Water,
+                    new DashboardConfiguration
+                    {
+                        DisplayName = "Water",
+                        ShowCo2 = false,
+                        ActivityIds = new[]
+                        {
+                            Activity.WaterId
+                        }
+                    }
+                },
+                {
+                    Section.Electricity,
+                    new DashboardConfiguration
+                    {
+                        DisplayName = "Electricity",
+                        ShowCo2 = false,
+                        ActivityIds = new[]
+                        {
+                            Activity.Scope2Id
+                        }
+                    }
+                },
+                {
+                    Section.Paper,
+                    new DashboardConfiguration
+                    {
+                        DisplayName = "Paper",
+                        ShowCo2 = false,
+                        ActivityIds = new[]
+                        {
+                            Activity.PaperId
+                        }
+                    }
+                },
+                {
+                    Section.Waste,
+                    new DashboardConfiguration
+                    {
+                        DisplayName = "Waste",
+                        ShowCo2 = false,
+                        ActivityIds = new[]
+                        {
+                            WasteActivityId.WasteToLandfillId,
+                            WasteActivityId.RecylcedWasteId
+                        }
+                    }
+                },
+                {
+                    Section.Travel,
+                    new DashboardConfiguration
+                    {
+                        DisplayName = "Travel",
+                        ShowCo2 = false,
+                        ActivityIds = new[]
+                        {
+                            Activity.BusinessTravelId
+                        }
+                    }
+                },
+                {
+                    Section.Fleet,
+                    new DashboardConfiguration
+                    {
+                        DisplayName = "Fleet",
+                        ShowCo2 = false,
+                        ActivityIds = new[]
+                        {
+                            Activity.ThirdPartyVehicleFleetId,
+                            Activity.CompanyOwnedVehicleFleetId
+                        }
+                    }
+                },
+                {
+                    Section.Courier,
+                    new DashboardConfiguration
+                    {
+                        DisplayName = "Courier",
+                        ShowCo2 = false,
+                        ActivityIds = new[]
+                        {
+                            Activity.CourierId
+                        }
+                    }
+                }
+            };
 
-        private readonly ISummaryDataContext summaryContext;
         private readonly DataContext context;
 
-        public SliceService(ISummaryDataContext summaryContext,DataContext context)
+        public SliceService(DataContext context)
         {
-            this.summaryContext = summaryContext;
             this.context = context;
         }
 
@@ -134,252 +132,321 @@ namespace CarbonKnown.MVC.BLL
             return string.Format("{0}_{1}", activityId ?? Guid.Empty, costCode);
         }
 
-        public static string CreateCurrency(CurrencySummary summary)
+        public virtual IEnumerable<string>
+            GetCurrencies(
+            DateTime startDate,
+            DateTime endDate,
+            HierarchyId[] nodes,
+            HierarchyId centreNode)
         {
-            return string.Format(new CultureInfo(summary.Locale), "{0:C}", summary.TotalMoney);
-        }
-
-        public IEnumerable<SliceTotal> TotalsByActivityGroup(DashboardRequest request)
-        {
-            var configuration = Configurations[request.Section];
-            if (request.ActivityGroupId == null)
+            var currencyTotals = new SortedDictionary<string, decimal>();
+            foreach (var node in nodes)
             {
-                return configuration
-                    .ActivityIds
-                    .Select(activityId => new SliceTotal
+                var activityId = node;
+                foreach (var total in 
+                    from e in context.CarbonEmissionEntries
+                    where
+                        (e.EntryDate >= startDate) &&
+                        (e.EntryDate <= endDate) &&
+                        (e.ActivityGroupNode.IsDescendantOf(activityId)) &&
+                        (e.CostCentreNode.IsDescendantOf(centreNode))
+                    group
+                        e.Money
+                        by e.CostCentre.CurrencyCode
+                    into g
+                    select new
                     {
-                        ActivityGroupId = activityId,
-                        CostCode = request.CostCode,
-                        TotalUnits = summaryContext.TotalUnits(
-                            request.StartDate,
-                            request.EndDate,
-                            activityId,
-                            request.CostCode),
-                        TotalCarbonEmissions = summaryContext.TotalEmissions(
-                            request.StartDate,
-                            request.EndDate,
-                            activityId,
-                            request.CostCode)
-                    });
+                        Code = g.Key,
+                        TotalMoney = g.Sum()
+                    })
+                {
+                    if (currencyTotals.ContainsKey(total.Code))
+                    {
+                        currencyTotals[total.Code] = currencyTotals[total.Code] + total.TotalMoney;
+                    }
+                    else
+                    {
+                        currencyTotals.Add(total.Code, total.TotalMoney);
+                    }
+                }
             }
-            return summaryContext.TotalsByActivityGroup(
-                request.StartDate,
-                request.EndDate,
-                request.ActivityGroupId,
-                request.CostCode).ToArray();
+            return currencyTotals
+                .Select(pair => string.Format(CurrenciesContext.Cultures[pair.Key], "{0:C}", pair.Value));
         }
 
-
-        public DashboardSummary CostCentre(DashboardRequest request)
+        public decimal TotalEmissions(
+            DateTime startDate,
+            DateTime endDate,
+            HierarchyId groupNode,
+            HierarchyId centreNode)
         {
-            var totalAmount = 0M;
-            var configuration = Configurations[request.Section];
-            var activity = context.ActivityGroups.Find(request.ActivityGroupId);
-            Func<SliceTotal, decimal> aggregateFunction;
-            string shortLabel;
-            string longLabel;
-            //when co2 is specifically asked for or when we can get get a total for units then use co2 by default
-            var showCo2 = (configuration.ShowCo2) ||
-                          (activity == null) ||
-                          (string.IsNullOrEmpty(activity.UOMShort)) ||
-                          (string.IsNullOrEmpty(activity.UOMLong));
+            var query =
+                from e in context.CarbonEmissionEntries
+                where
+                    (e.EntryDate >= startDate) &&
+                    (e.EntryDate <= endDate) &&
+                    (e.ActivityGroupNode.IsDescendantOf(groupNode)) &&
+                    (e.CostCentreNode.IsDescendantOf(centreNode))
+                select (decimal?) e.CarbonEmissions;
+            return query.Sum() ?? 0M;
+        }
 
-            if(showCo2)
+        public decimal TotalUnits(
+            DateTime startDate,
+            DateTime endDate,
+            HierarchyId groupNode,
+            HierarchyId centreNode)
+        {
+            var query =
+                from e in context.CarbonEmissionEntries
+                where
+                    (e.EntryDate >= startDate) &&
+                    (e.EntryDate <= endDate) &&
+                    (e.ActivityGroupNode.IsDescendantOf(groupNode)) &&
+                    (e.CostCentreNode.IsDescendantOf(centreNode))
+                select (decimal?) e.Units;
+            return query.Sum() ?? 0M;
+        }
+
+        public static decimal GetTotal(
+            Func<DateTime, DateTime, HierarchyId, HierarchyId, decimal> totalFunc,
+            DateTime startDate,
+            DateTime endDate,
+            HierarchyId activityNode,
+            HierarchyId centreNode,
+            HierarchyId[] nodes)
+        {
+            return activityNode == null
+                ? nodes.Sum(a => totalFunc(startDate, endDate, a, centreNode))
+                : totalFunc(startDate, endDate, activityNode, centreNode);
+        }
+
+        public DashboardSummary CreateSummary(
+            DashboardRequest request,
+            SliceDataModel[] sliceData,
+            ActivityGroup[] activities,
+            CostCentre centre)
+        {
+            var configuration = Configurations[request.Section];
+            var uomLong = string.Empty;
+            var showCo2 = false;
+            var groupNodes = activities.Select(a => a.Node).ToArray();
+            var summary = new DashboardSummary
             {
-                aggregateFunction = total => (total.TotalCarbonEmissions)/1000;
-                shortLabel = Constants.Constants.Co2LabelShort;
-                longLabel = Constants.Constants.Co2LabelLong;
-                activity = activity ?? new ActivityGroup
+                costCentre = centre.Name,
+                activityGroup = (request.ActivityGroupId == null)
+                    ? configuration.DisplayName
+                    : activities[0].Name,
+                displayTotal = true
+            };
+            var slices = sliceData
+                .OrderBy(s => s.OrderId)
+                .Select(s =>
+                {
+                    var slice = new SliceModel
                     {
-                        UOMShort = shortLabel
+                        activityGroupId = s.ActivityGroupId,
+                        color = s.Color,
+                        costCode = s.CostCode,
+                        description = s.Description,
+                        title = s.Title,
+                        sliceId = CreateSliceId(s.ActivityGroupId, s.CostCode),
                     };
+                    var noUnits =
+                        (string.IsNullOrEmpty(s.UomShort)) ||
+                        (string.IsNullOrEmpty(s.UomLong));
+
+                    if (configuration.ShowCo2 || noUnits)
+                    {
+                        showCo2 = true;
+                        slice.co2label = Constants.Constants.Co2LabelShort;
+                        slice.amount = GetTotal(
+                            TotalEmissions,
+                            request.StartDate,
+                            request.EndDate,
+                            s.ActivityGroupNode,
+                            s.CentreNode,
+                            groupNodes)/1000;
+                    }
+                    if (configuration.ShowCo2 && !noUnits)
+                    {
+                        slice.uom = s.UomShort;
+                        slice.units = GetTotal(
+                            TotalUnits,
+                            request.StartDate,
+                            request.EndDate,
+                            s.ActivityGroupNode,
+                            s.CentreNode,
+                            groupNodes);
+                    }
+                    if (!configuration.ShowCo2 && !noUnits)
+                    {
+                        slice.co2label = s.UomShort;
+                        uomLong = s.UomLong;
+                        slice.amount = GetTotal(
+                            TotalUnits,
+                            request.StartDate,
+                            request.EndDate,
+                            s.ActivityGroupNode,
+                            s.CentreNode,
+                            groupNodes);
+                    }
+                    return slice;
+                }).ToArray();
+
+            decimal lastYearTotal;
+            decimal totalAmount;
+            if (showCo2)
+            {
+                totalAmount = GetTotal(
+                    TotalEmissions,
+                    request.StartDate,
+                    request.EndDate,
+                    null,
+                    centre.Node,
+                    groupNodes)/1000;
+                lastYearTotal = GetTotal(
+                    TotalEmissions,
+                    request.StartDate.AddYears(-1),
+                    request.EndDate.AddYears(-1),
+                    null,
+                    centre.Node,
+                    groupNodes)/1000;
             }
             else
             {
-                aggregateFunction = total => total.TotalUnits;
-                shortLabel = activity.UOMShort;
-                longLabel = activity.UOMLong;
-            }
-
-            var slices = summaryContext
-                .TotalsByCostCentre(
+                totalAmount = GetTotal(
+                    TotalUnits,
                     request.StartDate,
                     request.EndDate,
-                    request.ActivityGroupId,
-                    request.CostCode)
-                .ToArray()
-                .Select(total =>
-                {
-                    var costCentre = context.CostCentres.Find(total.CostCode) ?? new CostCentre();
-                    var amount = aggregateFunction(total);
-                    totalAmount = totalAmount + amount;
-                    var sliceId = CreateSliceId(total.ActivityGroupId, total.CostCode);
-                    return new
-                    {
-                        costCentre.OrderId,
-                        slice = new SliceModel
-                        {
-                            activityGroupId = total.ActivityGroupId,
-                            costCode = total.CostCode,
-                            amount = amount,
-                            co2label = shortLabel,
-                            color = costCentre.Color,
-                            description = costCentre.Description,
-                            sliceId = sliceId,
-                            title = costCentre.Name,
-                            units = total.TotalUnits,
-                            uom = activity.UOMShort
-                        }
-                    };
-                })
-                .OrderBy(arg => arg.OrderId)
-                .Select(arg => arg.slice);
-            var lastYearStart = request.StartDate.AddYears(-1);
-            var lastYearEnd = request.EndDate.AddYears(-1);
-            var lastYearTotal = (showCo2)
-                ? summaryContext.TotalEmissions(lastYearStart, lastYearEnd, request.ActivityGroupId, request.CostCode)
-                : summaryContext.TotalUnits(lastYearStart, lastYearEnd, request.ActivityGroupId, request.CostCode);
+                    null,
+                    centre.Node,
+                    groupNodes);
+                lastYearTotal = GetTotal(
+                    TotalUnits,
+                    request.StartDate.AddYears(-1),
+                    request.EndDate.AddYears(-1),
+                    null,
+                    centre.Node,
+                    groupNodes);
+            }
+
             var yoy = (lastYearTotal == 0)
                 ? 0
                 : ((totalAmount - lastYearTotal)/lastYearTotal)*100;
-            var selectedCostCentre = context.CostCentres.Find(request.CostCode);
-            var currencies = summaryContext
-                .CurrenciesSummary(
-                    request.StartDate,
-                    request.EndDate,
-                    request.ActivityGroupId,
-                    request.CostCode)
-                .Select(CreateCurrency)
-                .ToArray();
-            var summary = new DashboardSummary
-            {
-                activityGroup = activity.Name,
-                co2label = longLabel,
-                costCentre = selectedCostCentre.Name,
-                currencies = currencies,
-                displayTotal = true,
-                slices = slices,
-                total = totalAmount,
-                yoy = yoy
-            };
+            var currencies = GetCurrencies(
+                request.StartDate,
+                request.EndDate,
+                groupNodes,
+                centre.Node);
+            summary.co2label = (showCo2)
+                ? Constants.Constants.Co2LabelLong
+                : uomLong;
+            summary.currencies = currencies;
+            summary.slices = slices;
+            summary.total = totalAmount;
+            summary.yoy = yoy;
             return summary;
+        }
+
+        public DashboardSummary CostCentre(DashboardRequest request)
+        {
+            var activity = (request.ActivityGroupId == null)
+                ? null
+                : context.ActivityGroups.Find(request.ActivityGroupId);
+
+            var costCentreRoot = context.CostCentres.Find(request.CostCode);
+            var slices = costCentreRoot
+                .ChildrenCostCentres
+                .Select(centre =>
+                {
+                    var returnModel = new SliceDataModel
+                    {
+                        CentreNode = centre.Node,
+                        Color = centre.Color,
+                        CostCode = centre.CostCode,
+                        Description = centre.Description,
+                        OrderId = centre.OrderId,
+                        Title = centre.Name
+                    };
+                    if (activity == null) return returnModel;
+                    returnModel.ActivityGroupId = activity.Id;
+                    returnModel.ActivityGroupNode = activity.Node;
+                    returnModel.UomLong = activity.UOMLong;
+                    returnModel.UomShort = activity.UOMShort;
+                    return returnModel;
+                }).ToArray();
+            if (!slices.Any())
+            {
+                slices = new[]
+                {
+                    new SliceDataModel
+                    {
+                        CentreNode = costCentreRoot.Node,
+                        Color = costCentreRoot.Color,
+                        CostCode = costCentreRoot.CostCode,
+                        Description = costCentreRoot.Description,
+                        OrderId = costCentreRoot.OrderId,
+                        Title = costCentreRoot.Name
+                    }
+                };
+                if (activity != null)
+                {
+                    slices[0].ActivityGroupId = activity.Id;
+                    slices[0].ActivityGroupNode = activity.Node;
+                    slices[0].UomLong = activity.UOMLong;
+                    slices[0].UomShort = activity.UOMShort;
+                }
+            }
+            if (activity != null) return CreateSummary(request, slices, new[] {activity}, costCentreRoot);
+            var configuration = Configurations[request.Section];
+            var activities = configuration.ActivityIds.Select(guid => context.ActivityGroups.Find(guid)).ToArray();
+            return CreateSummary(request, slices, activities, costCentreRoot);
         }
 
         public DashboardSummary ActivityGroup(DashboardRequest request)
         {
-            var totalAmount = 0M;
-            var displayTotal = true;
-            var co2Label = string.Empty;
+            var costCentreRoot = context.CostCentres.Find(request.CostCode);
+            IEnumerable<ActivityGroup> childGroups;
+            ActivityGroup[] activities;
+
             var configuration = Configurations[request.Section];
-            var activityId = request.ActivityGroupId ?? Guid.Empty;
-            var slices = TotalsByActivityGroup(request)
-                .ToArray()
-                .Select(total =>
-                {
-                    var activity = context.ActivityGroups.Find(total.ActivityGroupId);
-                    decimal amount;
-                    string shortLabel;
-                    string longLabel;
-                    var showCo2 = (configuration.ShowCo2) ||
-                                  (activity == null) ||
-                                  (string.IsNullOrEmpty(activity.UOMShort)) ||
-                                  (string.IsNullOrEmpty(activity.UOMLong));
-                    if (showCo2)
-                    {
-                        amount = (total.TotalCarbonEmissions)/1000;
-                        shortLabel = Constants.Constants.Co2LabelShort;
-                        longLabel = Constants.Constants.Co2LabelLong;
-                        activity = activity ?? new ActivityGroup
-                        {
-                            OrderId = 0
-                        };
-                    }
-                    else
-                    {
-                        amount = total.TotalUnits;
-                        shortLabel = activity.UOMShort;
-                        longLabel = activity.UOMLong;
-                    }
-                    if (!string.IsNullOrEmpty(co2Label) && (!string.Equals(co2Label, longLabel)))
-                    {
-                        displayTotal = false;
-                    }
-                    co2Label = longLabel;
-                    totalAmount = totalAmount + amount;
-                    var sliceId = CreateSliceId(total.ActivityGroupId, total.CostCode);
-                    return new
-                    {
-                        activity.OrderId,
-                        slice = new SliceModel
-                        {
-                            activityGroupId = total.ActivityGroupId,
-                            costCode = total.CostCode,
-                            amount = amount,
-                            co2label = shortLabel,
-                            color = activity.Color,
-                            description = activity.Description,
-                            sliceId = sliceId,
-                            title = activity.Name,
-                            units = total.TotalUnits,
-                            uom = activity.UOMShort
-                        }
-                    };
-                })
-                .OrderBy(arg => arg.OrderId)
-                .Select(arg => arg.slice);
-            if (string.IsNullOrEmpty(co2Label) && displayTotal)
+            if (request.ActivityGroupId == null)
             {
-                co2Label = Constants.Constants.Co2LabelLong;
-            }
-            var activityIds = (request.ActivityGroupId == null)
-                                  ? configuration.ActivityIds
-                                  : new[] {activityId};
-            var yoy = 0M;
-            if (displayTotal)
-            {
-                var lastYearStart = request.StartDate.AddYears(-1);
-                var lastYearEnd = request.EndDate.AddYears(-1);
-                var lastYearTotal =configuration.ShowCo2
-                        ? activityIds.Sum(id => summaryContext.TotalEmissions(lastYearStart, lastYearEnd, id, request.CostCode))
-                        : activityIds.Sum(id => summaryContext.TotalUnits(lastYearStart, lastYearEnd, id, request.CostCode));
-                yoy = (lastYearTotal == 0)
-                    ? 0
-                    : ((totalAmount - lastYearTotal)/lastYearTotal)*100;
-            }
-            var activityName = (request.ActivityGroupId == null)
-                               ? configuration.DisplayName
-                               : context.ActivityGroups.Find(activityId).Name;
-            var costCentre = context.CostCentres.Find(request.CostCode) ?? new CostCentre();
-            var currencySummaries =
-                (from id in activityIds
-                 from currency in summaryContext
-                     .CurrenciesSummary(
-                         request.StartDate,
-                         request.EndDate,
-                         id,
-                         request.CostCode)
-                     .ToArray()
-                 group currency by currency.Locale
-                 into g
-                 select new CurrencySummary
-                     {
-                         Locale = g.Key,
-                         TotalMoney = g.Sum(s => s.TotalMoney)
-                     })
+                activities = configuration
+                    .ActivityIds
+                    .Select(id => context.ActivityGroups.Find(id))
                     .ToArray();
-            var currencies = currencySummaries.Select(CreateCurrency);
-            var summary = new DashboardSummary
+                var index = 1;
+                childGroups = activities.Select(a =>
+                {
+                    a.OrderId = index*100;
+                    index++;
+                    return a;
+                });
+            }
+            else
             {
-                activityGroup = activityName,
-                co2label = co2Label,
-                costCentre = costCentre.Name,
-                currencies = currencies,
-                displayTotal = displayTotal && !string.IsNullOrEmpty(co2Label),
-                slices = slices,
-                total = totalAmount,
-                yoy = yoy
-            };
-            return summary;
+                var actvity = context.ActivityGroups.Find(request.ActivityGroupId);
+                activities = new[] {actvity};
+                childGroups = actvity.ChildGroups;
+            }
+            var slices = childGroups
+                .Select(a =>
+                    new SliceDataModel
+                    {
+                        CentreNode = costCentreRoot.Node,
+                        Color = a.Color,
+                        CostCode = costCentreRoot.CostCode,
+                        Description = a.Description,
+                        OrderId = a.OrderId,
+                        Title = a.Name,
+                        ActivityGroupId = a.Id,
+                        ActivityGroupNode = a.Node,
+                        UomLong = a.UOMLong,
+                        UomShort = a.UOMShort
+                    }).ToArray();
+            return CreateSummary(request, slices, activities, costCentreRoot);
         }
     }
 }

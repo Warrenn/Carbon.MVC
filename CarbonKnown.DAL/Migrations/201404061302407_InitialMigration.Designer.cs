@@ -2,6 +2,7 @@
 namespace CarbonKnown.DAL.Migrations
 {
     using System.CodeDom.Compiler;
+    using System.Data.Entity.Migrations;
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
@@ -12,7 +13,7 @@ namespace CarbonKnown.DAL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201403211056439_InitialMigration"; }
+            get { return "201404061302407_InitialMigration"; }
         }
         
         string IMigrationMetadata.Source

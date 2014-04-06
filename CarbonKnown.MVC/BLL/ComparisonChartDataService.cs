@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Hierarchy;
 using System.Linq;
 using CarbonKnown.DAL;
 using CarbonKnown.DAL.Models;
-using CarbonKnown.MVC.DAL;
 using CarbonKnown.MVC.Models;
 
 namespace CarbonKnown.MVC.BLL
@@ -11,13 +11,11 @@ namespace CarbonKnown.MVC.BLL
     public class ComparisonChartDataService
     {
         private readonly DataContext context;
-        private readonly ISummaryDataContext summaryContext;
         public static Random Rnd = new Random();
 
-        public ComparisonChartDataService(DataContext context, ISummaryDataContext summaryContext)
+        public ComparisonChartDataService(DataContext context)
         {
             this.context = context;
-            this.summaryContext = summaryContext;
         }
 
         public static IEnumerable<string> Categories(DateTime startDate, DateTime endDate)
@@ -48,39 +46,40 @@ namespace CarbonKnown.MVC.BLL
 
         public IEnumerable<ComparisonSeriesViewModel> ChartSeries(TargetType targetType)
         {
-            foreach (var series in context.GraphSeries
-                                          .Where(series =>
-                                                 (series.TargetType == targetType)).Select(series => new
-                                                     {
-                                                         activityId = series.ActivityGroupId,
-                                                         costCode = series.CostCentreCostCode,
-                                                         id = series.Id,
-                                                         name = series.Name,
-                                                         target = series.IncludeTarget,
-                                                         currencyCode = series.CostCentre.CurrencyCode,
-                                                         uom = series.ActivityGroup.UOMShort
-                                                     }).ToArray())
+            foreach (var series in context
+                .GraphSeries
+                .Where(series =>
+                    (series.TargetType == targetType)).Select(series => new
+                    {
+                        activityId = series.ActivityGroupId,
+                        costCode = series.CostCentreCostCode,
+                        id = series.Id,
+                        name = series.Name,
+                        target = series.IncludeTarget,
+                        currencyCode = series.CostCentre.CurrencyCode,
+                        uom = series.ActivityGroup.UOMShort
+                    }).ToArray())
             {
                 yield return new ComparisonSeriesViewModel
+                {
+                    activityId = series.activityId,
+                    costCode = series.costCode,
+                    id = series.id,
+                    name = series.name,
+                    target = false,
+                    uom = GetUom(targetType, series.currencyCode, series.uom)
+                };
+                if (series.target)
+                {
+                    yield return new ComparisonSeriesViewModel
                     {
                         activityId = series.activityId,
                         costCode = series.costCode,
                         id = series.id,
                         name = series.name,
-                        target = false,
+                        target = true,
                         uom = GetUom(targetType, series.currencyCode, series.uom)
                     };
-                if (series.target)
-                {
-                    yield return new ComparisonSeriesViewModel
-                        {
-                            activityId = series.activityId,
-                            costCode = series.costCode,
-                            id = series.id,
-                            name = series.name,
-                            target = true,
-                            uom = GetUom(targetType, series.currencyCode, series.uom)
-                        };
                 }
             }
         }
@@ -110,32 +109,117 @@ namespace CarbonKnown.MVC.BLL
             }
         }
 
+        public virtual IEnumerable<AverageData>
+            AverageCo2(
+            DateTime startDate,
+            DateTime endDate,
+            HierarchyId groupNode,
+            HierarchyId centreNode)
+        {
+            var query =
+                from e in context.CarbonEmissionEntries
+                where
+                    (e.EntryDate >= startDate) &&
+                    (e.EntryDate <= endDate) &&
+                    (e.ActivityGroupNode.IsDescendantOf(groupNode)) &&
+                    (e.CostCentreNode.IsDescendantOf(centreNode))
+                group e.CarbonEmissions by
+                    ((e.EntryDate.Year*100) + (e.EntryDate.Month))
+                into g
+                select new AverageData
+                {
+                    Average = g.Average()/1000,
+                    YearMonth = g.Key
+                };
+            return query;
+        }
+
+        public virtual IEnumerable<AverageData>
+            AverageMoney(
+            DateTime startDate,
+            DateTime endDate,
+            HierarchyId groupNode,
+            HierarchyId centreNode)
+        {
+            var query =
+                from e in context.CarbonEmissionEntries
+                where
+                    (e.EntryDate >= startDate) &&
+                    (e.EntryDate <= endDate) &&
+                    (e.ActivityGroupNode.IsDescendantOf(groupNode)) &&
+                    (e.CostCentreNode.IsDescendantOf(centreNode))
+                group e.Money by
+                    ((e.EntryDate.Year * 100) + (e.EntryDate.Month))
+                    into g
+                    select new AverageData
+                    {
+                        Average = g.Average(),
+                        YearMonth = g.Key
+                    };
+            return query;
+        }
+
+        public virtual IEnumerable<AverageData>
+            AverageUnits(
+            DateTime startDate,
+            DateTime endDate,
+            HierarchyId groupNode,
+            HierarchyId centreNode)
+        {
+            var query =
+                from e in context.CarbonEmissionEntries
+                where
+                    (e.EntryDate >= startDate) &&
+                    (e.EntryDate <= endDate) &&
+                    (e.ActivityGroupNode.IsDescendantOf(groupNode)) &&
+                    (e.CostCentreNode.IsDescendantOf(centreNode))
+                group e.Units by
+                    ((e.EntryDate.Year * 100) + (e.EntryDate.Month))
+                    into g
+                    select new AverageData
+                    {
+                        Average = g.Average(),
+                        YearMonth = g.Key
+                    };
+            return query;
+        }
+
         public IEnumerable<decimal> ComparisonData(ComparisonSeriesRequestModel request)
         {
             if (request.target) return Target(request);
             IEnumerable<AverageData> averages;
+            var activityNode = (request.activityId == null)
+                ? new HierarchyId("/")
+                : context
+                    .ActivityGroups
+                    .Find(request.activityId)
+                    .Node;
+            var costCentreNode = context
+                .CostCentres
+                .Find(request.costCode)
+                .Node;
             switch (request.targetType)
             {
                 case TargetType.CarbonEmissions:
-                    averages = summaryContext.AverageCo2(
+                    averages = AverageCo2(
                         request.startDate,
                         request.endDate,
-                        request.activityId,
-                        request.costCode);
+                        activityNode,
+                        costCentreNode);
                     break;
                 case TargetType.Money:
-                    averages = summaryContext.AverageMoney(
+                    averages = AverageMoney(
                         request.startDate,
                         request.endDate,
-                        request.activityId,
-                        request.costCode);
+                        activityNode,
+                        costCentreNode);
                     break;
                 case TargetType.Units:
-                    averages = summaryContext.AverageUnits(
+                    averages = AverageUnits(
                         request.startDate,
                         request.endDate,
-                        request.activityId,
-                        request.costCode);
+                        activityNode,
+                        costCentreNode);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("request");

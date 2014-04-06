@@ -30,7 +30,6 @@ namespace CarbonKnown.DAL
         public virtual DbSet<Variance> Variances { get; set; }
         public virtual DbSet<Factor> Factors { get; set; }
         public virtual DbSet<GraphSeries> GraphSeries { get; set; }
-        public virtual DbSet<Currency> Currencies { get; set; }
         public virtual IEnumerable<ActivityGroup> ActivityGroupsTreeWalk(Guid? groupId)
         {
             var id = groupId;
@@ -47,7 +46,7 @@ namespace CarbonKnown.DAL
         {
             var code = costCode;
 
-            while (string.IsNullOrEmpty(code))
+            while (!string.IsNullOrEmpty(code))
             {
                 var centre = CostCentres.Find(code);
                 if (centre == null) yield break;
@@ -91,6 +90,10 @@ namespace CarbonKnown.DAL
             modelBuilder.Entity<DataEntry>()
                 .Property(entry => entry.PagingId)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Census>()
+                .HasMany(c => c.CostCentres)
+                .WithMany(centre => centre.Census)
+                .Map(mc => mc.ToTable("CensusCostCentre"));
             modelBuilder.Entity<EmissionTarget>().Property(entry => entry.TargetAmount).HasPrecision(22, 8);
             modelBuilder.Entity<EmissionTarget>().Property(entry => entry.InitialAmount).HasPrecision(22, 8);
             modelBuilder.Entity<Variance>().Property(entry => entry.MaxValue).HasPrecision(22, 8);

@@ -17,10 +17,11 @@
     @Scripts.Render(
         "~/Scripts/jquery",
         "~/Scripts/jqueryui",
+        "~/Scripts/datatable", 
         "~/Scripts/angular",
         "~/Scripts/angularuijs",
         "~/Scripts/angular-resource",
-        "~/Scripts/tracesource")
+        "~/Scripts/tracesource");
     <script type="text/javascript">
         (function(readyfunction) {
             readyfunction(window, document, window.angular, window.jQuery);
@@ -30,11 +31,11 @@
             angular
                 .module('TraceSource')
                 .constant('ApiUrl', {
-                    activityTreeWalk: '@Url.RouteUrl("TreeWalkActivity")',
-                    activityChildren: '@Url.RouteUrl("ChildrenActivityGroup")',
-                    costCentreTreeWalk: '@Url.RouteUrl("TreeWalkCostCentre")',
-                    costCentreChildren: '@Url.RouteUrl("ChildrenCostCentre")',
-                    traceSourceUrl: '@Url.Action("AuditHistory",Model)'
+                    activityTreeWalk: '@Url.HttpRouteUrl("TreeWalkActivity", new { })',
+                    activityChildren: '@Url.HttpRouteUrl("ChildrenActivityGroup", new { })',
+                    costCentreTreeWalk: '@Url.HttpRouteUrl("TreeWalkCostCentre", new { })',
+                    costCentreChildren: '@Url.HttpRouteUrl("ChildrenCostCentre", new { })',
+                    traceSourceUrl: '@Html.Raw(Url.Action("AuditHistory",Model))'
                 })
                 .constant('InitialRequest', {
                     costCode: '@Model.CostCode',
@@ -61,10 +62,10 @@
 </nav>
 <section id="audit-history-container">
     <div id="audit-history-panel">
-        <table id="audit-history-table" data-table="dataTableSettings">
+        <table id="audit-history-table" datatable="dataTableSettings">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th data-mdata="">Name</th>
                     <th>Edit Date</th>
                     <th>User Name</th>
                     <th>Units</th>
@@ -73,8 +74,7 @@
                     <th>HandlerName</th>
                 </tr>
             </thead>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 </section>

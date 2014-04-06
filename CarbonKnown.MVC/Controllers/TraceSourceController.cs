@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Data.Entity.Hierarchy;
 using System.Globalization;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CarbonKnown.DAL;
 using CarbonKnown.DAL.Models;
+using CarbonKnown.DAL.Models.Source;
 using CarbonKnown.MVC.Code;
-using CarbonKnown.MVC.DAL;
 using CarbonKnown.MVC.Models;
 using CarbonKnown.MVC.Properties;
 
@@ -13,9 +16,9 @@ namespace CarbonKnown.MVC.Controllers
     [Authorize(Roles = "Admin,Capturer")]
     public class TraceSourceController : Controller
     {
-        private readonly ISummaryDataContext context;
+        private readonly DataContext context;
 
-        public TraceSourceController(ISummaryDataContext context)
+        public TraceSourceController(DataContext context)
         {
             this.context = context;
         }
@@ -29,7 +32,47 @@ namespace CarbonKnown.MVC.Controllers
             DataTableParamModel request)
         {
             var builder = new DataTableResultModelBuilder<AuditHistory>();
-            var query = context.AuditHistory(startDate, endDate, activityGroupId, costCode);
+
+            var activityNode =
+                (activityGroupId == null)
+                    ? new HierarchyId("/")
+                    : context.ActivityGroups.Find(activityGroupId).Node;
+            var costCentreNode =
+                context.CostCentres.Find(costCode).Node;
+            var query =
+                from e in context.CarbonEmissionEntries
+                where
+                    (e.EntryDate >= startDate) &&
+                    (e.EntryDate <= endDate) &&
+                    (e.ActivityGroupNode.IsDescendantOf(activityNode)) &&
+                    (e.CostCentreNode.IsDescendantOf(costCentreNode))
+                group new
+                {
+                    e.Units,
+                    e.Money,
+                    e.CarbonEmissions
+                } by e.SourceEntry.SourceId
+                into g
+                from source in context.DataSources
+                join fileDataSource in context.Set<FileDataSource>() on
+                    source.Id equals fileDataSource.Id into filejoin
+                from subFileSource in filejoin.DefaultIfEmpty()
+                join manualDataSource in context.Set<ManualDataSource>() on
+                    source.Id equals manualDataSource.Id into manualjoin
+                from subManualSource in manualjoin.DefaultIfEmpty()
+                where source.Id == g.Key
+                select new AuditHistory
+                {
+                    CurrentFileName = (subFileSource == null) ? null : subFileSource.CurrentFileName,
+                    Name = (subFileSource == null) ? "Manual Entry" : subFileSource.OriginalFileName,
+                    DateEdit = source.DateEdit,
+                    UserName = source.UserName,
+                    HandlerName = (subFileSource == null) ? subManualSource.DisplayType : subFileSource.HandlerName,
+                    Emissions = g.Sum(arg => arg.CarbonEmissions)/1000,
+                    Cost = g.Sum(arg => arg.Money),
+                    Units = g.Sum(arg => arg.Units),
+                    SourceId = g.Key
+                };
             builder.AddQueryable(query);
             builder.AddDataExpression(arg => new object[]
             {

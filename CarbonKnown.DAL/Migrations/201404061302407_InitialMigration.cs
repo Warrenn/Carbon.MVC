@@ -1,5 +1,6 @@
 namespace CarbonKnown.DAL.Migrations
 {
+    using System;
     using System.Data.Entity.Migrations;
     
     public partial class InitialMigration : DbMigration
@@ -9,21 +10,20 @@ namespace CarbonKnown.DAL.Migrations
             CreateTable(
                 "dbo.ActivityGroups",
                 c => new
-                {
-                    Id = c.Guid(nullable: false),
-                    Node = c.HierarchyId(),
-                    Color = c.String(maxLength: 6),
-                    OrderId = c.Int(nullable: false),
-                    Name = c.String(),
-                    Description = c.String(),
-                    GRIDescription = c.String(),
-                    UOMShort = c.String(),
-                    UOMLong = c.String(),
-                    ParentGroupId = c.Guid(),
-                })
+                    {
+                        Id = c.Guid(nullable: false),
+                        Node = c.HierarchyId(),
+                        Color = c.String(maxLength: 6),
+                        OrderId = c.Int(nullable: false),
+                        Name = c.String(),
+                        Description = c.String(),
+                        GRIDescription = c.String(),
+                        UOMShort = c.String(),
+                        UOMLong = c.String(),
+                        ParentGroupId = c.Guid(),
+                    })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.ActivityGroups", t => t.ParentGroupId)
-                .Index(t => t.Node, unique: true)
                 .Index(t => t.ParentGroupId);
             
             CreateTable(
@@ -118,16 +118,40 @@ namespace CarbonKnown.DAL.Migrations
                     EntryDate = c.DateTime(nullable: false),
                     ActivityGroupNode = c.HierarchyId(),
                     CostCentreNode = c.HierarchyId(),
-                    DataEntryId = c.Guid(nullable: false),
                     CalculationDate = c.DateTime(nullable: false),
                     Units = c.Decimal(nullable: false, precision: 22, scale: 8),
                     Money = c.Decimal(nullable: false, precision: 22, scale: 8),
                     CarbonEmissions = c.Decimal(nullable: false, precision: 22, scale: 8),
+                    DataEntryId = c.Guid(nullable: false),
+                    CostCentreCostCode = c.String(maxLength: 128),
+                    ActivityGroupId = c.Guid(),
                 })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.ActivityGroups", t => t.ActivityGroupId)
+                .ForeignKey("dbo.CostCentres", t => t.CostCentreCostCode)
                 .ForeignKey("dbo.DataEntries", t => t.DataEntryId, cascadeDelete: true)
-                .Index(t => new {t.EntryDate, t.ActivityGroupNode, t.CostCentreNode})
-                .Index(t => t.DataEntryId);
+                .Index(t => t.DataEntryId)
+                .Index(t => t.CostCentreCostCode)
+                .Index(t => t.ActivityGroupId)
+                .Index(t => new {t.EntryDate, t.ActivityGroupNode, t.CostCentreNode});
+            
+            CreateTable(
+                "dbo.CostCentres",
+                c => new
+                    {
+                        CostCode = c.String(nullable: false, maxLength: 128),
+                        Node = c.HierarchyId(),
+                        Color = c.String(maxLength: 6),
+                        CurrencyCode = c.String(),
+                        OrderId = c.Int(nullable: false),
+                        Name = c.String(),
+                        Description = c.String(),
+                        ConsumptionType = c.Int(),
+                        ParentCostCentreCostCode = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.CostCode)
+                .ForeignKey("dbo.CostCentres", t => t.ParentCostCentreCostCode)
+                .Index(t => t.ParentCostCentreCostCode);
             
             CreateTable(
                 "dbo.Census",
@@ -144,38 +168,6 @@ namespace CarbonKnown.DAL.Migrations
                         ScopeBoundries = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
-
-            CreateTable(
-                "dbo.CostCentres",
-                c => new
-                {
-                    CostCode = c.String(nullable: false, maxLength: 128),
-                    Node = c.HierarchyId(),
-                    Color = c.String(maxLength: 6),
-                    CurrencyCode = c.String(maxLength: 3),
-                    OrderId = c.Int(nullable: false),
-                    Name = c.String(),
-                    Description = c.String(),
-                    ConsumptionType = c.Int(),
-                    ParentCostCentreCostCode = c.String(maxLength: 128),
-                })
-                .PrimaryKey(t => t.CostCode)
-                .ForeignKey("dbo.CostCentres", t => t.ParentCostCentreCostCode)
-                .ForeignKey("dbo.Currencies", t => t.CurrencyCode)
-                .Index(t => t.CurrencyCode)
-                .Index(t => t.Node, unique: true)
-                .Index(t => t.ParentCostCentreCostCode);
-            
-            CreateTable(
-                "dbo.Currencies",
-                c => new
-                    {
-                        Code = c.String(nullable: false, maxLength: 3),
-                        Symbol = c.String(maxLength: 1),
-                        Name = c.String(),
-                        Locale = c.String(maxLength: 5),
-                    })
-                .PrimaryKey(t => t.Code);
             
             CreateTable(
                 "dbo.EmissionTargets",
@@ -278,38 +270,25 @@ namespace CarbonKnown.DAL.Migrations
                 .Index(t => t.Calculation_Id);
             
             CreateTable(
-                "dbo.CostCentreCensus",
+                "dbo.CensusCostCentres",
                 c => new
                     {
-                        CostCentre_CostCode = c.String(nullable: false, maxLength: 128),
                         Census_Id = c.Int(nullable: false),
+                        CostCentre_CostCode = c.String(nullable: false, maxLength: 128),
                     })
-                .PrimaryKey(t => new { t.CostCentre_CostCode, t.Census_Id })
-                .ForeignKey("dbo.CostCentres", t => t.CostCentre_CostCode, cascadeDelete: true)
+                .PrimaryKey(t => new { t.Census_Id, t.CostCentre_CostCode })
                 .ForeignKey("dbo.Census", t => t.Census_Id, cascadeDelete: true)
-                .Index(t => t.CostCentre_CostCode)
-                .Index(t => t.Census_Id);
+                .ForeignKey("dbo.CostCentres", t => t.CostCentre_CostCode, cascadeDelete: true)
+                .Index(t => t.Census_Id)
+                .Index(t => t.CostCentre_CostCode);
             
             CreateTable(
-                "dbo.AirTravelRouteData",
+                "dbo.FuelData",
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        TravelClass = c.Int(nullable: false),
-                        Reversal = c.Boolean(nullable: false),
-                        FromCode = c.String(),
-                        ToCode = c.String(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.DataEntries", t => t.Id)
-                .Index(t => t.Id);
-            
-            CreateTable(
-                "dbo.AirTravelData",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        TravelClass = c.Int(nullable: false),
+                        FuelType = c.Int(),
+                        UOM = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.DataEntries", t => t.Id)
@@ -328,29 +307,6 @@ namespace CarbonKnown.DAL.Migrations
                 .Index(t => t.Id);
             
             CreateTable(
-                "dbo.CommutingData",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        CommutingType = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.DataEntries", t => t.Id)
-                .Index(t => t.Id);
-            
-            CreateTable(
-                "dbo.PaperData",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        PaperType = c.Int(),
-                        PaperUom = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.DataEntries", t => t.Id)
-                .Index(t => t.Id);
-            
-            CreateTable(
                 "dbo.ManualDataSource",
                 c => new
                     {
@@ -362,6 +318,67 @@ namespace CarbonKnown.DAL.Migrations
                 .Index(t => t.Id);
             
             CreateTable(
+                "dbo.CarHireData",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        CarGroupBill = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.DataEntries", t => t.Id)
+                .Index(t => t.Id);
+            
+            CreateTable(
+                "dbo.WaterData",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.DataEntries", t => t.Id)
+                .Index(t => t.Id);
+            
+            CreateTable(
+                "dbo.AirTravelRouteData",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        TravelClass = c.Int(nullable: false),
+                        Reversal = c.Boolean(nullable: false),
+                        FromCode = c.String(),
+                        ToCode = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.DataEntries", t => t.Id)
+                .Index(t => t.Id);
+            
+            CreateTable(
+                "dbo.ElectricityData",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        ElectricityType = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.DataEntries", t => t.Id)
+                .Index(t => t.Id);
+            
+            CreateTable(
+                "dbo.CourierRouteData",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        ServiceType = c.Int(),
+                        ChargeMass = c.Decimal(precision: 18, scale: 2),
+                        FromCode = c.String(),
+                        ToCode = c.String(),
+                        Reversal = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.DataEntries", t => t.Id)
+                .Index(t => t.Id);
+            
+            CreateTable(
                 "dbo.RefrigerantData",
                 c => new
                     {
@@ -370,6 +387,21 @@ namespace CarbonKnown.DAL.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.DataEntries", t => t.Id)
+                .Index(t => t.Id);
+            
+            CreateTable(
+                "dbo.FileDataSource",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        FileHash = c.String(),
+                        OriginalFileName = c.String(),
+                        CurrentFileName = c.String(),
+                        HandlerName = c.String(),
+                        MediaType = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.DataSources", t => t.Id)
                 .Index(t => t.Id);
             
             CreateTable(
@@ -394,11 +426,23 @@ namespace CarbonKnown.DAL.Migrations
                 .Index(t => t.Id);
             
             CreateTable(
-                "dbo.ElectricityData",
+                "dbo.PaperData",
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        ElectricityType = c.Int(),
+                        PaperType = c.Int(),
+                        PaperUom = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.DataEntries", t => t.Id)
+                .Index(t => t.Id);
+            
+            CreateTable(
+                "dbo.CommutingData",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        CommutingType = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.DataEntries", t => t.Id)
@@ -417,63 +461,11 @@ namespace CarbonKnown.DAL.Migrations
                 .Index(t => t.Id);
             
             CreateTable(
-                "dbo.CourierRouteData",
+                "dbo.AirTravelData",
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        ServiceType = c.Int(),
-                        ChargeMass = c.Decimal(precision: 18, scale: 2),
-                        FromCode = c.String(),
-                        ToCode = c.String(),
-                        Reversal = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.DataEntries", t => t.Id)
-                .Index(t => t.Id);
-            
-            CreateTable(
-                "dbo.FileDataSource",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        FileHash = c.String(),
-                        OriginalFileName = c.String(),
-                        CurrentFileName = c.String(),
-                        HandlerName = c.String(),
-                        MediaType = c.String(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.DataSources", t => t.Id)
-                .Index(t => t.Id);
-            
-            CreateTable(
-                "dbo.WaterData",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.DataEntries", t => t.Id)
-                .Index(t => t.Id);
-            
-            CreateTable(
-                "dbo.FuelData",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        FuelType = c.Int(),
-                        UOM = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.DataEntries", t => t.Id)
-                .Index(t => t.Id);
-            
-            CreateTable(
-                "dbo.CarHireData",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        CarGroupBill = c.Int(),
+                        TravelClass = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.DataEntries", t => t.Id)
@@ -483,33 +475,34 @@ namespace CarbonKnown.DAL.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.CarHireData", "Id", "dbo.DataEntries");
-            DropForeignKey("dbo.FuelData", "Id", "dbo.DataEntries");
-            DropForeignKey("dbo.WaterData", "Id", "dbo.DataEntries");
-            DropForeignKey("dbo.FileDataSource", "Id", "dbo.DataSources");
-            DropForeignKey("dbo.CourierRouteData", "Id", "dbo.DataEntries");
+            DropForeignKey("dbo.AirTravelData", "Id", "dbo.DataEntries");
             DropForeignKey("dbo.FleetData", "Id", "dbo.DataEntries");
-            DropForeignKey("dbo.ElectricityData", "Id", "dbo.DataEntries");
+            DropForeignKey("dbo.CommutingData", "Id", "dbo.DataEntries");
+            DropForeignKey("dbo.PaperData", "Id", "dbo.DataEntries");
             DropForeignKey("dbo.AccommodationData", "Id", "dbo.DataEntries");
             DropForeignKey("dbo.WasteData", "Id", "dbo.DataEntries");
+            DropForeignKey("dbo.FileDataSource", "Id", "dbo.DataSources");
             DropForeignKey("dbo.RefrigerantData", "Id", "dbo.DataEntries");
-            DropForeignKey("dbo.ManualDataSource", "Id", "dbo.DataSources");
-            DropForeignKey("dbo.PaperData", "Id", "dbo.DataEntries");
-            DropForeignKey("dbo.CommutingData", "Id", "dbo.DataEntries");
-            DropForeignKey("dbo.CourierData", "Id", "dbo.DataEntries");
-            DropForeignKey("dbo.AirTravelData", "Id", "dbo.DataEntries");
+            DropForeignKey("dbo.CourierRouteData", "Id", "dbo.DataEntries");
+            DropForeignKey("dbo.ElectricityData", "Id", "dbo.DataEntries");
             DropForeignKey("dbo.AirTravelRouteData", "Id", "dbo.DataEntries");
+            DropForeignKey("dbo.WaterData", "Id", "dbo.DataEntries");
+            DropForeignKey("dbo.CarHireData", "Id", "dbo.DataEntries");
+            DropForeignKey("dbo.ManualDataSource", "Id", "dbo.DataSources");
+            DropForeignKey("dbo.CourierData", "Id", "dbo.DataEntries");
+            DropForeignKey("dbo.FuelData", "Id", "dbo.DataEntries");
             DropForeignKey("dbo.Variances", "CalculationId", "dbo.Calculations");
             DropForeignKey("dbo.GraphSeries", "CostCentreCostCode", "dbo.CostCentres");
             DropForeignKey("dbo.GraphSeries", "ActivityGroupId", "dbo.ActivityGroups");
             DropForeignKey("dbo.FootNotes", "CensusId", "dbo.Census");
             DropForeignKey("dbo.EmissionTargets", "CostCentreCostCode", "dbo.CostCentres");
             DropForeignKey("dbo.EmissionTargets", "ActivityGroupId", "dbo.ActivityGroups");
-            DropForeignKey("dbo.CostCentres", "CurrencyCode", "dbo.Currencies");
-            DropForeignKey("dbo.CostCentres", "ParentCostCentreCostCode", "dbo.CostCentres");
-            DropForeignKey("dbo.CostCentreCensus", "Census_Id", "dbo.Census");
-            DropForeignKey("dbo.CostCentreCensus", "CostCentre_CostCode", "dbo.CostCentres");
             DropForeignKey("dbo.CarbonEmissionEntries", "DataEntryId", "dbo.DataEntries");
+            DropForeignKey("dbo.CarbonEmissionEntries", "CostCentreCostCode", "dbo.CostCentres");
+            DropForeignKey("dbo.CostCentres", "ParentCostCentreCostCode", "dbo.CostCentres");
+            DropForeignKey("dbo.CensusCostCentres", "CostCentre_CostCode", "dbo.CostCentres");
+            DropForeignKey("dbo.CensusCostCentres", "Census_Id", "dbo.Census");
+            DropForeignKey("dbo.CarbonEmissionEntries", "ActivityGroupId", "dbo.ActivityGroups");
             DropForeignKey("dbo.ActivityGroups", "ParentGroupId", "dbo.ActivityGroups");
             DropForeignKey("dbo.FactorCalculations", "Calculation_Id", "dbo.Calculations");
             DropForeignKey("dbo.FactorCalculations", "Factor_Id", "dbo.Factors");
@@ -519,24 +512,24 @@ namespace CarbonKnown.DAL.Migrations
             DropForeignKey("dbo.DataEntries", "CalculationId", "dbo.Calculations");
             DropForeignKey("dbo.CalculationActivityGroups", "ActivityGroup_Id", "dbo.ActivityGroups");
             DropForeignKey("dbo.CalculationActivityGroups", "Calculation_Id", "dbo.Calculations");
-            DropIndex("dbo.CarHireData", new[] { "Id" });
-            DropIndex("dbo.FuelData", new[] { "Id" });
-            DropIndex("dbo.WaterData", new[] { "Id" });
-            DropIndex("dbo.FileDataSource", new[] { "Id" });
-            DropIndex("dbo.CourierRouteData", new[] { "Id" });
+            DropIndex("dbo.AirTravelData", new[] { "Id" });
             DropIndex("dbo.FleetData", new[] { "Id" });
-            DropIndex("dbo.ElectricityData", new[] { "Id" });
+            DropIndex("dbo.CommutingData", new[] { "Id" });
+            DropIndex("dbo.PaperData", new[] { "Id" });
             DropIndex("dbo.AccommodationData", new[] { "Id" });
             DropIndex("dbo.WasteData", new[] { "Id" });
+            DropIndex("dbo.FileDataSource", new[] { "Id" });
             DropIndex("dbo.RefrigerantData", new[] { "Id" });
-            DropIndex("dbo.ManualDataSource", new[] { "Id" });
-            DropIndex("dbo.PaperData", new[] { "Id" });
-            DropIndex("dbo.CommutingData", new[] { "Id" });
-            DropIndex("dbo.CourierData", new[] { "Id" });
-            DropIndex("dbo.AirTravelData", new[] { "Id" });
+            DropIndex("dbo.CourierRouteData", new[] { "Id" });
+            DropIndex("dbo.ElectricityData", new[] { "Id" });
             DropIndex("dbo.AirTravelRouteData", new[] { "Id" });
-            DropIndex("dbo.CostCentreCensus", new[] { "Census_Id" });
-            DropIndex("dbo.CostCentreCensus", new[] { "CostCentre_CostCode" });
+            DropIndex("dbo.WaterData", new[] { "Id" });
+            DropIndex("dbo.CarHireData", new[] { "Id" });
+            DropIndex("dbo.ManualDataSource", new[] { "Id" });
+            DropIndex("dbo.CourierData", new[] { "Id" });
+            DropIndex("dbo.FuelData", new[] { "Id" });
+            DropIndex("dbo.CensusCostCentres", new[] { "CostCentre_CostCode" });
+            DropIndex("dbo.CensusCostCentres", new[] { "Census_Id" });
             DropIndex("dbo.FactorCalculations", new[] { "Calculation_Id" });
             DropIndex("dbo.FactorCalculations", new[] { "Factor_Id" });
             DropIndex("dbo.CalculationActivityGroups", new[] { "ActivityGroup_Id" });
@@ -548,30 +541,31 @@ namespace CarbonKnown.DAL.Migrations
             DropIndex("dbo.EmissionTargets", new[] { "CostCentreCostCode" });
             DropIndex("dbo.EmissionTargets", new[] { "ActivityGroupId" });
             DropIndex("dbo.CostCentres", new[] { "ParentCostCentreCostCode" });
-            DropIndex("dbo.CostCentres", new[] { "CurrencyCode" });
+            DropIndex("dbo.CarbonEmissionEntries", new[] { "ActivityGroupId" });
+            DropIndex("dbo.CarbonEmissionEntries", new[] { "CostCentreCostCode" });
             DropIndex("dbo.CarbonEmissionEntries", new[] { "DataEntryId" });
             DropIndex("dbo.SourceErrors", new[] { "DataSourceId" });
             DropIndex("dbo.DataErrors", new[] { "DataEntryId" });
             DropIndex("dbo.DataEntries", new[] { "CalculationId" });
             DropIndex("dbo.DataEntries", new[] { "SourceId" });
             DropIndex("dbo.ActivityGroups", new[] { "ParentGroupId" });
-            DropTable("dbo.CarHireData");
-            DropTable("dbo.FuelData");
-            DropTable("dbo.WaterData");
-            DropTable("dbo.FileDataSource");
-            DropTable("dbo.CourierRouteData");
+            DropTable("dbo.AirTravelData");
             DropTable("dbo.FleetData");
-            DropTable("dbo.ElectricityData");
+            DropTable("dbo.CommutingData");
+            DropTable("dbo.PaperData");
             DropTable("dbo.AccommodationData");
             DropTable("dbo.WasteData");
+            DropTable("dbo.FileDataSource");
             DropTable("dbo.RefrigerantData");
-            DropTable("dbo.ManualDataSource");
-            DropTable("dbo.PaperData");
-            DropTable("dbo.CommutingData");
-            DropTable("dbo.CourierData");
-            DropTable("dbo.AirTravelData");
+            DropTable("dbo.CourierRouteData");
+            DropTable("dbo.ElectricityData");
             DropTable("dbo.AirTravelRouteData");
-            DropTable("dbo.CostCentreCensus");
+            DropTable("dbo.WaterData");
+            DropTable("dbo.CarHireData");
+            DropTable("dbo.ManualDataSource");
+            DropTable("dbo.CourierData");
+            DropTable("dbo.FuelData");
+            DropTable("dbo.CensusCostCentres");
             DropTable("dbo.FactorCalculations");
             DropTable("dbo.CalculationActivityGroups");
             DropTable("dbo.Variances");
@@ -579,9 +573,8 @@ namespace CarbonKnown.DAL.Migrations
             DropTable("dbo.GraphSeries");
             DropTable("dbo.FootNotes");
             DropTable("dbo.EmissionTargets");
-            DropTable("dbo.Currencies");
-            DropTable("dbo.CostCentres");
             DropTable("dbo.Census");
+            DropTable("dbo.CostCentres");
             DropTable("dbo.CarbonEmissionEntries");
             DropTable("dbo.Factors");
             DropTable("dbo.SourceErrors");

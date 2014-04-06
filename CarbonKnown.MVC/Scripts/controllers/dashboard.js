@@ -146,16 +146,9 @@
             $scope.scrollOptions = scrollOptions;
             $scope.redirect = redirect;
             resourceService.slice($scope.request, function (data) {
-                if (!data.slices.length) {
-                    $scope.chartConfig.title.text = 'No recorded ' + data.activityGroup + ' emissions for ' + data.costCentre + ' ' + $scope.dateRange;
-                    $scope.chartConfig.series[0].data = [];
-                    $scope.summaryData = {};
-                    $scope.dateRange = '';
-                    $scope.slices = [];
-                    $scope.chartConfig.options.now = new Date();
-                    $scope.chartConfig.loading = false;
-                    $scope.loadingGraphData = false;
-                    $scope.loadingSummary = false;
+                if ((!data.slices.length) &&
+                    ($scope.request.dimension === 'ActivityGroup')) {
+                    redirect({ dimension: 'CostCentre' });
                     return;
                 }
                 if ((data.slices.length === 1) &&

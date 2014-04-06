@@ -10,13 +10,12 @@ namespace CarbonKnown.DAL.Models
         [Key]
         [Column(Order = 1)]
         public string CostCode { get; set; }
-        
+
         public HierarchyId Node { get; set; }
 
         [StringLength(6)]
         public string Color { get; set; }
 
-        public virtual Currency Currency { get; set; }
         public string CurrencyCode { get; set; }
         public int OrderId { get; set; }
         public string Name { get; set; }
@@ -26,5 +25,6 @@ namespace CarbonKnown.DAL.Models
         public string ParentCostCentreCostCode { get; set; }
         public virtual ICollection<CostCentre> ChildrenCostCentres { get; set; }
         public virtual ICollection<Census> Census { get; set; }
+        public virtual ICollection<CarbonEmissionEntry> Entries { get; set; }
     }
 }

@@ -297,6 +297,7 @@ namespace CarbonKnown.MVC.App_Start
             bundles.Add(new ScriptBundle("~/Scripts/tracesource").Include(
                 "~/Scripts/datefix.js",
                 "~/Scripts/customzendesk.js",
+                "~/Scripts/DataTables-1.9.4/extras/Scroller/media/js/dataTables.scroller.min.js",
                 "~/Scripts/jquery.mCustomScrollbar.js",
                 "~/Scripts/crumbselector/crumbselector.js",
                 "~/Scripts/directives/crumbselector.js",

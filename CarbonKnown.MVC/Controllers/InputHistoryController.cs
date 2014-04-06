@@ -43,34 +43,35 @@ namespace CarbonKnown.MVC.Controllers
         {
             var query =
                 (from source in context.DataSources
-                 join fileDataSource in context.Set<FileDataSource>() on source.Id equals fileDataSource.Id into
-                     filejoin
-                 from subFileSource in filejoin.DefaultIfEmpty()
-                 join manualDataSource in context.Set<ManualDataSource>() on source.Id equals manualDataSource.Id into
-                     manualjoin
-                 from subManualSource in manualjoin.DefaultIfEmpty()
-                 select new InputHistoryDataModel
-                     {
-                         Name = (subFileSource == null) ? "Manual Entry" : subFileSource.OriginalFileName,
-                         EditDate = source.DateEdit,
-                         UserName = source.UserName,
-                         Type = (subFileSource == null) ? subManualSource.DisplayType : subFileSource.HandlerName,
-                         Status = source.InputStatus,
-                         Id = source.Id
-                     });
+                    join fileDataSource in context.Set<FileDataSource>() on source.Id equals fileDataSource.Id into
+                        filejoin
+                    from subFileSource in filejoin.DefaultIfEmpty()
+                    join manualDataSource in context.Set<ManualDataSource>() on source.Id equals manualDataSource.Id
+                        into
+                        manualjoin
+                    from subManualSource in manualjoin.DefaultIfEmpty()
+                    select new InputHistoryDataModel
+                    {
+                        Name = (subFileSource == null) ? "Manual Entry" : subFileSource.OriginalFileName,
+                        EditDate = source.DateEdit,
+                        UserName = source.UserName,
+                        Type = (subFileSource == null) ? subManualSource.DisplayType : subFileSource.HandlerName,
+                        Status = source.InputStatus,
+                        Id = source.Id
+                    });
             var builder = new DataTableResultModelBuilder<InputHistoryDataModel>();
             builder.AddQueryable(query);
             builder.AddDataExpression(arg => new object[]
-                {
-                    HttpUtility.HtmlEncode(arg.Name),
-                    arg.EditDate.ToString(Constants.Constants.DateFormat),
-                    HttpUtility.HtmlEncode(arg.UserName),
-                    arg.Type,
-                    Enum.GetName(typeof (SourceStatus), arg.Status),
-                    arg.Id.ToString(),
-                    Url.RouteUrl("editsource", new {SourceId = arg.Id}),
-                    Url.Action("SelectSource", new {SourceId = arg.Id})
-                });
+            {
+                HttpUtility.HtmlEncode(arg.Name),
+                arg.EditDate.ToString(Constants.Constants.DateFormat),
+                HttpUtility.HtmlEncode(arg.UserName),
+                arg.Type,
+                Enum.GetName(typeof (SourceStatus), arg.Status),
+                arg.Id.ToString(),
+                Url.RouteUrl("editsource", new {SourceId = arg.Id}),
+                Url.Action("SelectSource", new {SourceId = arg.Id})
+            });
             SourceStatus status;
             if (Enum.TryParse(request.sSearch, true, out status))
             {
@@ -79,9 +80,9 @@ namespace CarbonKnown.MVC.Controllers
             else
             {
                 builder.AddSearchFilter(arg =>
-                                                                  arg.Name.Contains(request.sSearch) ||
-                                                                  arg.UserName.Contains(request.sSearch) ||
-                                                                  arg.Type.Contains(request.sSearch));
+                    arg.Name.Contains(request.sSearch) ||
+                    arg.UserName.Contains(request.sSearch) ||
+                    arg.Type.Contains(request.sSearch));
             }
             builder.AddSortExpression(data => data.Name);
             builder.AddSortExpression(data => data.EditDate);
