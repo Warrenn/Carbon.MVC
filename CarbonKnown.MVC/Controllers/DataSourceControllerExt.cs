@@ -25,7 +25,6 @@ namespace CarbonKnown.MVC.Controllers
     public partial class DataSourceController 
     {
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/accommodation", Name = "UpsertAccommodationData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertAccommodationData(AccommodationDataContract data)
@@ -36,7 +35,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/airtravelroute", Name = "UpsertAirTravelRouteData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertAirTravelRouteData(AirTravelRouteDataContract data)
@@ -47,7 +45,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/airtravel", Name = "UpsertAirTravelData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertAirTravelData(AirTravelDataContract data)
@@ -58,7 +55,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/carhire", Name = "UpsertCarHireData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertCarHireData(CarHireDataContract data)
@@ -69,7 +65,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/commuting", Name = "UpsertCommutingData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertCommutingData(CommutingDataContract data)
@@ -80,7 +75,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/courierroute", Name = "UpsertCourierRouteData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertCourierRouteData(CourierRouteDataContract data)
@@ -91,7 +85,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/courier", Name = "UpsertCourierData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertCourierData(CourierDataContract data)
@@ -102,7 +95,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/electricity", Name = "UpsertElectricityData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertElectricityData(ElectricityDataContract data)
@@ -113,7 +105,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/fuel", Name = "UpsertFuelData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertFuelData(FuelDataContract data)
@@ -124,7 +115,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/paper", Name = "UpsertPaperData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertPaperData(PaperDataContract data)
@@ -135,7 +125,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/refrigerant", Name = "UpsertRefrigerantData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertRefrigerantData(RefrigerantDataContract data)
@@ -146,7 +135,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/fleet", Name = "UpsertFleetData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertFleetData(FleetDataContract data)
@@ -157,7 +145,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/waste", Name = "UpsertWasteData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertWasteData(WasteDataContract data)
@@ -168,7 +155,6 @@ namespace CarbonKnown.MVC.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/water", Name = "UpsertWaterData")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> UpsertWaterData(WaterDataContract data)

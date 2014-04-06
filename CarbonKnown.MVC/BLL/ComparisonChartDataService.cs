@@ -11,7 +11,6 @@ namespace CarbonKnown.MVC.BLL
     public class ComparisonChartDataService
     {
         private readonly DataContext context;
-        public static Random Rnd = new Random();
 
         public ComparisonChartDataService(DataContext context)
         {

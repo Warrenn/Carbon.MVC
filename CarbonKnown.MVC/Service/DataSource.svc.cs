@@ -85,8 +85,11 @@ namespace CarbonKnown.MVC.Service
                             {
                                 var effectiveDate = startDate.AddDays(day);
                                 var calculatedValue = calculation.CalculateEmission(effectiveDate, dailyValue, entry);
+                                
                                 var emissionEntry = new CarbonEmissionEntry
                                     {
+                                        ActivityGroupId = calculatedValue.ActivityGroupId,
+                                        CostCentreCostCode = entry.CostCode,
                                         SourceEntry = entry,
                                         EntryDate = effectiveDate,
                                         CarbonEmissions = calculatedValue.Emissions ?? 0,

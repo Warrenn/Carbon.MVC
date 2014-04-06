@@ -114,7 +114,6 @@ namespace CarbonKnown.MVC.Controllers
         }
 
         [HttpDelete]
-        [XSRFTokenValidation]
         public ActionResult DeleteCostCentre(string costCode)
         {
             var costCentre = context.CostCentres.Find(costCode);
@@ -128,7 +127,6 @@ namespace CarbonKnown.MVC.Controllers
         }
 
         [HttpPost]
-        [XSRFTokenValidation]
         public ActionResult UpsertCostCentre(CostCentreModel costCentre)
         {
             var costCode = costCentre.costCode;
@@ -188,7 +186,6 @@ namespace CarbonKnown.MVC.Controllers
 
 
         [HttpPut]
-        [XSRFTokenValidation]
         public ActionResult ReParent(string costCode, string newParent)
         {
             if (string.Equals(costCode, newParent, StringComparison.InvariantCultureIgnoreCase))
@@ -233,7 +230,6 @@ namespace CarbonKnown.MVC.Controllers
         }
 
         [HttpPut]
-        [XSRFTokenValidation]
         public ActionResult ReOrder(string costCode, int index)
         {
             var costCentre = context.CostCentres.Find(costCode);

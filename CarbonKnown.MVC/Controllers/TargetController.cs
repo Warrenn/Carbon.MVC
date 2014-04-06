@@ -47,7 +47,6 @@ namespace CarbonKnown.MVC.Controllers
         }
 
         [HttpPost]
-        [XSRFTokenValidation]
         public ActionResult UpsertTarget(TargetModel model)
         {
             if (model.activityGroupId == Guid.Empty)
@@ -90,7 +89,6 @@ namespace CarbonKnown.MVC.Controllers
 
 
         [HttpDelete]
-        [XSRFTokenValidation]
         public ActionResult DeleteTarget(int id)
         {
             var target = context.EmissionTargets.Find(id);

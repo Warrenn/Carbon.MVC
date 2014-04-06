@@ -118,7 +118,6 @@ namespace CarbonKnown.MVC.Controllers
         }
 
         [HttpPost]
-        [XSRFTokenValidation]
         public ActionResult UpsertVariance(VarianceModel model)
         {
             Guid calculationId;
@@ -157,7 +156,6 @@ namespace CarbonKnown.MVC.Controllers
 
 
         [HttpDelete]
-        [XSRFTokenValidation]
         public ActionResult DeleteVariance(int id)
         {
             var variance = context.Variances.Find(id);

@@ -101,7 +101,6 @@ namespace CarbonKnown.MVC.Controllers
         }
 
         [HttpPost]
-        [XSRFTokenValidation]
         public ActionResult AddSeries(ComparisonAddSeriesModel model)
         {
             if (string.IsNullOrEmpty(model.name) ||
@@ -149,7 +148,6 @@ namespace CarbonKnown.MVC.Controllers
         }
 
         [HttpPost]
-        [XSRFTokenValidation]
         public ActionResult RemoveSeries(int id)
         {
             var graphSeries = context.GraphSeries.FirstOrDefault(series => series.Id == id);

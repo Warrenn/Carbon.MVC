@@ -19,7 +19,6 @@ namespace CarbonKnown.MVC.Controllers
         }
 
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("calculate/{sourceId}", Name = "CalculateEmissions")]
         public virtual void CalculateEmissions(Guid sourceId)
         {
@@ -27,7 +26,6 @@ namespace CarbonKnown.MVC.Controllers
         }
 
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("revert/{sourceId}", Name = "RevertCalculations")]
         [ResponseType(typeof(SourceResultDataContract))]
         public virtual async Task<IHttpActionResult> RevertCalculations(Guid sourceId)
@@ -37,7 +35,6 @@ namespace CarbonKnown.MVC.Controllers
         }
 
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("insert/manualentry", Name = "InsertManualDataSource")]
         [ResponseType(typeof (SourceResultDataContract))]
         public virtual async Task<IHttpActionResult> InsertManualDataSource(ManualDataContract source)

@@ -96,6 +96,10 @@ namespace CarbonKnown.MVC.DAL
 
         public CarbonEmissionEntry AddCarbonEmissionEntry(CarbonEmissionEntry entry)
         {
+            var centre = context.CostCentres.Find(entry.CostCentreCostCode);
+            var activity = context.ActivityGroups.Find(entry.ActivityGroupId);
+            entry.CostCentreNode = centre.Node;
+            entry.ActivityGroupNode = activity.Node;
             return context.CarbonEmissionEntries.Add(entry);
         }
 

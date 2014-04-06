@@ -38,7 +38,6 @@ namespace CarbonKnown.MVC.Controllers
         }
 
         [HttpPost]
-        [XSRFTokenValidation]
         public ActionResult UpsertCensus(CensusModel model)
         {
             var id = model.id;
@@ -72,7 +71,6 @@ namespace CarbonKnown.MVC.Controllers
 
 
         [HttpDelete]
-        [XSRFTokenValidation]
         public ActionResult DeleteCensus(int id)
         {
             var census = context.Census.Find(id);
