@@ -35,12 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFrameworkWithHierarchyId.6.1.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFrameworkWithHierarchyId.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -199,7 +193,6 @@
   <ItemGroup>
     <Compile Include="Calculation\AvisCourierCalculationUnitTest.cs" />
     <Compile Include="Calculation\CalculationBaseUnitTest.cs" />
-    <Compile Include="Controllers\AccountControllerUnitTest.cs" />
     <Compile Include="Controllers\DashboardControllerUnitTest.cs" />
     <Compile Include="Controllers\FileUploadControllerUnitTest.cs" />
     <Compile Include="Controllers\CostCentreControllerUnitTest.cs" />
