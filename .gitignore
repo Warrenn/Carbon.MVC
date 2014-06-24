@@ -193,7 +193,6 @@ CarbonKnown.DAL/bin/Debug/CarbonKnown.DAL.dll
 CarbonKnown.DAL\bin\Debug*/
 *.dll
 CarbonKnown.DAL\bin\Debug*/
-.nuget*/
 angular-phonecat*/
 Database*/
 DeploymentPackage*/
