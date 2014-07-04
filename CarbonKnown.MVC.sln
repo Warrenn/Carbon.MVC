@@ -35,15 +35,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonKnown.FileReaders", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonKnown.GenericFile", "CarbonKnown.GenericFile\CarbonKnown.GenericFile.csproj", "{47EE2668-252A-473A-A774-0CCDFDD938B6}"
 EndProject
-Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "CarbonKnown.FileWatcherService.Setup", "CarbonKnown.FileWatcherService.Setup\CarbonKnown.FileWatcherService.Setup.isproj", "{30AF9D28-D42E-48A8-BD5F-C27CA616781E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F920D950-DB93-4593-8754-8EC89A85BC1F} = {F920D950-DB93-4593-8754-8EC89A85BC1F}
-		{5B8E1EE9-111E-4312-9AB8-45D4F350A240} = {5B8E1EE9-111E-4312-9AB8-45D4F350A240}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonKnown.MVC", "CarbonKnown.MVC\CarbonKnown.MVC.csproj", "{42C5983A-07F2-4134-89C7-2DDFF6A36C38}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonKnown.MVC.Tests", "CarbonKnown.MVC.Tests\CarbonKnown.MVC.Tests.csproj", "{4BB28AAD-A890-4021-9985-1F5C57204197}"
+EndProject
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "CarbonKnown.FileWatcherService.Setup", "CarbonKnown.FileWatcherService.Setup\CarbonKnown.FileWatcherService.Setup.isproj", "{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -144,16 +140,6 @@ Global
 		{47EE2668-252A-473A-A774-0CCDFDD938B6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{47EE2668-252A-473A-A774-0CCDFDD938B6}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{47EE2668-252A-473A-A774-0CCDFDD938B6}.SingleImage|Any CPU.Build.0 = Release|Any CPU
-		{30AF9D28-D42E-48A8-BD5F-C27CA616781E}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
-		{30AF9D28-D42E-48A8-BD5F-C27CA616781E}.CD_ROM|Any CPU.Build.0 = CD_ROM
-		{30AF9D28-D42E-48A8-BD5F-C27CA616781E}.Debug|Any CPU.ActiveCfg = DVD-5
-		{30AF9D28-D42E-48A8-BD5F-C27CA616781E}.Debug|Any CPU.Build.0 = DVD-5
-		{30AF9D28-D42E-48A8-BD5F-C27CA616781E}.DVD-5|Any CPU.ActiveCfg = DVD-5
-		{30AF9D28-D42E-48A8-BD5F-C27CA616781E}.DVD-5|Any CPU.Build.0 = DVD-5
-		{30AF9D28-D42E-48A8-BD5F-C27CA616781E}.Release|Any CPU.ActiveCfg = SingleImage
-		{30AF9D28-D42E-48A8-BD5F-C27CA616781E}.Release|Any CPU.Build.0 = SingleImage
-		{30AF9D28-D42E-48A8-BD5F-C27CA616781E}.SingleImage|Any CPU.ActiveCfg = SingleImage
-		{30AF9D28-D42E-48A8-BD5F-C27CA616781E}.SingleImage|Any CPU.Build.0 = SingleImage
 		{42C5983A-07F2-4134-89C7-2DDFF6A36C38}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
 		{42C5983A-07F2-4134-89C7-2DDFF6A36C38}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
 		{42C5983A-07F2-4134-89C7-2DDFF6A36C38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -174,6 +160,16 @@ Global
 		{4BB28AAD-A890-4021-9985-1F5C57204197}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4BB28AAD-A890-4021-9985-1F5C57204197}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{4BB28AAD-A890-4021-9985-1F5C57204197}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
+		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.CD_ROM|Any CPU.Build.0 = CD_ROM
+		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.Debug|Any CPU.ActiveCfg = DVD-5
+		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.Debug|Any CPU.Build.0 = DVD-5
+		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.DVD-5|Any CPU.ActiveCfg = DVD-5
+		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.DVD-5|Any CPU.Build.0 = DVD-5
+		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.Release|Any CPU.ActiveCfg = SingleImage
+		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.Release|Any CPU.Build.0 = SingleImage
+		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.SingleImage|Any CPU.ActiveCfg = SingleImage
+		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.SingleImage|Any CPU.Build.0 = SingleImage
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

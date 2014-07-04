@@ -122,7 +122,6 @@ namespace CarbonKnown.MVC.App_Start
             container.RegisterType<ICalculationFactory, CalculationFactory>();
             container.RegisterType<IHandlerFactory, HandlerFactory>();
             container.RegisterType<IStreamManager, StreamManager>();
-            container.RegisterType<IStreamManager, StreamManager>();
             container.RegisterType<ITreeWalkService, TreeWalkService>();
             container.RegisterType<TreeWalkController, TreeWalkController>();
             container.RegisterType<OverviewReportController, OverviewReportController>();
