@@ -193,6 +193,7 @@
     <Compile Include="Models\SourceError.cs" />
     <Compile Include="Models\SourceErrorType.cs" />
     <Compile Include="Models\SourceStatus.cs" />
+    <Compile Include="Models\Source\FeedDataSource.cs" />
     <Compile Include="Models\Source\FileDataSource.cs" />
     <Compile Include="Models\Source\ManualDataSource.cs" />
     <Compile Include="Models\TargetType.cs" />

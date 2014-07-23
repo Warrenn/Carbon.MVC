@@ -63,7 +63,7 @@ namespace CarbonKnown.MVC.Controllers
         }
 
         public EditSourceController(
-            DataContext context, 
+            DataContext context,
             ISourceDataContext sourceDataContext,
             FileDataSourceService fileService,
             IDataSourceService dataService)
@@ -126,49 +126,54 @@ namespace CarbonKnown.MVC.Controllers
             if (manualSource != null)
             {
                 var entry = manualSource.DataEntries.First();
-                return RedirectToAction("EditData", "Input", new { entryId = entry.Id });
+                return RedirectToAction("EditData", "Input", new {entryId = entry.Id});
             }
             var model =
                 (from source in context.DataSources
-                 join fileDataSource in context.Set<FileDataSource>() on source.Id equals fileDataSource.Id into jn
-                 from subFileSource in jn.DefaultIfEmpty()
-                 where source.Id == sourceId
-                 select new EditSourceModel
-                     {
-                         Name = subFileSource.OriginalFileName,
-                         EditDate = source.DateEdit,
-                         CurrentFileName = subFileSource.CurrentFileName,
-                         UserName = source.UserName,
-                         Type = subFileSource.HandlerName,
-                         SourceStatus = source.InputStatus,
-                         SourceId = source.Id,
-                         Comment = source.ReferenceNotes,
-                         SourceErrors = subFileSource.SourceErrors
-                     }).First();
+                    join fileDataSource in context.Set<FileDataSource>()
+                        on source.Id equals fileDataSource.Id into jn
+                    from subFileSource in jn.DefaultIfEmpty(null)
+                    join feedDataSource in context.Set<FeedDataSource>()
+                        on source.Id equals feedDataSource.Id into fjn
+                    from subFeedDataSource in fjn.DefaultIfEmpty(null)
+                    where source.Id == sourceId
+                    select new EditSourceModel
+                    {
+                        Name = (subFileSource == null) ? subFeedDataSource.ScriptPath : subFileSource.OriginalFileName,
+                        EditDate = source.DateEdit,
+                        CurrentFileName =
+                            (subFileSource == null) ? subFeedDataSource.SourceUrl : subFileSource.CurrentFileName,
+                        UserName = source.UserName,
+                        Type = (subFileSource == null) ? subFeedDataSource.HandlerName : subFileSource.HandlerName,
+                        SourceStatus = source.InputStatus,
+                        SourceId = source.Id,
+                        Comment = source.ReferenceNotes,
+                        SourceErrors = source.SourceErrors
+                    }).First();
             model.DataEntries = context
                 .DataEntries
                 .Count(entry => entry.SourceId == sourceId);
             model.DataEntriesInError =
                 (from entry in context.DataEntries.Include("Errors")
-                 from error in entry.Errors
-                 where
-                     (entry.SourceId == sourceId)
-                 group error by error.DataEntryId
-                 into g
-                 select g.Key).Count();
+                    from error in entry.Errors
+                    where
+                        (entry.SourceId == sourceId)
+                    group error by error.DataEntryId
+                    into g
+                    select g.Key).Count();
             model.ErrorTypeCount = new Dictionary<DataErrorType, int>();
-            foreach (var value in Enum.GetValues(typeof(DataErrorType)))
+            foreach (var value in Enum.GetValues(typeof (DataErrorType)))
             {
                 var errorType = (DataErrorType) value;
                 var amount =
                     (from entry in context.DataEntries.Include("Errors")
-                     from error in entry.Errors
-                     where
-                         (error.ErrorType == errorType) &&
-                         (entry.SourceId == sourceId)
-                     group error by error.DataEntryId
-                     into g
-                     select g.Key).Count();
+                        from error in entry.Errors
+                        where
+                            (error.ErrorType == errorType) &&
+                            (entry.SourceId == sourceId)
+                        group error by error.DataEntryId
+                        into g
+                        select g.Key).Count();
                 if (amount > 0) model.ErrorTypeCount[errorType] = amount;
             }
 
@@ -177,10 +182,10 @@ namespace CarbonKnown.MVC.Controllers
                 sourceDataContext.SourceContainsDataEntriesInError(sourceId);
             model.Calculations =
                 (from entry in context.DataEntries.Include("Calculation")
-                 where entry.SourceId == sourceId
-                 group entry by entry.Calculation
-                 into g
-                 select new {g.Key, amount = g.Count()})
+                    where entry.SourceId == sourceId
+                    group entry by entry.Calculation
+                    into g
+                    select new {g.Key, amount = g.Count()})
                     .ToDictionary(arg => arg.Key, arg => arg.amount);
             return View(model);
         }

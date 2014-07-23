@@ -46,16 +46,22 @@ namespace CarbonKnown.MVC.Controllers
                     join fileDataSource in context.Set<FileDataSource>() on source.Id equals fileDataSource.Id into
                         filejoin
                     from subFileSource in filejoin.DefaultIfEmpty()
+                    join feedDataSource in context.Set<FeedDataSource>() on source.Id equals feedDataSource.Id into fjn
+                    from subFeedDataSource in fjn.DefaultIfEmpty(null)
                     join manualDataSource in context.Set<ManualDataSource>() on source.Id equals manualDataSource.Id
                         into
                         manualjoin
                     from subManualSource in manualjoin.DefaultIfEmpty()
                     select new InputHistoryDataModel
                     {
-                        Name = (subFileSource == null) ? "Manual Entry" : subFileSource.OriginalFileName,
+                        Name = (subFileSource != null)
+                            ? subFileSource.OriginalFileName
+                            : (subFeedDataSource == null) ? "Manual Entry" : subFeedDataSource.SourceUrl,
                         EditDate = source.DateEdit,
                         UserName = source.UserName,
-                        Type = (subFileSource == null) ? subManualSource.DisplayType : subFileSource.HandlerName,
+                        Type = (subManualSource != null)
+                            ? subManualSource.DisplayType
+                            : (subFileSource != null) ? subFileSource.HandlerName : subFeedDataSource.HandlerName,
                         Status = source.InputStatus,
                         Id = source.Id
                     });

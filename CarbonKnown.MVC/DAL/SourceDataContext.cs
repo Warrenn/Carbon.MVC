@@ -86,6 +86,11 @@ namespace CarbonKnown.MVC.DAL
             {
                 context.Set<ManualDataSource>().Remove(manualDataSource);
             }
+            var feedDataSource = context.Set<FeedDataSource>().FirstOrDefault(source => source.Id == sourceId);
+            if (feedDataSource != null)
+            {
+                context.Set<FeedDataSource>().Remove(feedDataSource);
+            }
             context.SaveChanges();
         }
 

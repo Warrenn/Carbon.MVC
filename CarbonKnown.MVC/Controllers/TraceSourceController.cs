@@ -60,14 +60,21 @@ namespace CarbonKnown.MVC.Controllers
                 join manualDataSource in context.Set<ManualDataSource>() on
                     source.Id equals manualDataSource.Id into manualjoin
                 from subManualSource in manualjoin.DefaultIfEmpty()
+                join feedDataSource in context.Set<FeedDataSource>() on
+                    source.Id equals feedDataSource.Id into fjn
+                from subFeedDataSource in fjn.DefaultIfEmpty(null)
                 where source.Id == g.Key
                 select new AuditHistory
                 {
-                    CurrentFileName = (subFileSource == null) ? null : subFileSource.CurrentFileName,
+                    CurrentFileName = (subFileSource != null)
+                        ? subFileSource.CurrentFileName
+                        : (subFeedDataSource == null) ? null : subFeedDataSource.SourceUrl,
                     Name = (subFileSource == null) ? "Manual Entry" : subFileSource.OriginalFileName,
                     DateEdit = source.DateEdit,
                     UserName = source.UserName,
-                    HandlerName = (subFileSource == null) ? subManualSource.DisplayType : subFileSource.HandlerName,
+                    HandlerName = (subManualSource != null)
+                        ? subManualSource.DisplayType
+                        : (subFileSource == null) ? subFeedDataSource.HandlerName : subFileSource.HandlerName,
                     Emissions = g.Sum(arg => arg.CarbonEmissions)/1000,
                     Cost = g.Sum(arg => arg.Money),
                     Units = g.Sum(arg => arg.Units),
