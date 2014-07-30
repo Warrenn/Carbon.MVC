@@ -113,6 +113,7 @@
     <Compile Include="AvisCourier\AvisCourierHandler.cs" />
     <Compile Include="Constants\PolicyName.cs" />
     <Compile Include="Courier\CourierHandler.cs" />
+    <Compile Include="EzShuttle\EzShuttleHandler.cs" />
     <Compile Include="FileHandler\ColumnMappings.cs" />
     <Compile Include="Fleet\FleetHandler.cs" />
     <Compile Include="Generic\GenericDataContract.cs" />
@@ -122,6 +123,10 @@
     <Compile Include="Constants\Defaults.cs" />
     <Compile Include="Constants\HandlerName.cs" />
     <Compile Include="IHandlerFactory.cs" />
+    <Compile Include="LibertyAirTickets\LibertyAirTicketsDataContract.cs" />
+    <Compile Include="LibertyAirTickets\LibertyAirTicketsHandler.cs" />
+    <Compile Include="LibertyAvis\LibertyAvisHandler.cs" />
+    <Compile Include="LibertyEuroCar\LibertyEuroCarHandler.cs" />
     <Compile Include="MondiPaper\MondiPaperHandler.cs" />
     <Compile Include="Readers\CsvFileReader.cs" />
     <Compile Include="DisposableExtension.cs" />

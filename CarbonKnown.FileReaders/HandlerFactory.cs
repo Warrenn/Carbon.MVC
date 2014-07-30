@@ -1,9 +1,13 @@
 ﻿using CarbonKnown.FileReaders.AvisCourier;
 using CarbonKnown.FileReaders.Constants;
 using CarbonKnown.FileReaders.Courier;
+using CarbonKnown.FileReaders.EzShuttle;
 using CarbonKnown.FileReaders.FileHandler;
 using CarbonKnown.FileReaders.Fleet;
 using CarbonKnown.FileReaders.Generic;
+using CarbonKnown.FileReaders.LibertyAirTickets;
+using CarbonKnown.FileReaders.LibertyAvis;
+using CarbonKnown.FileReaders.LibertyEuroCar;
 using CarbonKnown.FileReaders.MondiPaper;
 using CarbonKnown.FileReaders.Rennies;
 using CarbonKnown.FileReaders.TWF;
@@ -31,6 +35,10 @@ namespace CarbonKnown.FileReaders
             RegisterHandler<RenniesHandler>(container, HandlerName.RenniesHandler);
             RegisterHandler<TWFHandler>(container, HandlerName.TWFHandler);
             RegisterHandler<GenericHandler>(container, HandlerName.GenericHandler);
+            RegisterHandler<LibertyAirTicketsHandler>(container, HandlerName.LibertyAirTicketsHandler);
+            RegisterHandler<LibertyAvisHandler>(container, HandlerName.LibertyAvisHandler);
+            RegisterHandler<LibertyEuroCarHandler>(container, HandlerName.LibertyEuroCarHandler);
+            RegisterHandler<EzShuttleHandler>(container, HandlerName.EzShuttleHandler);
         }
 
         public IFileHandler CreateHandler(string handlerName)

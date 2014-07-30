@@ -16,6 +16,9 @@ namespace CarbonKnown.WCF.DataSource
         SourceResultDataContract InsertManualDataSource(ManualDataContract source);
 
         [OperationContract]
+        SourceResultDataContract InsertDataSourceFeed(FeedDataContract source);
+
+        [OperationContract]
         void ReportSourceError(Guid sourceId, SourceErrorType errorType, string errorMessage);
 
         [OperationContract]

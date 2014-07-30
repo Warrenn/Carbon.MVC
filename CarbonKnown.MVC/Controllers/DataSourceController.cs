@@ -43,5 +43,15 @@ namespace CarbonKnown.MVC.Controllers
             var result = await Task.Run(() => dataService.InsertManualDataSource(source));
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("insert/datafeed", Name = "InsertDataSourceFeed")]
+        [ResponseType(typeof (SourceResultDataContract))]
+        public virtual async Task<IHttpActionResult> InsertDataSourceFeed(FeedDataContract source)
+        {
+            source.UserName = User.Identity.Name;
+            var result = await Task.Run(() => dataService.InsertDataSourceFeed(source));
+            return Ok(result);
+        }
     }
 }

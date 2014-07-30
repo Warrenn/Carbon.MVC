@@ -115,6 +115,7 @@
     <Compile Include="DataEntry\DataEntryErrorDataContract.cs" />
     <Compile Include="DataEntry\DataEntryUpsertResultDataContract.cs" />
     <Compile Include="DataEntry\DataErrorType.cs" />
+    <Compile Include="DataSource\FeedDataContract.cs" />
     <Compile Include="DataSource\FileDataContract.cs" />
     <Compile Include="DataSource\IDataSourceService.cs" />
     <Compile Include="DataSource\SourceErrorType.cs" />

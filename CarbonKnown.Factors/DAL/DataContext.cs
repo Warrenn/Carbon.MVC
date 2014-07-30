@@ -15,5 +15,11 @@ namespace CarbonKnown.Factors.DAL
         public virtual DbSet<AirRouteDistance> AirRouteDistances { get; set; }
         public virtual DbSet<FactorValue> FactorValues { get; set; }
         public virtual DbSet<Factor> Factors { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<FactorValue>().Property(e => e.Value).HasPrecision(22, 8);
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

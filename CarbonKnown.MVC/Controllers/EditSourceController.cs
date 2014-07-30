@@ -123,6 +123,10 @@ namespace CarbonKnown.MVC.Controllers
                 .Set<ManualDataSource>()
                 .Include("DataEntries")
                 .FirstOrDefault(source => source.Id == sourceId);
+            if ((manualSource != null) && (!manualSource.DataEntries.Any()))
+            {
+                return RedirectToAction("Index", "InputHistory");
+            }
             if (manualSource != null)
             {
                 var entry = manualSource.DataEntries.First();
@@ -139,12 +143,17 @@ namespace CarbonKnown.MVC.Controllers
                     where source.Id == sourceId
                     select new EditSourceModel
                     {
-                        Name = (subFileSource == null) ? subFeedDataSource.ScriptPath : subFileSource.OriginalFileName,
+                        Name = (subFileSource == null)
+                            ? subFeedDataSource.ScriptPath
+                            : subFileSource.OriginalFileName,
                         EditDate = source.DateEdit,
-                        CurrentFileName =
-                            (subFileSource == null) ? subFeedDataSource.SourceUrl : subFileSource.CurrentFileName,
+                        CurrentFileName = (subFileSource == null)
+                            ? subFeedDataSource.SourceUrl
+                            : subFileSource.CurrentFileName,
                         UserName = source.UserName,
-                        Type = (subFileSource == null) ? subFeedDataSource.HandlerName : subFileSource.HandlerName,
+                        Type = (subFileSource == null)
+                            ? subFeedDataSource.HandlerName
+                            : subFileSource.HandlerName,
                         SourceStatus = source.InputStatus,
                         SourceId = source.Id,
                         Comment = source.ReferenceNotes,

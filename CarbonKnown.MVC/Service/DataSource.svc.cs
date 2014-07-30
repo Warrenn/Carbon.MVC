@@ -191,6 +191,22 @@ namespace CarbonKnown.MVC.Service
             return DataContractSuccess(manualData.Id);
         }
 
+        public SourceResultDataContract InsertDataSourceFeed(FeedDataContract source)
+        {
+            var feedDataSource = new FeedDataSource
+            {
+                DateEdit = DateTime.Now,
+                InputStatus = SourceStatus.PendingCalculation,
+                UserName = source.UserName,
+                HandlerName = source.HandlerName,
+                ScriptPath = source.ScriptPath,
+                SourceUrl = source.SourceUrl
+            };
+
+            feedDataSource = Context.AddDataSource(feedDataSource);
+            return DataContractSuccess(feedDataSource.Id);
+        }
+
         public virtual SourceResultDataContract ExtractCompleted(Guid sourceId)
         {
             var source = Context.GetDataSource<FileDataSource>(sourceId);

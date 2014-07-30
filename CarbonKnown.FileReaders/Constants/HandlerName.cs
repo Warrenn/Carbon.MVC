@@ -9,5 +9,9 @@
         public const string RenniesHandler = "Rennies";
         public const string TWFHandler = "TWF";
         public const string GenericHandler = "Generic";
+        public const string LibertyAirTicketsHandler = "LibertyAirTickets";
+        public const string LibertyAvisHandler = "LibertyAvis";
+        public const string LibertyEuroCarHandler = "LibertyEuroCar";
+        public const string EzShuttleHandler = "EzShuttle";
     }
 }

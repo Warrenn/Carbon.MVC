@@ -9,9 +9,13 @@
       <handler relativeFolder="Rennies" handlerName="Rennies" />
       <handler relativeFolder="TWF" handlerName="TWF" />
       <handler relativeFolder="Generic" handlerName="Generic" />
+      <handler relativeFolder="LibertyAirTickets" handlerName="LibertyAirTickets" />
+      <handler relativeFolder="LibertyAvis" handlerName="LibertyAvis" />
+      <handler relativeFolder="LibertyEuroCar" handlerName="LibertyEuroCar" />
+      <handler relativeFolder="EzShuttle" handlerName="EzShuttle" />
     </handlerGroup>
   </handlerGroups>
   <groupInstances>
-    <groupInstance baseFolder="C:\DropFolder\Santam" host="manage.carbonknown.com/Ck3/Santam" groupName="main"/>
+    <groupInstance baseFolder="C:\DropFolder\Santam" host="localhost:50807" groupName="main"/>
   </groupInstances>
 </fileWatcherConfigSection>
