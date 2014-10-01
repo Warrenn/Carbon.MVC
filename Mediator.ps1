@@ -1,7 +1,7 @@
 ﻿$config =  @{
 	input = @{
 		type="csv";
-		url = "f";
+		url = "C:\Work Bench\csv\*.csv";
 	};
 #	input = @{
 #		type="web";
@@ -54,17 +54,9 @@ function ExtractData($config){
         return ExtractWebData $config
     }
     if($config.input.type -eq "csv"){
-        gci "C:\Work Bench\csv\*.csv"|
+        gci $config.input.url|
         %{Import-Csv -LiteralPath $_}|
-        %{@{
-            RowNo = [Int32]$_.RowNo;
-            CarGroupBill = $_.CarGroupBill;
-            StartDate = [System.DateTime]::Parse($_.StartDate);
-            EndDate = [System.DateTime]::Parse($_.EndDate);
-            CostCode = $_.CostCode;
-            Money = $_.Money;
-            Units = $_.Units;
-        }}
+        %{CreateObject $_}
     }
     if($config.input.type -eq "database"){
     }
@@ -103,6 +95,13 @@ function Calculate($baseurl,$session,$entry){
     $methodUri = New-Object System.Uri ($baseUri,("api/datasource/calculate/" + $entry.SourceId))
 
 	return Invoke-RestMethod -Method Post -WebSession $session -Uri $methodUri.AbsoluteUri
+}
+
+function CreateObject($object){
+    $return = @{};
+    $object.psobject.properties|
+    %{$return[$_.Name] = $_.Value}
+    return $return
 }
 
 function Login($loginPage,$userName,$password){
