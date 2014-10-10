@@ -197,3 +197,5 @@ angular-phonecat*/
 Database*/
 DeploymentPackage*/
 packages*/
+.sass-cache
+*.svclog

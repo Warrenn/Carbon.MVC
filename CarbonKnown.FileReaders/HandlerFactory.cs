@@ -9,6 +9,7 @@ using CarbonKnown.FileReaders.LibertyAirTickets;
 using CarbonKnown.FileReaders.LibertyAvis;
 using CarbonKnown.FileReaders.LibertyEuroCar;
 using CarbonKnown.FileReaders.MondiPaper;
+using CarbonKnown.FileReaders.NampakFlight;
 using CarbonKnown.FileReaders.Rennies;
 using CarbonKnown.FileReaders.TWF;
 using Microsoft.Practices.Unity;
@@ -39,6 +40,7 @@ namespace CarbonKnown.FileReaders
             RegisterHandler<LibertyAvisHandler>(container, HandlerName.LibertyAvisHandler);
             RegisterHandler<LibertyEuroCarHandler>(container, HandlerName.LibertyEuroCarHandler);
             RegisterHandler<EzShuttleHandler>(container, HandlerName.EzShuttleHandler);
+            RegisterHandler<NampakFlightHandler>(container, HandlerName.NampakFlightHandler);
         }
 
         public IFileHandler CreateHandler(string handlerName)

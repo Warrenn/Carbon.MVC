@@ -13,6 +13,7 @@
       <handler relativeFolder="LibertyAvis" handlerName="LibertyAvis" />
       <handler relativeFolder="LibertyEuroCar" handlerName="LibertyEuroCar" />
       <handler relativeFolder="EzShuttle" handlerName="EzShuttle" />
+      <handler relativeFolder="NampakFlight" handlerName="NampakFlight" />
     </handlerGroup>
   </handlerGroups>
   <groupInstances>

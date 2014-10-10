@@ -13,5 +13,6 @@
         public const string LibertyAvisHandler = "LibertyAvis";
         public const string LibertyEuroCarHandler = "LibertyEuroCar";
         public const string EzShuttleHandler = "EzShuttle";
+        public const string NampakFlightHandler = "NampakFlight";
     }
 }

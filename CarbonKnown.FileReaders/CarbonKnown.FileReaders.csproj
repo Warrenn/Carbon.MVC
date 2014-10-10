@@ -42,6 +42,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper">
+      <HintPath>..\packages\CsvHelper.2.8.0\lib\net40-client\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFrameworkWithHierarchyId.6.1.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -128,6 +131,7 @@
     <Compile Include="LibertyAvis\LibertyAvisHandler.cs" />
     <Compile Include="LibertyEuroCar\LibertyEuroCarHandler.cs" />
     <Compile Include="MondiPaper\MondiPaperHandler.cs" />
+    <Compile Include="NampakFlight\NampakFlightHandler.cs" />
     <Compile Include="Readers\CsvFileReader.cs" />
     <Compile Include="DisposableExtension.cs" />
     <Compile Include="FileHandler\FileHandlerBase.cs" />
