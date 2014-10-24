@@ -1,6 +1,5 @@
 ﻿<#@ template debug="true" hostSpecific="true" language="C#" #>
 <#@ output extension=".cs" #>
-<#@ assembly name="$(SolutionDir)\CarbonKnown.Calculation\bin\Debug\CarbonKnown.DAL.Models.dll" #>
 <#@ assembly name="$(SolutionDir)\CarbonKnown.Calculation\bin\Debug\CarbonKnown.DAL.dll" #>
 <#@ assembly name="$(SolutionDir)\CarbonKnown.Calculation\bin\Debug\CarbonKnown.Calculation.dll" #>
 <#@ import namespace="System" #>

@@ -5,5 +5,7 @@
 		Tonnes,
 		Litres,
 		KiloWattHours,
+		Kilograms,
+		Gigajoules,
     }
 }

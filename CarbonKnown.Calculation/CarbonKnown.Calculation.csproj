@@ -33,11 +33,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=6847f3395fc61b47, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFrameworkWithHierarchyId.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFrameworkWithHierarchyId.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFrameworkWithHierarchyId.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=6847f3395fc61b47, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFrameworkWithHierarchyId.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -59,8 +58,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EnterpriseLibrary.PolicyInjection.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -114,9 +114,6 @@
     <Compile Include="ICalculationFactory.cs" />
     <Compile Include="Models\CalculationResult.cs" />
     <Compile Include="Models\DailyData.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Paper\PaperCalculation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -125,13 +122,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Refrigerant\RefrigerantCalculation.cs" />
-    <Compile Include="Services.cs">
-      <DependentUpon>Services.tt</DependentUpon>
-      <SubType>Code</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Include="Fleet\FleetCalculation.cs" />
+    <Compile Include="Services.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Services.tt</DependentUpon>
+    </Compile>
     <Compile Include="Waste\WasteCalculation.cs" />
     <Compile Include="Water\WaterCalculation.cs" />
   </ItemGroup>
@@ -150,7 +146,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="obj\Debug\CarbonKnown.Calculation.Properties.Resources.resources" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -159,59 +154,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="bin\DebugX\CarbonKnown.Calculation.dll.config" />
-    <None Include="obj\Debug\CarbonKnown.Calculation.csproj.GenerateResource.Cache" />
-    <None Include="obj\Debug\CarbonKnown.Calculation.csprojResolveAssemblyReference.cache" />
-    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="obj\Debug\CarbonKnown.Calculation.dll" />
-    <Content Include="bin\DebugX\CarbonKnown.Calculation.pdb" />
-    <Content Include="bin\DebugX\CarbonKnown.DAL.dll" />
-    <Content Include="bin\DebugX\CarbonKnown.DAL.pdb" />
-    <Content Include="bin\DebugX\CarbonKnown.Factors.WCF.dll" />
-    <Content Include="bin\DebugX\CarbonKnown.Factors.WCF.pdb" />
-    <Content Include="bin\DebugX\CarbonKnown.WCF.dll" />
-    <Content Include="bin\DebugX\CarbonKnown.WCF.pdb" />
-    <Content Include="bin\DebugX\EntityFramework.dll" />
-    <Content Include="bin\DebugX\EntityFramework.SqlServer.dll" />
-    <Content Include="bin\DebugX\EntityFramework.SqlServer.xml" />
-    <Content Include="bin\DebugX\EntityFramework.xml" />
-    <Content Include="bin\DebugX\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
-    <Content Include="bin\DebugX\Microsoft.Practices.EnterpriseLibrary.Common.xml" />
-    <Content Include="bin\DebugX\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll" />
-    <Content Include="bin\DebugX\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.dll" />
-    <Content Include="bin\DebugX\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.xml" />
-    <Content Include="bin\DebugX\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.xml" />
-    <Content Include="bin\DebugX\Microsoft.Practices.EnterpriseLibrary.Logging.dll" />
-    <Content Include="bin\DebugX\Microsoft.Practices.EnterpriseLibrary.Logging.xml" />
-    <Content Include="bin\DebugX\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.dll" />
-    <Content Include="bin\DebugX\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.xml" />
-    <Content Include="bin\DebugX\Microsoft.Practices.ServiceLocation.dll" />
-    <Content Include="bin\DebugX\Microsoft.Practices.ServiceLocation.pdb" />
-    <Content Include="bin\DebugX\Microsoft.Practices.ServiceLocation.xml" />
-    <Content Include="bin\DebugX\Microsoft.Practices.Unity.Configuration.dll" />
-    <Content Include="bin\DebugX\Microsoft.Practices.Unity.Configuration.xml" />
-    <Content Include="bin\DebugX\Microsoft.Practices.Unity.dll" />
-    <Content Include="bin\DebugX\Microsoft.Practices.Unity.Interception.Configuration.dll" />
-    <Content Include="bin\DebugX\Microsoft.Practices.Unity.Interception.Configuration.xml" />
-    <Content Include="bin\DebugX\Microsoft.Practices.Unity.Interception.dll" />
-    <Content Include="bin\DebugX\Microsoft.Practices.Unity.Interception.xml" />
-    <Content Include="bin\DebugX\Microsoft.Practices.Unity.xml" />
-    <Content Include="bin\DebugX\Unity.Wcf.dll" />
-    <Content Include="obj\Debug\CarbonKnown.Calculation.csproj.FileListAbsolute.txt" />
-    <Content Include="obj\Debug\CarbonKnown.Calculation.pdb" />
-    <Content Include="Services.tt">
+    <None Include="Services.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Services.cs</LastGenOutput>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
