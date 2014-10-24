@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonKnown.DAL", "CarbonKnown.DAL\CarbonKnown.DAL.csproj", "{B7D94046-8B7B-4932-AF68-A7025D908788}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonKnown.Print", "CarbonKnown.Print\CarbonKnown.Print.csproj", "{0519634E-57E1-4EF8-9D5D-794447E17A4E}"
@@ -16,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B80375
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
+		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonKnown.Factors", "CarbonKnown.Factors\CarbonKnown.Factors.csproj", "{C9C79C20-838E-40B7-94EB-0FD948D55CD0}"
@@ -39,10 +38,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonKnown.MVC", "CarbonKnown.MVC\CarbonKnown.MVC.csproj", "{42C5983A-07F2-4134-89C7-2DDFF6A36C38}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonKnown.MVC.Tests", "CarbonKnown.MVC.Tests\CarbonKnown.MVC.Tests.csproj", "{4BB28AAD-A890-4021-9985-1F5C57204197}"
-EndProject
-Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "CarbonKnown.FileWatcherService.Setup", "CarbonKnown.FileWatcherService.Setup\CarbonKnown.FileWatcherService.Setup.isproj", "{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDataSource", "TestDataSource\TestDataSource.csproj", "{D4D2EB32-5BB9-46AC-95FE-94A0555E4F61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -163,26 +158,6 @@ Global
 		{4BB28AAD-A890-4021-9985-1F5C57204197}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4BB28AAD-A890-4021-9985-1F5C57204197}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{4BB28AAD-A890-4021-9985-1F5C57204197}.SingleImage|Any CPU.Build.0 = Release|Any CPU
-		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
-		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.CD_ROM|Any CPU.Build.0 = CD_ROM
-		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.Debug|Any CPU.ActiveCfg = DVD-5
-		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.Debug|Any CPU.Build.0 = DVD-5
-		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.DVD-5|Any CPU.ActiveCfg = DVD-5
-		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.DVD-5|Any CPU.Build.0 = DVD-5
-		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.Release|Any CPU.ActiveCfg = SingleImage
-		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.Release|Any CPU.Build.0 = SingleImage
-		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.SingleImage|Any CPU.ActiveCfg = SingleImage
-		{DD9CAD55-E228-4F8F-85EB-D9D4E8BC9063}.SingleImage|Any CPU.Build.0 = SingleImage
-		{D4D2EB32-5BB9-46AC-95FE-94A0555E4F61}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
-		{D4D2EB32-5BB9-46AC-95FE-94A0555E4F61}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
-		{D4D2EB32-5BB9-46AC-95FE-94A0555E4F61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4D2EB32-5BB9-46AC-95FE-94A0555E4F61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4D2EB32-5BB9-46AC-95FE-94A0555E4F61}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4D2EB32-5BB9-46AC-95FE-94A0555E4F61}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
-		{D4D2EB32-5BB9-46AC-95FE-94A0555E4F61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4D2EB32-5BB9-46AC-95FE-94A0555E4F61}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D4D2EB32-5BB9-46AC-95FE-94A0555E4F61}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
-		{D4D2EB32-5BB9-46AC-95FE-94A0555E4F61}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

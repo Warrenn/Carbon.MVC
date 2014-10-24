@@ -4,6 +4,8 @@
     {
         Tonnes,
         Litres,
-        KiloWattHours
+        KiloWattHours,
+        Kilograms,
+        Gigajoules
     }
 }

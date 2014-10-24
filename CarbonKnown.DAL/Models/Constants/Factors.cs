@@ -57,6 +57,13 @@ namespace CarbonKnown.DAL.Models.Constants
             public static readonly Guid CoalIndustrial = new Guid("E30BDFE4-00E5-4432-BA3C-47AF6555697A");
             public static readonly Guid AviationFuelTonnes = new Guid("60CA828A-CCBA-461B-8C3F-39780533B3EB");
             public static readonly Guid AviationFuelLitres = new Guid("DFF978EA-ED38-47FD-AB45-06DE179840E3");
+            public static readonly Guid MarineFuelOilTonnes = new Guid("DBE2F19E-806F-41FA-9DCD-77440B968D36");
+            public static readonly Guid LNGLitres = new Guid("CA62AD6A-3C76-4D06-A013-6E5BDC4A221E");
+            public static readonly Guid LNGKWH = new Guid("6A8371FE-B281-4BA9-8D2F-20C6ADA3C05F");
+            public static readonly Guid LNGTonnes = new Guid("1A426811-4A05-4180-82E9-CC5745B3AFE8");
+            public static readonly Guid Paraffin = new Guid("CC795C4B-6F8B-4F7C-892E-C0CEBDD505C1");
+            public static readonly Guid HeavyFuelOil = new Guid("900D43BE-F8ED-465B-B34A-3818AE8841DA");
+            public static readonly Guid LPGGigajoules = new Guid("21A2F68A-1730-420D-BACD-B204D5489260");
         }
 
         public static class Fleet
@@ -77,6 +84,11 @@ namespace CarbonKnown.DAL.Models.Constants
             public static readonly Guid R410 = new Guid("3E5D69BE-182C-41A0-811B-E5C1464CB903");
             public static readonly Guid R410A = new Guid("054AF8E5-130F-47E1-BE8B-6D9DFC0FEDD3");
             public static readonly Guid R22Refrigerant = new Guid("83030C6B-36F4-4FA5-AA89-7CD551D07DFA");
+            public static readonly Guid R407c = new Guid("BF4E689C-B0FB-47DA-AF00-E2E4DF88DBBD");
+            public static readonly Guid HP80 = new Guid("B7973F38-779C-41AF-BA73-934C990D1DAA");
+            public static readonly Guid R408 = new Guid("1EDA3C5F-05BC-42A9-A74A-04506EC7123D");
+            public static readonly Guid R417a = new Guid("8824AE0A-249E-4A2C-B9C3-941EC1E1BDD5");
+            public static readonly Guid R507 = new Guid("E4134B15-297B-451F-A8EC-58FA8DFDBA40");
         }
 
         public static class Comutting
@@ -90,6 +102,19 @@ namespace CarbonKnown.DAL.Models.Constants
         public static class Electricity
         {
             public static readonly Guid SouthAfricanNationalGrid = new Guid("C4D57FDE-2538-41E3-BAA1-7C3A479AB81E");
+            public static readonly Guid BotswanaNationalGrid = new Guid("CB4EB33B-C476-4EB4-9BEA-86F6FD047F6C");
+            public static readonly Guid AngolaNationalGrid = new Guid("D1F4EA23-D78B-4F20-BF45-847ABF5B858A");
+            public static readonly Guid ZambiaNationalGrid = new Guid("D9E8D689-345E-4524-B943-025DCE04752F");
+            public static readonly Guid NamibiaNationalGrid = new Guid("CDB4E208-DFE3-4F42-8ABF-931C043EA1A7");
+            public static readonly Guid TanzaniaNationalGrid = new Guid("C906D820-75ED-4B85-9DA9-1B09EBC1F08E");
+            public static readonly Guid KenyaNationalGrid = new Guid("80AC3EE4-5BD4-4C6D-84CD-89F79E988251");
+            public static readonly Guid NigeriaNationalGrid = new Guid("AA93F4A5-5D7D-4709-BCA9-BA1C58652ACD");
+            public static readonly Guid ZimbabweNationalGrid = new Guid("12F2AF21-3D73-468E-9D97-82672E0F324A");
+            public static readonly Guid IsleofManNationalGrid = new Guid("61E6BD2D-A006-49F3-87D8-AF1F1F84364A");
+            public static readonly Guid UKNationalGrid = new Guid("9D2319C9-CFA6-4C33-A339-0A8E10BAEAAE");
+            public static readonly Guid MalawiNationalGrid = new Guid("6685CCFB-2FF1-4699-89BB-9F6B12F276E7");
+            public static readonly Guid SwazilandNationalGrid = new Guid("27286FA1-0CEB-4505-8649-A476955A1E53");
+            public static readonly Guid PurchasedSteam = new Guid("CB4012CB-9DBB-4E6F-AA2F-EBA987A9EE5D");
         }
 
         public static class Waste

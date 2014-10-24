@@ -65,6 +65,14 @@
         public const string CoalIndustrial = "{BA7A7843-32D0-438D-8D34-5848B0D175EB}";
         public const string AviationFuelTonnes = "{DFCD7CE0-1E73-4EDA-8231-BA579E50540E}";
         public const string AviationFuelLitres = "{8CAEA66F-D10C-4739-89D9-1C176D6AABD9}";
+        public const string MarineFuelOilTonnes = "{C3D9A0B8-794C-4255-939C-3783CCDA8A3F}";
+        public const string LNGLitres = "{08066059-DCEF-4023-89B2-5FB6B28BDFE2}";
+        public const string LNGKWH = "{702C8773-BA06-4B25-9888-1C25D5BEB101}";
+        public const string LNGTonnes = "{949FDD6E-20F9-49FD-863F-43042398E8A3}";
+        public const string Paraffin = "{3969F86E-7201-4E2E-9CA3-3082ED3F0F50}";
+        public const string HeavyFuelOil = "{D2EE557E-0843-4F5A-A1FF-73B718312F1B}";
+        public const string LPGGigajoules = "{4CD15832-9629-4FFD-B60D-33AAF07A6491}";
+
     }
 
     public static partial class FleetActivityId
@@ -85,6 +93,11 @@
         public const string R404A = "{C29E7A56-7AE0-4A6F-8630-22B2D959EC10}";
         public const string R410 = "{F6989DCD-BED9-40FE-870C-A6F9A6EF1D81}";
         public const string R410A = "{F556504D-3367-4B45-ADA3-58D1A1C1E51D}";
+        public const string R407c = "{BBB58837-0990-467A-A6BB-FA1683B552FA}";
+        public const string HP80 = "{EA23D010-1150-442B-99A0-27AE2250A2E1}";
+        public const string R408 = "{F83C9683-96A1-4CDE-AB33-8897CEE45884}";
+        public const string R417a = "{84612007-4791-41E7-8DBB-B57BD655BEEB}";
+        public const string R507 = "{53B9280E-BB9C-4726-9844-C69A2AF00215}";
     }
 
     public static partial class ComuttingActivityId
@@ -114,6 +127,20 @@
     public static partial class ElectricityActivityId
     {
         public const string SouthAfricanNationalGrid = "{8f173eb8-e5b2-4d57-b6c8-aa9353c0a08a}";
+        public const string AngolaNationalGrid = "{3BBED775-754A-41E9-AB36-4E21913F917E}";
+        public const string BotswanaNationalGrid = "{5657B663-1DBA-4833-8492-BB62DBC95471}";
+        public const string ZambiaNationalGrid = "{9B6962F8-0A9C-4531-96D6-9150F8CD9D7A}";
+        public const string NamibiaNationalGrid = "{51F7497B-FA0E-418C-BC56-B71A38355ABF}";
+        public const string TanzaniaNationalGrid = "{E3D02788-352E-4391-926F-AF536A468F7F}";
+        public const string KenyaNationalGrid = "{0BED0588-57D5-45EC-AC78-A76DFBB03E31}";
+        public const string NigeriaNationalGrid = "{CD18D942-5B56-4304-BB5B-3E326B42AE22}";
+        public const string ZimbabweNationalGrid = "{12B6CDEA-F53C-4F87-8EC1-8C5A965DE542}";
+        public const string IsleofManNationalGrid = "{60FFA0E5-7B00-463F-B63A-3A18F52A3237}";
+        public const string UKNationalGrid = "{036EC9B3-0AB6-40D5-8AB0-139EFB97891B}";
+        public const string MalawiNationalGrid = "{1F6D02B8-43AC-4526-87C9-197BB46BF8EB}";
+        public const string SwazilandNationalGrid = "{2E38AD9D-60C9-47CF-9EF7-6C2AF1E54240}";
+        public const string PurchasedSteam = "{37F87398-9758-4BC5-8FBC-4F5BFE83346C}";
+
     }
 
     public static partial class WasteActivityId

@@ -2,6 +2,19 @@
 {
     public enum ElectricityType
     {
-        SouthAfricanNationalGrid
+        SouthAfricanNationalGrid,
+        AngolaNationalGrid,
+        BotswanaNationalGrid,
+        ZambiaNationalGrid,
+        NamibiaNationalGrid,
+        TanzaniaNationalGrid,
+        KenyaNationalGrid,
+        NigeriaNationalGrid,
+        ZimbabweNationalGrid,
+        IsleOfManNationalGrid,
+        UKNationalGrid,
+        MalawiNationalGrid,
+        SwazilandNationalGrid,
+        PurchasedSteam
     }
 }

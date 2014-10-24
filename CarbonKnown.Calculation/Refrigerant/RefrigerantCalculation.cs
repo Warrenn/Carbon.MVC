@@ -32,7 +32,12 @@ namespace CarbonKnown.Calculation.Refrigerant
                     {RefrigerantType.HcFC134A, FactorIds.Refrigerant.HcFC134A},
                     {RefrigerantType.R404A, FactorIds.Refrigerant.R404A},
                     {RefrigerantType.R410, FactorIds.Refrigerant.R410},
-                    {RefrigerantType.R410A, FactorIds.Refrigerant.R410A}
+                    {RefrigerantType.R410A, FactorIds.Refrigerant.R410A},
+                    {RefrigerantType.R407c, FactorIds.Refrigerant.R407c},
+                    {RefrigerantType.HP80, FactorIds.Refrigerant.HP80},
+                    {RefrigerantType.R408, FactorIds.Refrigerant.R408},
+                    {RefrigerantType.R417a, FactorIds.Refrigerant.R417a},
+                    {RefrigerantType.R507, FactorIds.Refrigerant.R507}
                 };
 
         public static IDictionary<RefrigerantType, Guid> ActivityMapping =
@@ -45,7 +50,12 @@ namespace CarbonKnown.Calculation.Refrigerant
                     {RefrigerantType.HcFC134A, RefrigerantActivityId.HcFC134AId},
                     {RefrigerantType.R404A, RefrigerantActivityId.R404AId},
                     {RefrigerantType.R410, RefrigerantActivityId.R410Id},
-                    {RefrigerantType.R410A, RefrigerantActivityId.R410AId}
+                    {RefrigerantType.R410A, RefrigerantActivityId.R410AId},
+                    {RefrigerantType.R407c, RefrigerantActivityId.R407cId},
+                    {RefrigerantType.HP80, RefrigerantActivityId.HP80Id},
+                    {RefrigerantType.R408, RefrigerantActivityId.R408Id},
+                    {RefrigerantType.R417a, RefrigerantActivityId.R417aId},
+                    {RefrigerantType.R507, RefrigerantActivityId.R507Id}
                 };
 
         public override CalculationResult CalculateEmission(DateTime effectiveDate, DailyData dailyData, RefrigerantData entry)

@@ -24,12 +24,37 @@ namespace CarbonKnown.Calculation.Electricity
 
         public static IDictionary<ElectricityType, Guid> ActivityMapping = new SortedDictionary<ElectricityType, Guid>
             {
-                {ElectricityType.SouthAfricanNationalGrid, ElectricityActivityId.SouthAfricanNationalGridId}
+                {ElectricityType.SouthAfricanNationalGrid, ElectricityActivityId.SouthAfricanNationalGridId},
+                {ElectricityType.AngolaNationalGrid, ElectricityActivityId.AngolaNationalGridId},
+                {ElectricityType.BotswanaNationalGrid, ElectricityActivityId.BotswanaNationalGridId},
+                {ElectricityType.ZambiaNationalGrid, ElectricityActivityId.ZambiaNationalGridId},
+                {ElectricityType.TanzaniaNationalGrid, ElectricityActivityId.TanzaniaNationalGridId},
+                {ElectricityType.KenyaNationalGrid, ElectricityActivityId.KenyaNationalGridId},
+                {ElectricityType.NigeriaNationalGrid, ElectricityActivityId.NigeriaNationalGridId},
+                {ElectricityType.ZimbabweNationalGrid, ElectricityActivityId.ZimbabweNationalGridId},
+                {ElectricityType.IsleOfManNationalGrid, ElectricityActivityId.IsleofManNationalGridId},
+                {ElectricityType.UKNationalGrid, ElectricityActivityId.UKNationalGridId},
+                {ElectricityType.MalawiNationalGrid, ElectricityActivityId.MalawiNationalGridId},
+                {ElectricityType.SwazilandNationalGrid, ElectricityActivityId.SwazilandNationalGridId},
+                {ElectricityType.PurchasedSteam, ElectricityActivityId.PurchasedSteamId}
             };
 
         public static IDictionary<ElectricityType, Guid> FactorMapping = new SortedDictionary<ElectricityType, Guid>
             {
-                {ElectricityType.SouthAfricanNationalGrid, FactorIds.Electricity.SouthAfricanNationalGrid}
+                {ElectricityType.SouthAfricanNationalGrid, FactorIds.Electricity.SouthAfricanNationalGrid},
+                {ElectricityType.AngolaNationalGrid, FactorIds.Electricity.AngolaNationalGrid},
+                {ElectricityType.BotswanaNationalGrid, FactorIds.Electricity.BotswanaNationalGrid},
+                {ElectricityType.ZambiaNationalGrid, FactorIds.Electricity.ZambiaNationalGrid},
+                {ElectricityType.NamibiaNationalGrid, FactorIds.Electricity.NamibiaNationalGrid},
+                {ElectricityType.TanzaniaNationalGrid, FactorIds.Electricity.TanzaniaNationalGrid},
+                {ElectricityType.KenyaNationalGrid, FactorIds.Electricity.KenyaNationalGrid},
+                {ElectricityType.NigeriaNationalGrid, FactorIds.Electricity.NigeriaNationalGrid},
+                {ElectricityType.ZimbabweNationalGrid, FactorIds.Electricity.ZimbabweNationalGrid},
+                {ElectricityType.IsleOfManNationalGrid, FactorIds.Electricity.IsleofManNationalGrid},
+                {ElectricityType.UKNationalGrid, FactorIds.Electricity.UKNationalGrid},
+                {ElectricityType.MalawiNationalGrid, FactorIds.Electricity.MalawiNationalGrid},
+                {ElectricityType.SwazilandNationalGrid, FactorIds.Electricity.SwazilandNationalGrid}
+
             };
 
         public override CalculationResult CalculateEmission(DateTime effectiveDate, DailyData dailyData, ElectricityData entry)

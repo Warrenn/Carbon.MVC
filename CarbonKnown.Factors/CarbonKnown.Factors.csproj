@@ -252,6 +252,93 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\CarbonKnown.Factors.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="bin\CarbonKnown.Factors.pdb" />
+    <Content Include="bin\CarbonKnown.Factors.WCF.dll" />
+    <Content Include="bin\CarbonKnown.Factors.WCF.pdb" />
+    <Content Include="bin\DotNetOpenAuth.AspNet.dll" />
+    <Content Include="bin\DotNetOpenAuth.AspNet.xml" />
+    <Content Include="bin\DotNetOpenAuth.Core.dll" />
+    <Content Include="bin\DotNetOpenAuth.Core.xml" />
+    <Content Include="bin\DotNetOpenAuth.OAuth.Consumer.dll" />
+    <Content Include="bin\DotNetOpenAuth.OAuth.Consumer.xml" />
+    <Content Include="bin\DotNetOpenAuth.OAuth.dll" />
+    <Content Include="bin\DotNetOpenAuth.OAuth.xml" />
+    <Content Include="bin\DotNetOpenAuth.OpenId.dll" />
+    <Content Include="bin\DotNetOpenAuth.OpenId.RelyingParty.dll" />
+    <Content Include="bin\DotNetOpenAuth.OpenId.RelyingParty.xml" />
+    <Content Include="bin\DotNetOpenAuth.OpenId.xml" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Common.xml" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.xml" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.xml" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Logging.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Logging.xml" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.xml" />
+    <Content Include="bin\Microsoft.Practices.ServiceLocation.dll" />
+    <Content Include="bin\Microsoft.Practices.ServiceLocation.pdb" />
+    <Content Include="bin\Microsoft.Practices.ServiceLocation.xml" />
+    <Content Include="bin\Microsoft.Practices.Unity.Configuration.dll" />
+    <Content Include="bin\Microsoft.Practices.Unity.Configuration.xml" />
+    <Content Include="bin\Microsoft.Practices.Unity.dll" />
+    <Content Include="bin\Microsoft.Practices.Unity.Interception.Configuration.dll" />
+    <Content Include="bin\Microsoft.Practices.Unity.Interception.Configuration.xml" />
+    <Content Include="bin\Microsoft.Practices.Unity.Interception.dll" />
+    <Content Include="bin\Microsoft.Practices.Unity.Interception.xml" />
+    <Content Include="bin\Microsoft.Practices.Unity.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Microsoft.Web.WebPages.OAuth.dll" />
+    <Content Include="bin\Microsoft.Web.WebPages.OAuth.xml" />
+    <Content Include="bin\Mono.Math.dll" />
+    <Content Include="bin\Mono.Math.xml" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\Org.Mentalis.Security.Cryptography.dll" />
+    <Content Include="bin\Org.Mentalis.Security.Cryptography.xml" />
+    <Content Include="bin\System.IdentityModel.Tokens.ValidatingIssuerNameRegistry.dll" />
+    <Content Include="bin\System.Net.Http.Extensions.dll" />
+    <Content Include="bin\System.Net.Http.Extensions.xml" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.xml" />
+    <Content Include="bin\System.Net.Http.Primitives.dll" />
+    <Content Include="bin\System.Net.Http.Primitives.xml" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.Tracing.dll" />
+    <Content Include="bin\System.Web.Http.Tracing.xml" />
+    <Content Include="bin\System.Web.Http.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\Unity.Mvc4.dll" />
+    <Content Include="bin\Unity.Wcf.dll" />
+    <Content Include="bin\unity.xml" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="bin\WebMatrix.Data.dll" />
+    <Content Include="bin\WebMatrix.Data.xml" />
+    <Content Include="bin\WebMatrix.WebData.dll" />
+    <Content Include="bin\WebMatrix.WebData.xml" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Service\Factors.svc" />
@@ -291,6 +378,7 @@
       <LastGenOutput>Configuration1.cs</LastGenOutput>
     </Content>
     <Content Include="config.rb" />
+    <Content Include="bin\CarbonKnown.Factors.dll.config" />
     <None Include="Properties\PublishProfiles\Factors.pubxml" />
   </ItemGroup>
   <ItemGroup>

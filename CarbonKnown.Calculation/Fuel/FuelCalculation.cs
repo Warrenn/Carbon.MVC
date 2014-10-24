@@ -73,6 +73,55 @@ namespace CarbonKnown.Calculation.Fuel
                                 {UnitOfMeasure.Tonnes, FactorIds.Fuel.Petrol},
                             }
                     },
+                    {
+                        FuelType.MarineFuelOil, new SortedDictionary<UnitOfMeasure, Guid>
+                            {
+                                {UnitOfMeasure.KiloWattHours, FuelActivityId.MarineFuelOilTonnesId},
+                                {UnitOfMeasure.Litres, FuelActivityId.MarineFuelOilTonnesId},
+                                {UnitOfMeasure.Tonnes, FuelActivityId.MarineFuelOilTonnesId}
+                            }
+                    },
+                    {
+                        FuelType.HeavyFuelOil, new SortedDictionary<UnitOfMeasure, Guid>
+                            {
+                                {UnitOfMeasure.KiloWattHours, FuelActivityId.HeavyFuelOilId},
+                                {UnitOfMeasure.Litres, FuelActivityId.HeavyFuelOilId},
+                                {UnitOfMeasure.Tonnes, FuelActivityId.HeavyFuelOilId}
+                            }
+                    },
+                     {
+                        FuelType.Paraffin, new SortedDictionary<UnitOfMeasure, Guid>
+                            {
+                                {UnitOfMeasure.KiloWattHours, FuelActivityId.ParaffinId},
+                                {UnitOfMeasure.Litres, FuelActivityId.ParaffinId},
+                                {UnitOfMeasure.Tonnes, FuelActivityId.ParaffinId}
+                            }
+                    },
+                    {
+                        FuelType.LNGkWH, new SortedDictionary<UnitOfMeasure, Guid>
+                            {
+                                {UnitOfMeasure.KiloWattHours, FuelActivityId.LNGKWHId},
+                                {UnitOfMeasure.Litres, FuelActivityId.LNGKWHId},
+                                {UnitOfMeasure.Tonnes, FuelActivityId.LNGKWHId}
+                            }
+                    },
+                    {
+                        FuelType.LNGlitres, new SortedDictionary<UnitOfMeasure, Guid>
+                            {
+                                {UnitOfMeasure.KiloWattHours, FuelActivityId.LNGLitresId},
+                                {UnitOfMeasure.Litres, FuelActivityId.LNGLitresId},
+                                {UnitOfMeasure.Tonnes, FuelActivityId.LNGLitresId}
+                            }
+                    },
+                    {
+                        FuelType.LPGGigajoule, new SortedDictionary<UnitOfMeasure, Guid>
+                            {
+                                {UnitOfMeasure.KiloWattHours, FuelActivityId.LPGGigajoulesId},
+                                {UnitOfMeasure.Litres, FuelActivityId.LPGGigajoulesId},
+                                {UnitOfMeasure.Tonnes, FuelActivityId.LPGGigajoulesId},
+                                {UnitOfMeasure.Gigajoules, FuelActivityId.LPGGigajoulesId}
+                            }
+                    },
                 };
 
         public static IDictionary<FuelType, IDictionary<UnitOfMeasure, Guid>> ActivityMapping =
@@ -124,6 +173,55 @@ namespace CarbonKnown.Calculation.Fuel
                                 {UnitOfMeasure.KiloWattHours, FuelActivityId.PetrolId},
                                 {UnitOfMeasure.Litres, FuelActivityId.PetrolId},
                                 {UnitOfMeasure.Tonnes, FuelActivityId.PetrolId}
+                            }
+                    },
+                      {
+                        FuelType.MarineFuelOil, new SortedDictionary<UnitOfMeasure, Guid>
+                            {
+                                {UnitOfMeasure.KiloWattHours, FuelActivityId.MarineFuelOilTonnesId},
+                                {UnitOfMeasure.Litres, FuelActivityId.MarineFuelOilTonnesId},
+                                {UnitOfMeasure.Tonnes, FuelActivityId.MarineFuelOilTonnesId}
+                            }
+                    },
+                    {
+                        FuelType.HeavyFuelOil, new SortedDictionary<UnitOfMeasure, Guid>
+                            {
+                                {UnitOfMeasure.KiloWattHours, FuelActivityId.HeavyFuelOilId},
+                                {UnitOfMeasure.Litres, FuelActivityId.HeavyFuelOilId},
+                                {UnitOfMeasure.Tonnes, FuelActivityId.HeavyFuelOilId}
+                            }
+                    },
+                     {
+                        FuelType.Paraffin, new SortedDictionary<UnitOfMeasure, Guid>
+                            {
+                                {UnitOfMeasure.KiloWattHours, FuelActivityId.ParaffinId},
+                                {UnitOfMeasure.Litres, FuelActivityId.ParaffinId},
+                                {UnitOfMeasure.Tonnes, FuelActivityId.ParaffinId}
+                            }
+                    },
+                    {
+                        FuelType.LNGkWH, new SortedDictionary<UnitOfMeasure, Guid>
+                            {
+                                {UnitOfMeasure.KiloWattHours, FuelActivityId.LNGKWHId},
+                                {UnitOfMeasure.Litres, FuelActivityId.LNGKWHId},
+                                {UnitOfMeasure.Tonnes, FuelActivityId.LNGKWHId}
+                            }
+                    },
+                    {
+                        FuelType.LNGlitres, new SortedDictionary<UnitOfMeasure, Guid>
+                            {
+                                {UnitOfMeasure.KiloWattHours, FuelActivityId.LNGLitresId},
+                                {UnitOfMeasure.Litres, FuelActivityId.LNGLitresId},
+                                {UnitOfMeasure.Tonnes, FuelActivityId.LNGLitresId}
+                            }
+                    },
+                    {
+                        FuelType.LPGGigajoule, new SortedDictionary<UnitOfMeasure, Guid>
+                            {
+                                {UnitOfMeasure.KiloWattHours, FuelActivityId.LPGGigajoulesId},
+                                {UnitOfMeasure.Litres, FuelActivityId.LPGGigajoulesId},
+                                {UnitOfMeasure.Tonnes, FuelActivityId.LPGGigajoulesId},
+                                {UnitOfMeasure.Gigajoules, FuelActivityId.LPGGigajoulesId}
                             }
                     },
                 };
