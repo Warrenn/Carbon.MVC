@@ -2,17 +2,15 @@
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using CarbonKnown.Calculation;
-using CarbonKnown.DAL.Models.Waste;
 using CarbonKnown.MVC.DAL;
 using CarbonKnown.WCF.Waste;
-using WasteType = CarbonKnown.DAL.Models.Waste.WasteType;
 
 namespace CarbonKnown.MVC.Service
 {
 	[AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
 	[ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public partial class Waste :
-        DataEntryServiceBase<WasteData, WasteDataContract>,
+        DataEntryServiceBase<CarbonKnown.DAL.Models.Waste.WasteData, WasteDataContract>,
         IWasteService
     {
 		protected static readonly Guid CalculationId = new Guid("fb995404-7f1c-4041-97d7-f5bb8ec5b7bd");
@@ -26,10 +24,10 @@ namespace CarbonKnown.MVC.Service
 	        return CalculationId;
 	    }        
 		
-		public override void SetEntryValues(WasteData instance, WasteDataContract dataEntry)
+		public override void SetEntryValues(CarbonKnown.DAL.Models.Waste.WasteData instance, WasteDataContract dataEntry)
         {
             base.SetEntryValues(instance, dataEntry);
-            instance.WasteType = (WasteType?)dataEntry.WasteType;
+            instance.WasteType = (CarbonKnown.DAL.Models.Waste.WasteType?)dataEntry.WasteType;
         }
     }
 }

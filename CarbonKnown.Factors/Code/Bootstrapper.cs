@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Configuration;
-using System.Web.Mvc;
 using CarbonKnown.Factors.WCF;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.InterceptionExtension;
-using Unity.Mvc4;
 
 namespace CarbonKnown.Factors.Code
 {
@@ -25,7 +23,6 @@ namespace CarbonKnown.Factors.Code
                           ConfigurationManager.GetSection(UnityConfigurationSection.SectionName);
             var returnContainer = new UnityContainer();
             var container = section.Configure(returnContainer);
-            DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             RegisterTypes(container);
             return container;
         }

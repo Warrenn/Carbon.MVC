@@ -61,6 +61,21 @@ namespace CarbonKnown.MVC.Controllers
             new SortedDictionary<ElectricityType, string>
                 {
                     {ElectricityType.SouthAfricanNationalGrid, "South African National Grid"},
+                    {ElectricityType.AngolaNationalGrid, "Angola National Grid"},
+                    {ElectricityType.BotswanaNationalGrid, "Botswana National Grid"},
+                    {ElectricityType.ZambiaNationalGrid, "Zambia National Grid"},
+                    {ElectricityType.NamibiaNationalGrid, "Namibia National Grid"},
+                    {ElectricityType.TanzaniaNationalGrid, "Tanzania National Grid"},
+                    {ElectricityType.KenyaNationalGrid, "Kenya National Grid"},
+                    {ElectricityType.NigeriaNationalGrid, "Nigeria National Grid"},
+                    {ElectricityType.ZimbabweNationalGrid, "Zimbabwe National Grid"},
+                    {ElectricityType.IsleOfManNationalGrid, "Isle of Man National Grid"},
+                    {ElectricityType.UKNationalGrid, "UK National Grid"},
+                    {ElectricityType.MalawiNationalGrid, "Malawi National Grid"},
+                    {ElectricityType.SwazilandNationalGrid, "Swaziland National Grid"},
+                    {ElectricityType.PurchasedSteam, "Purchased Steam"}
+
+
                 };
 
         public static readonly IDictionary<Guid, string> SelectableCalculations =
@@ -96,7 +111,14 @@ namespace CarbonKnown.MVC.Controllers
                     {FuelType.CoalIndustrial, "Coal Industrial"},
                     {FuelType.Diesel, "Diesel"},
                     {FuelType.LPG, "Liquified Petroleum Gas (LPG)"},
-                    {FuelType.Petrol, "Petrol"}
+                    {FuelType.Petrol, "Petrol"},
+                    {FuelType.LPGGigajoule, "LPG(Gigajoule)"},
+                    {FuelType.MarineFuelOil, "Marine Fuel Oil"},
+                    {FuelType.LNGlitres, "Liquid Natural Gas (litres)"},
+                    {FuelType.LNGkWH, "Liquid Natural Gas (kWH)"},
+                    {FuelType.LNGTonnes, "Liquid Natural Gas (Tonnes)"},
+                    {FuelType.Paraffin, "Paraffin"},
+                    {FuelType.HeavyFuelOil, "Heavy Fuel Oil"}
                 };
 
         public static readonly IDictionary<RefrigerantType, string> RefrigerantTypes =
@@ -110,6 +132,12 @@ namespace CarbonKnown.MVC.Controllers
                     {RefrigerantType.Refrigerant134, "134"},
                     {RefrigerantType.Refrigerant143A, "143 a"},
                     {RefrigerantType.R22Refrigerant, "R22 Refrigerant"},
+                    {RefrigerantType.R407c, "R407c"},
+                    {RefrigerantType.HP80, "HP80"},
+                    {RefrigerantType.R408, "R408"},
+                    {RefrigerantType.R417a, "R417a"},
+                    {RefrigerantType.R507, "R507"}
+
                 };
 
         public static readonly IDictionary<FuelType, string> FleetFuelTypes =
@@ -140,7 +168,7 @@ namespace CarbonKnown.MVC.Controllers
             new SortedDictionary<WasteType, object>
                 {
                     {WasteType.RecycledWaste, "tonnes"},
-                    {WasteType.WasteToLandFill, "square meters"}
+                    {WasteType.WasteToLandFill, "tonnes"}
                 };
 
         public static readonly IDictionary<FleetScope, string> FleetScopes =
@@ -202,6 +230,48 @@ namespace CarbonKnown.MVC.Controllers
                         FuelType.Petrol, new[]
                             {
                                 new {id = GetName(UnitOfMeasure.Litres), text = "litres"}
+                            }
+                    },
+                    {
+                        FuelType.HeavyFuelOil, new[]
+                            {
+                                new {id = GetName(UnitOfMeasure.Kilograms), text = "Kilograms"}
+                            }
+                    },
+                    {
+                        FuelType.MarineFuelOil, new[]
+                            {
+                                new {id = GetName(UnitOfMeasure.Tonnes), text = "Tonnes"}
+                            }
+                    },
+                    {
+                        FuelType.Paraffin, new[]
+                            {
+                                new {id = GetName(UnitOfMeasure.Litres), text = "Litres"}
+                            }
+                    },
+                    {
+                        FuelType.LNGkWH, new[]
+                            {
+                                new {id = GetName(UnitOfMeasure.KiloWattHours), text = "KWH"}
+                            }
+                    },
+                     {
+                        FuelType.LNGlitres, new[]
+                            {
+                                new {id = GetName(UnitOfMeasure.Litres), text = "Litres"}
+                            }
+                    },
+                     {
+                        FuelType.LNGTonnes, new[]
+                            {
+                                new {id = GetName(UnitOfMeasure.Tonnes), text = "Tonnes"}
+                            }
+                    },
+                     {
+                        FuelType.LPGGigajoule, new[]
+                            {
+                                new {id = GetName(UnitOfMeasure.Gigajoules), text = "Gigajoules"}
                             }
                     }
                 };

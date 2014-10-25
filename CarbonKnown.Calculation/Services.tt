@@ -1,6 +1,5 @@
 ﻿<#@ template debug="true" hostSpecific="true" language="C#" #>
 <#@ output extension=".cs" #>
-<#@ assembly name="$(SolutionDir)\CarbonKnown.Calculation\bin\Debug\CarbonKnown.DAL.Models.dll" #>
 <#@ assembly name="$(SolutionDir)\CarbonKnown.Calculation\bin\Debug\CarbonKnown.DAL.dll" #>
 <#@ assembly name="$(SolutionDir)\CarbonKnown.Calculation\bin\Debug\CarbonKnown.Calculation.dll" #>
 <#@ import namespace="System" #>
@@ -387,7 +386,6 @@ namespace CarbonKnown.MVC.Controllers
  
 #>
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/<#=name.ToLower() #>", Name = "Upsert<#=dataName#>")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> Upsert<#=dataName#>(CarbonKnown.WCF.<#=name #>.<#=dataName  #>Contract data)

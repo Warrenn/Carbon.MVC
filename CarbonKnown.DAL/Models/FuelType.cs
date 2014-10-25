@@ -7,6 +7,13 @@
         LPG,
         CoalDomestic,
         CoalIndustrial,
-        AviationFuel
+        AviationFuel,
+        MarineFuelOil,
+        LNGlitres,
+        LNGkWH,
+        LNGTonnes,
+        Paraffin,
+        HeavyFuelOil,
+        LPGGigajoule
     }
 }
