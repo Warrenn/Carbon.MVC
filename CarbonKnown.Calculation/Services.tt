@@ -386,7 +386,6 @@ namespace CarbonKnown.MVC.Controllers
  
 #>
         [HttpPost]
-        [XSRFTokenValidation]
         [Route("upsert/<#=name.ToLower() #>", Name = "Upsert<#=dataName#>")]
         [ResponseType(typeof(DataEntryUpsertResultDataContract))]
         public virtual async Task<IHttpActionResult> Upsert<#=dataName#>(CarbonKnown.WCF.<#=name #>.<#=dataName  #>Contract data)
