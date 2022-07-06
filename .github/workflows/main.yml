@@ -35,7 +35,7 @@ jobs:
         # uses: IT-Service/restore-nuget-packages@ef2531f9b1037fa8ea9b1314f1609a10cc78edad
         uses: IT-Service/restore-nuget-packages@v1
         with:
-          packages-config-path: ./.nuget
+          packages-config-path: ./
       - name: Build with msBuild
         shell: pwsh
         run: msbuild .
