@@ -9,6 +9,7 @@ $RepoUrl = "https://github.com/Warrenn/Carbon.MVC/releases/download/$Release/$Ar
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 Set-ExecutionPolicy Bypass -Scope Process -Force; 
-iex ((New-Object System.Net.WebClient).DownloadFile($RepoUrl, $Artifact)) 
+$ParentPath= Resolve-Path ".." 
+iex ((New-Object System.Net.WebClient).DownloadFile($RepoUrl, "$ParentPath/$Artifact")) 
 
 
