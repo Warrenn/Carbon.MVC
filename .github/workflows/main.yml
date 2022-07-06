@@ -26,12 +26,10 @@ jobs:
       - uses: actions/checkout@v3
       - name: setup-msbuild
         uses: microsoft/setup-msbuild@v1.1
-        with:
-          vs-version: 12.0
       - name: Setup NuGet.exe for use with actions
         # You may pin to the exact commit or the version.
         # uses: NuGet/setup-nuget@b2bc17b761a1d88cab755a776c7922eb26eefbfa
         uses: NuGet/setup-nuget@v1.0.6
       - name: Build with msBuild
         shell: pwsh
-        run: msbuild ./CarbonKnown.MVC.sln -p:NuGetExePath=$Env:NUGET /p:Configuration=Release  /p:TargetFrameworkVersion=v4.8
+        run: msbuild ./CarbonKnown.MVC.sln -p:NuGetExePath=$Env:NUGET /p:Configuration=Debug  /p:TargetFrameworkVersion=v4.8
