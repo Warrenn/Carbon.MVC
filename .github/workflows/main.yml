@@ -30,12 +30,6 @@ jobs:
         # You may pin to the exact commit or the version.
         # uses: NuGet/setup-nuget@b2bc17b761a1d88cab755a776c7922eb26eefbfa
         uses: NuGet/setup-nuget@v1.0.6
-      - name: restore-nuget-packages
-        # You may pin to the exact commit or the version.
-        # uses: IT-Service/restore-nuget-packages@ef2531f9b1037fa8ea9b1314f1609a10cc78edad
-        uses: IT-Service/restore-nuget-packages@v1
-        with:
-          packages-config-path: ./
       - name: Build with msBuild
         shell: pwsh
-        run: msbuild .
+        run: msbuild . -p:NuGetExePath=$Env:NUGET
