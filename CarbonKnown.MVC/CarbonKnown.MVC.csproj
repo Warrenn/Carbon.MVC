@@ -454,8 +454,6 @@
     <Content Include="Content\DataTables-1.10.3\images\copy_hover.png" />
     <Content Include="Content\DataTables-1.10.3\images\csv.png" />
     <Content Include="Content\DataTables-1.10.3\images\csv_hover.png" />
-    <Content Include="Content\DataTables-1.10.3\images\details_close.png" />
-    <Content Include="Content\DataTables-1.10.3\images\details_open.png" />
     <Content Include="Content\DataTables-1.10.3\images\filler.png" />
     <Content Include="Content\DataTables-1.10.3\images\forward_disabled.png" />
     <Content Include="Content\DataTables-1.10.3\images\forward_enabled.png" />
