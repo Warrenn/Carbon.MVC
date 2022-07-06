@@ -465,14 +465,11 @@
     <Content Include="Content\DataTables-1.10.3\images\print.png" />
     <Content Include="Content\DataTables-1.10.3\images\print_hover.png" />
     <Content Include="Content\DataTables-1.10.3\images\sort_asc.png" />
-    <Content Include="Content\DataTables-1.10.3\images\sort_asc_disabled.png" />
     <Content Include="Content\DataTables-1.10.3\images\sort_both.png" />
     <Content Include="Content\DataTables-1.10.3\images\sort_desc.png" />
     <Content Include="Content\DataTables-1.10.3\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables-1.10.3\images\xls.png" />
     <Content Include="Content\DataTables-1.10.3\images\xls_hover.png" />
-    <Content Include="Content\DataTables-1.10.3\swf\copy_csv_xls.swf" />
-    <Content Include="Content\DataTables-1.10.3\swf\copy_csv_xls_pdf.swf" />
     <Content Include="Content\dataTables.scroller.css" />
     <Content Include="Content\dataTables.scroller.min.css" />
     <Content Include="Content\googlefonts.css" />
