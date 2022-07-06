@@ -9,6 +9,6 @@ if ($Site -ne $null)  {
 $Site=New-IISSite -Name $SiteName -BindingInformation "129.232.194.210:80:manage.carbonknown.com" -PhysicalPath $BasePath -Passthru
 $Site.Applications["/"].ApplicationPoolName = ".NET v4.5"
 Stop-IISCommitDelay
-New-Item -ItemType Directory -Force -Path "$BasePath/Nampak"
-New-WebApplication -Name "Ck3" -Site $SiteName -PhysicalPath "$BasePath" -ApplicationPool ".NET v4.5" 
-New-WebApplication -Name "Ck3/Nampak" -Site $SiteName -PhysicalPath "$BasePath\Nampak" -ApplicationPool ".NET v4.5"
+# New-Item -ItemType Directory -Force -Path "$BasePath/Nampak"
+# New-WebApplication -Name "Ck3" -Site $SiteName -PhysicalPath "$BasePath" -ApplicationPool ".NET v4.5" 
+# New-WebApplication -Name "Ck3/Nampak" -Site $SiteName -PhysicalPath "$BasePath\Nampak" -ApplicationPool ".NET v4.5"
