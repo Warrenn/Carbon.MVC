@@ -7,8 +7,6 @@ if ($Site -ne $null)  {
 }
 $Site=New-IISSite -Name $SiteName -BindingInformation "129.232.194.210:80:manage.carbonknown.com" -PhysicalPath $BasePath -Passthru
 $Site.Applications["/"].ApplicationPoolName = ".NET v4.5"
-if( -not Test-Path "$BasePath/Nampak" ) {
-    mkdir "$BasePath/Nampak"
-}
+New-Item -ItemType Directory -Force -Path "$BasePath/Nampak"
 New-WebVirtualDirectory -Site $Site -Name "Ck3/Nampak" -PhysicalPath "$BasePath/Nampak"
 Stop-IISCommitDelay
