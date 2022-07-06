@@ -35,6 +35,7 @@ jobs:
         run: |
           msbuild ./CarbonKnown.MVC.sln -p:NuGetExePath=$Env:NUGET /p:Configuration=Release  /p:TargetFrameworkVersion=v4.8
           Compress-Archive -Path "$Env:GITHUB_WORKSPACE/CarbonKnown.MVC/bin" -DestinationPath "$Env:GITHUB_WORKSPACE/CarbonKnown.MVC.zip"
+          dir env:
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
