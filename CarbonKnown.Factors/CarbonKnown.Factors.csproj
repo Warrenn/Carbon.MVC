@@ -160,7 +160,6 @@
     <Content Include="stylesheets\ie.css" />
     <Content Include="stylesheets\print.css" />
     <Content Include="stylesheets\screen.css" />
-    <Content Include="Unity.Wcf.README.txt" />
     <Content Include="unity.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
