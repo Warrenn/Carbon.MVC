@@ -32,4 +32,4 @@ jobs:
         uses: NuGet/setup-nuget@v1.0.6
       - name: Build with msBuild
         shell: pwsh
-        run: msbuild . -p:NuGetExePath=$Env:NUGET
+        run: msbuild ./CarbonKnown.MVC.sln -p:NuGetExePath=$Env:NUGET
