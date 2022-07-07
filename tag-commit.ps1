@@ -4,4 +4,5 @@
 
 git pull
 git checkout main
+git tag $tag
 git push origin $tag
